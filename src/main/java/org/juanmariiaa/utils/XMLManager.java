@@ -26,7 +26,6 @@ public class XMLManager {
     public static<T> T readXML(T c,String filename){
         T result = c;
         JAXBContext context;
-
         try{
             context = JAXBContext.newInstance(c.getClass());
             Unmarshaller um = context.createUnmarshaller();

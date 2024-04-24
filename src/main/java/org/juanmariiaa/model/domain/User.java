@@ -1,6 +1,6 @@
 package org.juanmariiaa.model.domain;
 
-public class User extends Persona{
+public class User extends Person {
     private String user;
     private String password;
 
@@ -33,6 +33,8 @@ public class User extends Persona{
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 
     @Override
     public String toString() {

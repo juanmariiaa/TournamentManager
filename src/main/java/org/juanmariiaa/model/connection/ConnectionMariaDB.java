@@ -10,7 +10,7 @@ public class ConnectionMariaDB {
     private static ConnectionMariaDB _instance;
     private static Connection conn;
 
-    private ConnectionMariaDB(){
+    public ConnectionMariaDB(){
         ConnectionProperties properties = (ConnectionProperties) XMLManager.readXML(new ConnectionProperties(),FILE);
 
         try {

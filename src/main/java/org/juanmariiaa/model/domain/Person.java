@@ -1,19 +1,19 @@
 package org.juanmariiaa.model.domain;
 
-public class Persona {
+public class Person {
 
     private String dni;
     private String name;
     private String surname;
 
 
-    public Persona() {
+    public Person() {
         dni="";
         name="";
         surname="";
     }
 
-    public Persona(String dni, String name, String surname) {
+    public Person(String dni, String name, String surname) {
         this.dni = dni;
         this.name = name;
         this.surname = surname;
@@ -56,7 +56,7 @@ public class Persona {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Persona other = (Persona) obj;
+        Person other = (Person) obj;
         if (dni == null) {
             if (other.dni != null)
                 return false;
