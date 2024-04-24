@@ -14,6 +14,8 @@ public class TeamDAO {
     private final static String INSERT = "INSERT INTO team (id, name, city, institution) VALUES (?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
+    private final static String FINDBYTEAM = "SELECT * FROM team WHERE id = ?";
+
 
     private Connection conn;
 
@@ -93,6 +95,24 @@ public class TeamDAO {
         }
     }
 
+    public Team getTeam(int id) {
+        Team team = null;
+        try (PreparedStatement pst = conn.prepareStatement(FINDBYTEAM)) {
+            pst.setInt(1, id);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    team = new Team();
+                    team.setId(rs.getInt("id"));
+                    team.setName(rs.getString("name"));
+                    team.setCity(rs.getString("city"));
+                    team.setInstitution(rs.getString("institution"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return team;
+    }
 
 
 }

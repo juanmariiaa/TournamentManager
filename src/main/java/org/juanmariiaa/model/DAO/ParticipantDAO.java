@@ -18,6 +18,7 @@ public class ParticipantDAO {
     private final static String UPDATE = "UPDATE participant SET role=?, gender=?, first_name=?, surname=?, age=?, id_team=? WHERE dni=?";
     private final static String DELETE = "DELETE FROM participant WHERE dni=?";
 
+
     private Connection conn;
 
     public ParticipantDAO(Connection conn) {
@@ -28,90 +29,95 @@ public class ParticipantDAO {
         this.conn = ConnectionMariaDB.getConnection();
     }
 
-    public static ParticipantDAO getInstance() {
-        if (instance == null) {
-            instance = new ParticipantDAO();
-        }
-        return instance;
-    }
 
-    public List<Participant> findAll() throws SQLException {
+    public List<Participant> findAll() {
         List<Participant> result = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
-            try (ResultSet res = pst.executeQuery()) {
-                while (res.next()) {
-                    Participant participant = new Participant();
-                    participant.setDni(res.getString("dni"));
-                    participant.setRole(Role.valueOf(res.getString("role")));
-                    participant.setGender(Gender.valueOf(res.getString("gender")));
-                    participant.setName(res.getString("first_name"));
-                    participant.setSurname(res.getString("surname"));
-                    participant.setAge(res.getInt("age"));
-                    result.add(participant);
-                }
+        try (Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(FINDALL)) {
+            while (resultSet.next()) {
+                Participant participant = new Participant();
+                participant.setDni(resultSet.getString("dni"));
+                participant.setRole(Role.valueOf(resultSet.getString("role")));
+                participant.setGender(Gender.valueOf(resultSet.getString("gender")));
+                participant.setName(resultSet.getString("first_name"));
+                participant.setSurname(resultSet.getString("surname"));
+                participant.setAge(resultSet.getInt("age"));
+                // Assuming TeamDAO exists and has a method to fetch a team by ID
+                Team team = new TeamDAO(conn).getTeam(resultSet.getInt("id_team"));
+                participant.setTeam(team);
+                result.add(participant);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }
 
-    public Participant findById(String dni) throws SQLException {
-        Participant participant = null;
-        try (PreparedStatement pst = this.conn.prepareStatement(FINDBYID)) {
-            pst.setString(1, dni);
-            try (ResultSet res = pst.executeQuery()) {
-                if (res.next()) {
-                    participant = new Participant();
-                    participant.setDni(res.getString("dni"));
-                    participant.setRole(Role.valueOf(res.getString("role")));
-                    participant.setGender(Gender.valueOf(res.getString("gender")));
-                    participant.setName(res.getString("first_name"));
-                    participant.setSurname(res.getString("surname"));
-                    participant.setAge(res.getInt("age"));
-                }
-            }
+    public boolean insert(Participant participant) {
+        try (PreparedStatement statement = conn.prepareStatement(INSERT)) {
+            statement.setString(1, participant.getDni());
+            statement.setString(2, participant.getRole().toString());
+            statement.setString(3, participant.getGender().toString());
+            statement.setString(4, participant.getName());
+            statement.setString(5, participant.getSurname());
+            statement.setInt(6, participant.getAge());
+            statement.setInt(7, participant.getTeam().getId());
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return participant;
+    }
+
+    public Participant findById(String dni) {
+        try (PreparedStatement statement = conn.prepareStatement(FINDBYID)) {
+            statement.setString(1, dni);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Participant participant = new Participant();
+                participant.setDni(resultSet.getString("dni"));
+                participant.setRole(Role.valueOf(resultSet.getString("role")));
+                participant.setGender(Gender.valueOf(resultSet.getString("gender")));
+                participant.setName(resultSet.getString("first_name"));
+                participant.setSurname(resultSet.getString("surname"));
+                participant.setAge(resultSet.getInt("age"));
+                Team team = new TeamDAO(conn).getTeam(resultSet.getInt("id_team"));
+                participant.setTeam(team);
+                return participant;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
-    public Participant save(Participant entity) throws SQLException {
-        if (entity == null || entity.getDni() == null) {
-            return null;
+    public boolean save(Participant participant) {
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
+            statement.setString(1, participant.getRole().toString());
+            statement.setString(2, participant.getGender().toString());
+            statement.setString(3, participant.getName());
+            statement.setString(4, participant.getSurname());
+            statement.setInt(5, participant.getAge());
+            statement.setInt(6, participant.getTeam().getId());
+            statement.setString(7, participant.getDni());
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        if (findById(entity.getDni()) == null) {
-            try (PreparedStatement pst = this.conn.prepareStatement(INSERT)) {
-                pst.setString(1, entity.getDni());
-                pst.setString(2, entity.getRole().toString());
-                pst.setString(3, entity.getGender().toString());
-                pst.setString(4, entity.getName());
-                pst.setString(5, entity.getSurname());
-                pst.setInt(6, entity.getAge());
-                int teamId = TeamDAO.findTeamIdByParticipantDni(entity.getDni());
-                pst.setInt(7, teamId);
-                pst.executeUpdate();
-            }
-        } else {
-            try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
-                pst.setString(1, entity.getRole().toString());
-                pst.setString(2, entity.getGender().toString());
-                pst.setString(3, entity.getName());
-                pst.setString(4, entity.getSurname());
-                pst.setInt(5, entity.getAge());
-                int teamId = TeamDAO.findTeamIdByParticipantDni(entity.getDni());
-                pst.setInt(6, teamId);
-                pst.setString(7, entity.getDni());
-                pst.executeUpdate();
-            }
-        }
-        return entity;
     }
 
-    public void delete(String dni) throws SQLException {
-        if (dni != null) {
-            try (PreparedStatement pst = this.conn.prepareStatement(DELETE)) {
-                pst.setString(1, dni);
-                pst.executeUpdate();
-            }
+    public boolean delete(String dni) {
+        try (PreparedStatement statement = conn.prepareStatement(DELETE)) {
+            statement.setString(1, dni);
+            int rowsDeleted = statement.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
