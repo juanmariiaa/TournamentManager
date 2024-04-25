@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.controller.TournamentController">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="378.0" prefWidth="308.0" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="tournamentTableView" prefHeight="200.0" prefWidth="600.0" layoutX="14.0" layoutY="14.0">
-         <columns>
-            <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0" />
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="200.0" />
-            <TableColumn fx:id="locationColumn" text="Location" prefWidth="150.0" />
-            <TableColumn fx:id="cityColumn" text="City" prefWidth="150.0" />
-         </columns>
-      </TableView>
-      <HBox layoutX="14.0" layoutY="220.0" spacing="10.0">
-         <children>
-            <TextField fx:id="nameTextField" prefWidth="150.0" promptText="Name" />
-            <TextField fx:id="locationTextField" prefWidth="150.0" promptText="Location" />
-            <TextField fx:id="cityTextField" prefWidth="150.0" promptText="City" />
-            <Button fx:id="saveButton" text="Save" onAction="#onSaveButtonClick" />
-            <Button fx:id="deleteButton" text="Delete" onAction="#onDeleteButtonClick" />
-            <Button fx:id="manageTeamsButton" text="Manage Teams..." onAction="#onManageTeamsButtonClick" />
-         </children>
-      </HBox>
+      <Text layoutX="23.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in" wrappingWidth="138.234375">
+         <font>
+            <Font name="Arial Bold" size="27.0" />
+         </font>
+      </Text>
+      <Text layoutX="23.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Access to your tournament manager">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="TextField_user_name" layoutX="18.0" layoutY="92.0" prefHeight="37.0" prefWidth="272.0" promptText="Username" />
+      <PasswordField fx:id="PasswordField_Password" disable="true" layoutX="17.0" layoutY="147.0" prefHeight="40.0" prefWidth="274.0" promptText="Password" />
+      <Button fx:id="btn_login" layoutX="18.0" layoutY="212.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="272.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Sign In" textAlignment="CENTER" textFill="WHITE">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Separator layoutX="18.0" layoutY="275.0" prefHeight="3.0" prefWidth="79.0" />
+      <Separator layoutX="208.0" layoutY="275.0" prefHeight="3.0" prefWidth="79.0" />
+      <Text layoutX="114.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="if you are new" wrappingWidth="79.203125" />
+      <Button fx:id="btn_login1" layoutX="18.0" layoutY="309.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="272.0" style="-fx-background-radius: 20; -fx-background-color: #969696;" text="Sign Up" textAlignment="CENTER" textFill="WHITE">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
-</AnchorPane>
+</Pane>

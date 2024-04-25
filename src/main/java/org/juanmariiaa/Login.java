@@ -38,22 +38,40 @@ public class Login {
 
     @FXML
     void createUser(ActionEvent event) {
-        String dni = txtDNI.getText();
-        String name = txtName.getText();
-        String surname = txtSurname.getText();
-        String username = txtUsername.getText();
-        String password = txtPassword.getText();
+    String dni = txtDNI.getText();
+    String name = txtName.getText();
+    String surname = txtSurname.getText();
+    String username = txtUsername.getText();
+    String password = txtPassword.getText();
+
+    if (username.isEmpty() || password.isEmpty()) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Empty fields");
+        alert.setContentText("Username and password cannot be empty.");
+        alert.showAndWait();
+        return;
+    }
+
+    try {
+        User existingUser = userDAO.findByUsername(username);
+        if (existingUser != null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Username already exists");
+            alert.setContentText("A user with this username already exists.");
+            alert.showAndWait();
+            return;
+        }
 
         User newUser = new User(dni, name, surname, username, password);
-
-        try {
-            userDAO.save(newUser);
-            clearFields();
-            System.out.println("User created successfully.");
-        } catch (SQLException e) {
-            System.out.println("Error creating user: " + e.getMessage());
-        }
+        userDAO.save(newUser);
+        clearFields();
+        System.out.println("User created successfully.");
+    } catch (SQLException e) {
+        System.out.println("Error creating user: " + e.getMessage());
     }
+}
 
     private void clearFields() {
         txtDNI.clear();
@@ -62,5 +80,6 @@ public class Login {
         txtUsername.clear();
         txtPassword.clear();
     }
+
 
 }
