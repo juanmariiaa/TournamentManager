@@ -42,8 +42,7 @@ public class ParticipantDAO {
                 participant.setName(resultSet.getString("first_name"));
                 participant.setSurname(resultSet.getString("surname"));
                 participant.setAge(resultSet.getInt("age"));
-                // Assuming TeamDAO exists and has a method to fetch a team by ID
-                Team team = new TeamDAO(conn).getTeam(resultSet.getInt("id_team"));
+                Team team = new TeamDAO(conn).findById(resultSet.getInt("id_team"));
                 participant.setTeam(team);
                 result.add(participant);
             }
@@ -82,7 +81,7 @@ public class ParticipantDAO {
                 participant.setName(resultSet.getString("first_name"));
                 participant.setSurname(resultSet.getString("surname"));
                 participant.setAge(resultSet.getInt("age"));
-                Team team = new TeamDAO(conn).getTeam(resultSet.getInt("id_team"));
+                Team team = new TeamDAO(conn).findById(resultSet.getInt("id_team"));
                 participant.setTeam(team);
                 return participant;
             }

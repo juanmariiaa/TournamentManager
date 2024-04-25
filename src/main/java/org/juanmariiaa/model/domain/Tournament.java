@@ -7,19 +7,23 @@ public class Tournament {
     private int id;
     private String name;
     private String location;
+    private String city;
+
     private List<Team> teams = null;
 
     public Tournament() {
         this.id = 0;
         this.name = "";
         this.location = "";
+        this.city = "";
         this.teams = null;
     }
 
-    public Tournament(int id, String name, String location, List<Team> teams) {
+    public Tournament(int id, String name, String location, String city, List<Team> teams) {
         this.id = id;
         this.name = name;
         this.location = location;
+        this.city = city;
         this.teams = teams;
     }
 
@@ -45,6 +49,14 @@ public class Tournament {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public List<Team> getTeams() {
@@ -74,6 +86,7 @@ public class Tournament {
                 "id=" + id +
                 ", name='" + name +
                 ", location='" + location +
+                ", city='" + city +
                 ", teams=" + teams + '}';
     }
 
