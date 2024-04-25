@@ -13,7 +13,8 @@ module org.juanmariiaa {
     requires javafx.fxml;
     requires javafx.graphics;
 
-    opens org.juanmariiaa.controller to javafx.fxml;
+
+    opens org.juanmariiaa to javafx.fxml;
     opens org.juanmariiaa.model.DAO to java.sql;
     opens org.juanmariiaa.model.domain to javafx.base;
     opens org.juanmariiaa.model.connection to java.xml.bind;

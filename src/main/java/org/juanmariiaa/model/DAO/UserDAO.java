@@ -14,8 +14,8 @@ import java.util.List;
 public class UserDAO {
     private final static String FINDALL = "SELECT * FROM user";
     private final static String FINDBYDNI = "SELECT * FROM user WHERE dni=?";
-    private final static String FINDBYUSERNAME = "SELECT * FROM user WHERE user=?";
-    private final static String INSERT = "INSERT INTO user (dni, name, surname, user, password) VALUES (?, ?, ?, ?, ?)";
+    private final static String FINDBYUSERNAME = "SELECT * FROM user WHERE username=?";
+    private final static String INSERT = "INSERT INTO user (dni, name, surname, username, password) VALUES (?, ?, ?, ?, ?)";
     private final static String FIND_USER_BY_USERNAME = "SELECT * FROM tournament WHERE user_id=?";
 
 
@@ -38,7 +38,7 @@ public class UserDAO {
                 user.setDni(resultSet.getString("dni"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
-                user.setUser(resultSet.getString("user"));
+                user.setUser(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
                 users.add(user);
             }
@@ -56,7 +56,7 @@ public class UserDAO {
                 user.setDni(resultSet.getString("dni"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
-                user.setUser(resultSet.getString("user"));
+                user.setUser(resultSet.getString("username"));
                 user.setPassword(passwordHashingFunction(username)); // Assuming password hashing
                 return user;
             }
