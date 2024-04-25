@@ -11,6 +11,7 @@ public class TeamDAO {
 
     private final static String FINDALL = "SELECT * FROM team LIMIT 15";
     private final static String FINDBYID = "SELECT * FROM team WHERE id=?";
+    private final static String FINDBYNAME = "SELECT * FROM team WHERE name LIKE ?";
     private final static String INSERT = "INSERT INTO team (id, name, city, institution) VALUES (?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
@@ -59,6 +60,24 @@ public class TeamDAO {
         return team;
     }
 
+    public List<Team> findByName(String name) throws SQLException {
+        List<Team> teams = new ArrayList<>();
+        try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {
+            statement.setString(1, "%" + name + "%"); // Add wildcards for partial name search
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Team team = new Team();
+                    team.setId(resultSet.getInt("id"));
+                    team.setName(resultSet.getString("name"));
+                    team.setCity(resultSet.getString("city"));
+                    team.setInstitution(resultSet.getString("institution"));
+                    teams.add(team);
+                }
+            }
+        }
+        return teams;
+    }
+
     public Team save(Team entity) throws SQLException {
         if (entity == null) {
             return null;
@@ -71,9 +90,9 @@ public class TeamDAO {
                 pst.setString(3, entity.getInstitution());
                 pst.executeUpdate();
 
-                try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        entity.setId(generatedKeys.getInt(1)); // Set the generated id back to the entity
+                try (ResultSet rs = pst.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        entity.setId(rs.getInt(1)); // Set the generated id back to the entity
                     }
                 }
             }

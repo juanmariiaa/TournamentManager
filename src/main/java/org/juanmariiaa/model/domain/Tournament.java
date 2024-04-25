@@ -8,7 +8,6 @@ public class Tournament {
     private String name;
     private String location;
     private String city;
-
     private List<Team> teams = null;
 
     public Tournament() {

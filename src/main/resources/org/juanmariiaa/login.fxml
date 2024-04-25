@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.controller.TournamentController">
+   <children>
+      <TableView fx:id="tournamentTableView" prefHeight="200.0" prefWidth="600.0" layoutX="14.0" layoutY="14.0">
+         <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0" />
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="200.0" />
+            <TableColumn fx:id="locationColumn" text="Location" prefWidth="150.0" />
+            <TableColumn fx:id="cityColumn" text="City" prefWidth="150.0" />
+         </columns>
+      </TableView>
+      <HBox layoutX="14.0" layoutY="220.0" spacing="10.0">
+         <children>
+            <TextField fx:id="nameTextField" prefWidth="150.0" promptText="Name" />
+            <TextField fx:id="locationTextField" prefWidth="150.0" promptText="Location" />
+            <TextField fx:id="cityTextField" prefWidth="150.0" promptText="City" />
+            <Button fx:id="saveButton" text="Save" onAction="#onSaveButtonClick" />
+            <Button fx:id="deleteButton" text="Delete" onAction="#onDeleteButtonClick" />
+            <Button fx:id="manageTeamsButton" text="Manage Teams..." onAction="#onManageTeamsButtonClick" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

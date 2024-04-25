@@ -14,6 +14,7 @@ public class ParticipantDAO {
 
     private final static String FINDALL = "SELECT * FROM participant LIMIT 15";
     private final static String FINDBYID = "SELECT * FROM participant WHERE dni=?";
+    private final static String FINDBYNAME = "SELECT * FROM participant WHERE first_name LIKE ? OR surname LIKE ?";
     private final static String INSERT = "INSERT INTO participant (dni, role, gender, first_name, surname, age, id_team) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE participant SET role=?, gender=?, first_name=?, surname=?, age=?, id_team=? WHERE dni=?";
     private final static String DELETE = "DELETE FROM participant WHERE dni=?";
@@ -89,6 +90,29 @@ public class ParticipantDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Participant> findByName(String name) throws SQLException {
+        List<Participant> participants = new ArrayList<>();
+        try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {
+            statement.setString(1, "%" + name + "%"); // Wildcard search for first and last name
+            statement.setString(2, "%" + name + "%");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Participant participant = new Participant();
+                    participant.setDni(resultSet.getString("dni"));
+                    participant.setRole(Role.valueOf(resultSet.getString("role")));
+                    participant.setGender(Gender.valueOf(resultSet.getString("gender")));
+                    participant.setName(resultSet.getString("first_name"));
+                    participant.setSurname(resultSet.getString("surname"));
+                    participant.setAge(resultSet.getInt("age"));
+                    Team team = new TeamDAO(conn).findById(resultSet.getInt("id_team"));
+                    participant.setTeam(team);
+                    participants.add(participant);
+                }
+            }
+        }
+        return participants;
     }
 
 
