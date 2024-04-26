@@ -37,6 +37,7 @@ public class RegisterController {
         String surname = tfSurname.getText();
         String username = tfUsername.getText();
         String password = tfPassword.getText();
+        password = Utils.encryptSHA256(password);
 
 
         if (dni.isEmpty() || name.isEmpty() || surname.isEmpty() || username.isEmpty() || password.isEmpty()){

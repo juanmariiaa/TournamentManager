@@ -11,6 +11,7 @@
       <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/CreateTournament.fxml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/home.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" afterDir="false" />
@@ -18,6 +19,11 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/login.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/register.fxml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" afterDir="false" />
+>>>>>>> origin
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,8 +107,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-19.0.2-corretto-19.0.2-4caba194b151-48ba4555" />
-        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
+        <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-d89c1816" />
       </set>
     </attachedChunks>
   </component>
@@ -140,9 +145,14 @@
       <workItem from="1714072352250" duration="49000" />
       <workItem from="1714075485964" duration="1929000" />
       <workItem from="1714113558985" duration="4572000" />
+<<<<<<< HEAD
       <workItem from="1714118153161" duration="3112000" />
       <workItem from="1714121776662" duration="1947000" />
       <workItem from="1714130469363" duration="2542000" />
+=======
+      <workItem from="1714118153161" duration="310000" />
+      <workItem from="1714118865827" duration="726000" />
+>>>>>>> origin
     </task>
     <servers />
   </component>

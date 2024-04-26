@@ -93,7 +93,11 @@ public class UserDAO {
             statement.setString(2, user.getName());
             statement.setString(3, user.getSurname());
             statement.setString(4, user.getUser());
+<<<<<<< HEAD
             statement.setString(5, user.getPassword()); // Assuming password hashing
+=======
+            statement.setString(5, Utils.encryptSHA256(user.getPassword())); // Assuming password hashing
+>>>>>>> origin
             statement.executeUpdate();
 
             try (ResultSet rs = statement.getGeneratedKeys()) {
@@ -142,6 +146,7 @@ public class UserDAO {
         return tournaments;
     }
 
+<<<<<<< HEAD
     public String validateLogin(String username, String password) throws SQLException {
         try (PreparedStatement pst = conn.prepareStatement(LOGIN_VALIDATION)) {
             pst.setString(1, username);
@@ -154,4 +159,6 @@ public class UserDAO {
         return null;
     }
 
+=======
+>>>>>>> origin
 }

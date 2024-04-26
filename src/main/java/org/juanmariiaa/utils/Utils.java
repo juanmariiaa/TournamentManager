@@ -6,8 +6,12 @@ import javafx.stage.Stage;
 import java.security.MessageDigest;
 
 public class Utils {
+<<<<<<< HEAD
 
      public static Alert showPopUp(String title, String header, String text, Alert.AlertType type) {
+=======
+    public static Alert showPopUp(String title, String header, String text, Alert.AlertType type) {
+>>>>>>> origin
         Alert alertDialog = new Alert(type);
         alertDialog.setTitle(title);
         alertDialog.setHeaderText(header);
@@ -38,5 +42,9 @@ public class Utils {
         }
         return result;  // Se devuelve el resultado del hash en formato hexadecimal
     }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> origin
