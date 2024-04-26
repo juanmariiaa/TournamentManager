@@ -3,6 +3,7 @@ package org.juanmariiaa.model.DAO;
 import org.juanmariiaa.model.connection.ConnectionMariaDB;
 import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.utils.Utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -57,7 +58,24 @@ public class UserDAO {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setUser(resultSet.getString("username"));
-                user.setPassword(passwordHashingFunction(username)); // Assuming password hashing
+                user.setPassword(Utils.encryptSHA256(username)); // Assuming password hashing
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User findByDni(String dni) throws SQLException {
+        try (PreparedStatement statement = conn.prepareStatement(FINDBYDNI)) {
+            statement.setString(1, dni);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User user = new User();
+                user.setDni(resultSet.getString("dni"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setUser(resultSet.getString("username"));
+                user.setPassword(resultSet.getString("password"));
                 return user;
             }
         }
@@ -73,7 +91,7 @@ public class UserDAO {
             statement.setString(2, user.getName());
             statement.setString(3, user.getSurname());
             statement.setString(4, user.getUser());
-            statement.setString(5, passwordHashingFunction(user.getPassword())); // Assuming password hashing
+            statement.setString(5, Utils.encryptSHA256(user.getPassword())); // Assuming password hashing
             statement.executeUpdate();
 
             try (ResultSet rs = statement.getGeneratedKeys()) {
@@ -122,25 +140,4 @@ public class UserDAO {
         return tournaments;
     }
 
-    // Replace with your actual password hashing function (e.g., using a secure hashing algorithm)
-    private String passwordHashingFunction(String password) {
-        // **Warning:** This is a simplified example for demonstration purposes only.
-        // It's not recommended for production use due to security vulnerabilities.
-
-        // Apply a hashing algorithm (MD5 is not the most secure, consider SHA-256 or higher)
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.update(password.getBytes());
-            byte[] hashedBytes = messageDigest.digest();
-
-            // Convert the byte array to a hexadecimal string (common representation)
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashedBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error generating password hash", e);
-        }
-    }
 }
