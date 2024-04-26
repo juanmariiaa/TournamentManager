@@ -5,38 +5,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.juanmariiaa.model.DAO.UserDAO;
 
 import java.io.IOException;
 
 public class App extends Application {
-    private static Scene scene;
-    private static Stage stage;
 
+    private static Scene scene;
 
     @Override
-    public void start(Stage stage) throws Exception {
-        // Replace with your actual UserDAO implementation
-        UserDAO userDAO = new UserDAO(); // Placeholder implementation
-
-        FXMLLoader fxmlLoader = new FXMLLoader(RegisterController.class.getResource("register.fxml"));
-        fxmlLoader.setControllerFactory(c -> new RegisterController(userDAO));
-        Scene scene = new Scene(fxmlLoader.load());
-
-        stage.setTitle("User Registration");
+    public void start(Stage stage) throws IOException {
+        scene = new Scene(loadFXML("login"));
         stage.setScene(scene);
         stage.show();
     }
 
-
-
-    private static Scene createScene(String fxml, double width, double height) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = fxmlLoader.load();
-        return new Scene(root, width, height);
-    }
-
-    public static void setRoot(String fxml) throws IOException {
+    static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -46,6 +29,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
+
 }
