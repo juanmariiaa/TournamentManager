@@ -22,9 +22,9 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField layoutX="20.0" layoutY="109.0" prefHeight="39.0" prefWidth="271.0" promptText="Username" style="-fx-background-radius: 20;" />
-      <PasswordField layoutX="19.0" layoutY="170.0" prefHeight="39.0" prefWidth="271.0" promptText="Password" style="-fx-background-radius: 20;" />
-      <Button layoutX="20.0" layoutY="239.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="271.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Sign In" textAlignment="CENTER" textFill="WHITE">
+      <TextField fx:id="tfUser" layoutX="20.0" layoutY="109.0" prefHeight="39.0" prefWidth="271.0" promptText="Username" style="-fx-background-radius: 20;" />
+      <PasswordField fx:id="tfPass" layoutX="19.0" layoutY="170.0" prefHeight="39.0" prefWidth="271.0" promptText="Password" style="-fx-background-radius: 20;" />
+      <Button layoutX="20.0" layoutY="239.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="271.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Sign In" textAlignment="CENTER" textFill="WHITE">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -33,7 +33,7 @@
          </cursor>
       </Button>
       <Text layoutX="115.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="if you are new" wrappingWidth="79.203125" />
-      <Button layoutX="18.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="40.0" prefWidth="272.0" style="-fx-background-radius: 20; -fx-background-color: #969696;" text="Sign Up" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="18.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToRegister" prefHeight="40.0" prefWidth="272.0" style="-fx-background-radius: 20; -fx-background-color: #969696;" text="Sign Up" textAlignment="CENTER" textFill="WHITE">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

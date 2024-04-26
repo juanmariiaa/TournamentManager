@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateTournamentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/HomeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/others/SingletonUserSession.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/CreateTournament.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/home.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/PrimaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/SecondaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/login.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/register.fxml" afterDir="false" />
     </list>
@@ -20,8 +28,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -70,6 +78,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.juanmariiaa.others" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\IdeaProjects\TournamentManager\src\main\resources\org\juanmariiaa" />
       <recent name="C:\IdeaProjects\TournamentManager\src\main\java\org\juanmariiaa" />
@@ -129,7 +140,9 @@
       <workItem from="1714072352250" duration="49000" />
       <workItem from="1714075485964" duration="1929000" />
       <workItem from="1714113558985" duration="4572000" />
-      <workItem from="1714118153161" duration="310000" />
+      <workItem from="1714118153161" duration="3112000" />
+      <workItem from="1714121776662" duration="1947000" />
+      <workItem from="1714130469363" duration="2542000" />
     </task>
     <servers />
   </component>
