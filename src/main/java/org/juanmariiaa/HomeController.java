@@ -7,7 +7,7 @@ import java.io.IOException;
 public class HomeController {
     @FXML
     private void switchToCreateTeam() throws IOException {
-        App.setRoot("createTeam");
+        App.setRoot("TournamentMenu");
     }
 
 

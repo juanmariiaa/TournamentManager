@@ -29,7 +29,7 @@ public class TournamentDAO {
         this.teamTournamentDAO = new TeamTournamentDAO(conn); // Create instance if not injected
     }
 
-    public List<Tournament> findAll() throws SQLException {
+    public  List<Tournament> findAll() throws SQLException {
         List<Tournament> tournaments = new ArrayList<>();
         try (Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
@@ -143,4 +143,8 @@ public class TournamentDAO {
             }
         }
     }
+    public static TournamentDAO build(){
+        return new TournamentDAO();
+    }
+
 }
