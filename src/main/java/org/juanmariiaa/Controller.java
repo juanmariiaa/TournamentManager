@@ -1,4 +1,4 @@
-package org.juanmariiaa.view;
+package org.juanmariiaa;
 
 import org.juanmariiaa.App;
 

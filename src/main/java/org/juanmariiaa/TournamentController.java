@@ -1,13 +1,13 @@
-package org.juanmariiaa.view;
+package org.juanmariiaa;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTableCell;
 import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Tournament;
 
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CreateTournamentController extends Controller implements Initializable {
+public class TournamentController extends Controller implements Initializable {
 
     @FXML
     private TableView<Tournament> tableView;
@@ -31,6 +31,8 @@ public class CreateTournamentController extends Controller implements Initializa
     private TableColumn<Tournament,String> columnLocation;
     @FXML
     private TableColumn<Tournament,String> columnCity;
+    @FXML
+    private TableColumn<Tournament, Date> columnDate;
     private ObservableList<Tournament> tournaments;
 
 
@@ -45,9 +47,14 @@ public class CreateTournamentController extends Controller implements Initializa
 
         tableView.setItems(this.tournaments);
         tableView.setEditable(true);
+        columnID.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getId()).asString());
         columnName.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getName()));
         columnLocation.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getLocation()));
         columnCity.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getCity()));
+        columnDate.setCellValueFactory(cellData -> {
+            Date date = (Date) cellData.getValue().getDate();
+            return new SimpleObjectProperty<Date>(date);
+        });
     }
 
     @Override

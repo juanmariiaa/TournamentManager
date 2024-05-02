@@ -1,5 +1,6 @@
 package org.juanmariiaa.model.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ public class Tournament {
     private String name;
     private String location;
     private String city;
+    private Date date;
     private List<Team> teams = null;
 
     public Tournament() {
@@ -15,14 +17,16 @@ public class Tournament {
         this.name = "";
         this.location = "";
         this.city = "";
+        this.date = null;
         this.teams = null;
     }
 
-    public Tournament(int id, String name, String location, String city, List<Team> teams) {
+    public Tournament(int id, String name, String location, String city, Date date, List<Team> teams) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.city = city;
+        this.date = date;
         this.teams = teams;
     }
 
@@ -58,6 +62,14 @@ public class Tournament {
         this.city = city;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public List<Team> getTeams() {
         return teams;
     }
@@ -86,6 +98,7 @@ public class Tournament {
                 ", name='" + name +
                 ", location='" + location +
                 ", city='" + city +
+                ", date='" + date +
                 ", teams=" + teams + '}';
     }
 
