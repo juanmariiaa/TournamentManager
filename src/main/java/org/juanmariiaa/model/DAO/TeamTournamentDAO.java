@@ -11,13 +11,13 @@ import java.util.List;
 
 public class TeamTournamentDAO {
 
-    private final static String INSERT = "INSERT INTO tournament_team (tournament_id, team_id) VALUES (?, ?)";
-    private final static String DELETE_BY_TOURNAMENT_ID = "DELETE FROM tournament_team WHERE tournament_id=?";
-    private final static String DELETE_BY_TEAM_ID = "DELETE FROM tournament_team WHERE team_id=?";
+    private final static String INSERT = "INSERT INTO participation (id_tournament, id_team) VALUES (?, ?)";
+    private final static String DELETE_BY_TOURNAMENT_ID = "DELETE FROM participation WHERE id_tournament=?";
+    private final static String DELETE_BY_TEAM_ID = "DELETE FROM participation WHERE id_team=?";
     private final static String FIND_BY_TOURNAMENT_ID = "SELECT team.id, team.name, team.city, team.institution\n" +
             "FROM team\n" +
-            "INNER JOIN tournament_team ON team.id = tournament_team.team_id\n" +
-            "WHERE tournament_team.tournament_id = ?;";
+            "INNER JOIN participation ON team.id = participation.id_team\n" +
+            "WHERE participation.id_tournament = ?;";
 
 
     private Connection conn;

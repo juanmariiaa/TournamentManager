@@ -1,6 +1,7 @@
-package org.juanmariiaa;
+package org.juanmariiaa.view;
 
 import javafx.fxml.FXML;
+import org.juanmariiaa.App;
 
 import java.io.IOException;
 

@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class TeamParticipantDAO {
 
-    private final static String INSERT = "INSERT INTO team_participant (team_id, participant_id) VALUES (?, ?)";
-    private final static String DELETE = "DELETE FROM team_participant WHERE team_id = ? AND participant_id = ?";
+    private final static String INSERT = "INSERT INTO participation (id_team, id_tournament) VALUES (?, ?)";
+    private final static String DELETE = "DELETE FROM participation WHERE id_team = ? AND id_tournament = ?";
 
     private Connection conn;
 
