@@ -29,19 +29,19 @@ public class LoginController {
             alert.setTitle("ERROR");
             alert.setContentText("Please, complete all fields to continue.");
             alert.showAndWait();
-        }else{
+        } else {
             UserDAO uDAO = new UserDAO();
-            String id;
-            if((id=uDAO.validateLogin(username, password))!=null) {
-                SingletonUserSession.login(id,username);
+            int id;
+            if ((id = Integer.parseInt(uDAO.validateLogin(username, password))) != 0) {
+                SingletonUserSession.login(id, username);
                 //logged in
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCCESS");
                 alert.setHeaderText("You are logged in.");
-                alert.setContentText("Welcome, "+username);
+                alert.setContentText("Welcome, " + username);
                 alert.showAndWait();
                 switchToHome();
-            }else{
+            } else {
                 SingletonUserSession.logout();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("ERROR");

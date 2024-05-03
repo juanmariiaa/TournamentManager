@@ -48,7 +48,7 @@ public class RegisterController {
                 if(userDAO.findByDni(dni)!= null){
                     Utils.showPopUp("Error", "DNI already exists", "Please, choose another DNI.", Alert.AlertType.ERROR);
                 }else{
-                    User user = new User(dni,name,surname,username,password);
+                    User user = new User(dni, name, surname, username, password);
                     userDAO.save(user);
 
                     Utils.showPopUp("Success", "User created", "User created successfully.", Alert.AlertType.INFORMATION);
