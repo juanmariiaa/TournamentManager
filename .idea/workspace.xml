@@ -5,23 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Images/GitHub-logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Images/logo.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Tournament.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateTournamentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Images/logo-no-bg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/createTournament.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/tournament.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Tournament.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Tournament.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/TournamentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/HomeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/TournamentMenu.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/TournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/TournamentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Tournament.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/home.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/register.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +28,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -96,6 +92,7 @@
       <recent name="C:\IdeaProjects\TournamentManager\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\IdeaProjects\TournamentManager\src\main\resources\org\juanmariiaa" />
       <recent name="C:\IdeaProjects\TournamentManager\src\main\java\org\juanmariiaa" />
       <recent name="C:\IdeaProjects\TournamentManager\Documentacion" />
       <recent name="C:\IdeaProjects\TournamentManager\src" />
@@ -106,6 +103,21 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.juanmariiaa" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="TournamentManager" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="TournamentManager" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -156,6 +168,8 @@
       <workItem from="1714118865827" duration="726000" />
       <workItem from="1714654582041" duration="5461000" />
       <workItem from="1714668109321" duration="6310000" />
+      <workItem from="1714675710284" duration="132000" />
+      <workItem from="1714675863620" duration="8335000" />
     </task>
     <servers />
   </component>

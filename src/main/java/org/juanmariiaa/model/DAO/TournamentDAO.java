@@ -39,6 +39,7 @@ public class TournamentDAO {
                 tournament.setName(resultSet.getString("name"));
                 tournament.setLocation(resultSet.getString("location"));
                 tournament.setCity(resultSet.getString("city"));
+                tournament.setDate(resultSet.getDate("date"));
                 // Assuming teams are loaded separately using the new method
                 tournament.setTeams(findTeamsByTournamentId(tournament.getId())); // Load teams using findTeamsByTournamentId
                 tournaments.add(tournament);
@@ -58,6 +59,7 @@ public class TournamentDAO {
                     tournament.setName(resultSet.getString("name"));
                     tournament.setLocation(resultSet.getString("location"));
                     tournament.setCity(resultSet.getString("city"));
+                    tournament.setDate(resultSet.getDate("date"));
                     tournament.setTeams(findTeamsByTournamentId(tournament.getId())); // Load teams using findTeamsByTournamentId
                 }
             }
@@ -76,6 +78,7 @@ public class TournamentDAO {
                     tournament.setName(resultSet.getString("name"));
                     tournament.setLocation(resultSet.getString("location"));
                     tournament.setCity(resultSet.getString("city"));
+                    tournament.setDate(resultSet.getDate("date"));
                     tournament.setTeams(findTeamsByTournamentId(tournament.getId())); // Load teams using findTeamsByTournamentId
                     tournaments.add(tournament);
                 }
@@ -94,6 +97,7 @@ public class TournamentDAO {
                 statement.setString(1, tournament.getName());
                 statement.setString(2, tournament.getLocation());
                 statement.setString(3, tournament.getCity());
+                statement.setString(4, String.valueOf(tournament.getDate()));
                 statement.executeUpdate();
 
                 try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -108,7 +112,8 @@ public class TournamentDAO {
                 statement.setString(1, tournament.getName());
                 statement.setString(2, tournament.getLocation());
                 statement.setString(3, tournament.getCity());
-                statement.setInt(4, tournament.getId());
+                statement.setString(4, String.valueOf(tournament.getDate()));
+                statement.setInt(5, tournament.getId());
                 statement.executeUpdate();
             }
         }

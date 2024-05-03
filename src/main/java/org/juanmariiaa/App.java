@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        scene = new Scene(loadFXML("login"), 308, 411);
+        scene = new Scene(loadFXML("createTournament"), 600, 600);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -39,11 +39,11 @@ public class App extends Application {
             primaryStage.setResizable(false);
 
         }else if(fxml.equals("home")){
-            newScene = createScene(fxml, 800, 800);
+            newScene = createScene(fxml, 774, 489);
             primaryStage.setResizable(false);
 
-        }else if(fxml.equals("fighterPage")){
-            newScene = createScene(fxml, 1294, 500);
+        }else if(fxml.equals("createTournament")){
+            newScene = createScene(fxml, 362, 592);
             primaryStage.setResizable(false);
 
         }else if(fxml.equals("eventPage")){

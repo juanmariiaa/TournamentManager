@@ -57,6 +57,23 @@ public class TournamentController extends Controller implements Initializable {
         });
     }
 
+    @FXML
+    private void switchToHome() throws IOException {
+        App.setRoot("tournament");
+    }
+    @FXML
+    private void switchToTeam() throws IOException {
+        App.setRoot("team");
+    }
+    @FXML
+    private void switchToParticipant() throws IOException {
+        App.setRoot("participant");
+    }
+    @FXML
+    private void switchToCreateTournament() throws IOException {
+        App.setRoot("createTournament");
+    }
+
     @Override
     public void onOpen(Object input) throws IOException {
 

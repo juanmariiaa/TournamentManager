@@ -121,4 +121,9 @@ public class TeamDAO {
     }
 
 
+    public static TeamDAO build(){
+        return new TeamDAO();
+    }
+
+
 }
