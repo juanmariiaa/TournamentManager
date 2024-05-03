@@ -85,9 +85,10 @@ public class TeamDAO {
         if (entity.getId() == 0) {
             // Insert new team
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-                pst.setString(1, entity.getName());
-                pst.setString(2, entity.getCity());
-                pst.setString(3, entity.getInstitution());
+                pst.setNull(1, Types.INTEGER); // id is auto-generated, set as null
+                pst.setString(2, entity.getName());
+                pst.setString(3, entity.getCity());
+                pst.setString(4, entity.getInstitution());
                 pst.executeUpdate();
 
                 try (ResultSet rs = pst.getGeneratedKeys()) {
@@ -108,7 +109,6 @@ public class TeamDAO {
         }
         return entity;
     }
-
 
 
     public void delete(Team entity) throws SQLException {

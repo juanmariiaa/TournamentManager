@@ -46,12 +46,15 @@ public class App extends Application {
             newScene = createScene(fxml, 362, 592);
             primaryStage.setResizable(false);
 
-        }else if(fxml.equals("eventPage")){
-            newScene = createScene(fxml, 1450, 500);
+        }else if(fxml.equals("createTeam")){
+            newScene = createScene(fxml, 362, 592);
             primaryStage.setResizable(false);
 
-        }else if(fxml.equals("menu")){
-            newScene = createScene(fxml, 794, 527);
+        }else if(fxml.equals("team")){
+            newScene = createScene(fxml, 774, 489);
+            primaryStage.setResizable(false);
+        }else if(fxml.equals("tournament")){
+            newScene = createScene(fxml, 774, 489);
             primaryStage.setResizable(false);
 
         }else if(fxml.equals("register")){

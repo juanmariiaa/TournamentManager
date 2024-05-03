@@ -75,7 +75,17 @@ public class CreateTeamController {
                 selectedTeams.add(participants.get(0));
             }
         }
+
+        Team newTeam = new Team();
+        newTeam.setName(name);
+        newTeam.setCity(city);
+        newTeam.setInstitution(institution);
+        newTeam.setParticipants(selectedTeams);
+
+        teamDAO.save(newTeam);
         switchToTeam();
+
+
     }
     @FXML
     private void switchToTournament() throws IOException {
