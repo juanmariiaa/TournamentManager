@@ -3,21 +3,21 @@ package org.juanmariiaa.others;
 import org.juanmariiaa.model.domain.User;
 
 public class SingletonUserSession {
-    private static User user = null;
+    private static User currentUser = null;
 
     public static void login(int id, String username) {
-        user = new User(id, "", username);
+        currentUser = new User(id, "", username);
     }
 
     public static void logout() {
-        user = null;
+        currentUser = null;
     }
 
     public static boolean isLogged() {
-        return user == null ? false : true;
+        return currentUser != null;
     }
 
-    public static User getUser() {
-        return user;
+    public static User getCurrentUser() {
+        return currentUser;
     }
 }

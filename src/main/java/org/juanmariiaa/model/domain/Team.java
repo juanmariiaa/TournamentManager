@@ -8,13 +8,14 @@ public class Team {
     private String name;
     private String city;
     private String institution;
-    private List<Participant> participants = null;
+    private List<Participant> participants; // Remove "= null"
 
     public Team() {
         this.id = 0;
         this.name = "";
         this.city = "";
         this.institution = "";
+        this.participants = new ArrayList<>(); // Initialize participants list
     }
 
     public Team(int id, String name, String city, String institution, List<Participant> participants) {
@@ -22,6 +23,7 @@ public class Team {
         this.name = name;
         this.city = city;
         this.institution = institution;
+        this.participants = participants; // Initialize participants list
     }
 
     public int getId() {
@@ -58,6 +60,13 @@ public class Team {
 
     public List<Participant> getParticipants() {
         return participants;
+    }
+    public List<String> getParticipantNames() {
+        List<String> participantNames = new ArrayList<>();
+        for (Participant participant : participants) {
+            participantNames.add(participant.getName());
+        }
+        return participantNames;
     }
 
     public void setParticipants(List<Participant> participants) {

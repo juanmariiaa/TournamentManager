@@ -8,7 +8,10 @@ import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.others.SingletonUserSession;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,10 +38,12 @@ public class CreateTournamentController {
     private Hyperlink linkHome;
     @FXML
     private Button btnCreate;
-    TournamentDAO tournamentDAO = new TournamentDAO();
-    TeamDAO teamDAO = new TeamDAO();
+
+    private TournamentDAO tournamentDAO = new TournamentDAO();
+    private TeamDAO teamDAO = new TeamDAO();
     private ObservableList<Tournament> tournaments;
 
+    private User currentUser;
 
     @FXML
     private void initialize() throws SQLException {
@@ -51,10 +56,20 @@ public class CreateTournamentController {
         }
         lvTeams.setItems(nameTeamList);
         lvTeams.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        // Set the current user
+        currentUser = SingletonUserSession.getCurrentUser();
+        if (currentUser == null) {
+            // If currentUser is null, redirect to login or handle the situation accordingly
+            System.err.println("No user logged in. Redirecting to login page...");
+            // Example: Redirect to the login page
+            // You might want to use JavaFX's Scene class to change the scene
+            return;
+        }
     }
 
     @FXML
-    private void createTournament() throws SQLException {
+    private void createTournament() throws SQLException, IOException {
         String name = tfName.getText();
         String location = tfLocation.getText();
         String city = tfCity.getText();
@@ -66,31 +81,47 @@ public class CreateTournamentController {
         // Convert List<String> to List<Team>
         List<Team> selectedTeams = new ArrayList<>();
         for (String teamName : selectedTeamNames) {
-            Team team = null;
             List<Team> teams = teamDAO.findByName(teamName);
             if (!teams.isEmpty()) {
-                team = teams.get(0);
-            }
-            if (team != null) {
-                selectedTeams.add(team);
+                selectedTeams.add(teams.get(0));
             }
         }
 
+        // Check if currentUser is not null before creating the tournament
+        if (currentUser != null) {
+            // Create the tournament
+            Tournament tournament = new Tournament(name, location, city, date, selectedTeams);
 
-        // Assuming the id is auto-incremental and doesn't need to be set manually
-        Tournament tournament = new Tournament(0, name, location, city, date, selectedTeams);
+            // Associate tournament with the current user
+            tournament = tournamentDAO.createTournament(currentUser, tournament);
 
-        // Save Tournament to Database
-        tournamentDAO.save(tournament);
-
-        // Clear Fields
-        tfName.clear();
-        tfLocation.clear();
-        tfCity.clear();
-        dtDate.getEditor().clear();
-        lvTeams.getSelectionModel().clearSelection();
+            // Clear Fields
+            tfName.clear();
+            tfLocation.clear();
+            tfCity.clear();
+            dtDate.getEditor().clear();
+            lvTeams.getSelectionModel().clearSelection();
+        } else {
+            // Handle the case when currentUser is null
+            // For example, show an error message
+            System.err.println("Current user is null. Cannot create tournament.");
+        }
+        switchToTournament();
     }
-
-
-
+    @FXML
+    private void switchToTournament() throws IOException {
+        App.setRoot("tournament");
+    }
+    @FXML
+    private void switchToHome() throws IOException {
+        App.setRoot("home");
+    }
+    @FXML
+    private void switchToTeam() throws IOException {
+        App.setRoot("team");
+    }
+    @FXML
+    private void switchToParticipant() throws IOException {
+        App.setRoot("participant");
+    }
 }

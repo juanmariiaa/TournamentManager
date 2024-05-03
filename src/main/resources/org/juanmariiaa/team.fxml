@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="774.0" style="-fx-background-color: #fdfdf3;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.TournamentController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="774.0" style="-fx-background-color: #fdfdf3;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.TeamController">
    <children>
       <TableView fx:id="tableView" editable="true" layoutX="63.0" layoutY="121.0" prefHeight="248.0" prefWidth="648.0">
          <columns>
             <TableColumn fx:id="columnID" prefWidth="34.0" text="ID" />
             <TableColumn fx:id="columnName" prefWidth="175.0" text="Name" />
-            <TableColumn fx:id="columnLocation" minWidth="0.0" prefWidth="111.20001220703125" text="Location" />
-            <TableColumn fx:id="columnCity" prefWidth="167.20001220703125" text="City" />
-            <TableColumn fx:id="columnDate" prefWidth="167.20001220703125" text="Date" />
+            <TableColumn fx:id="columnCity" minWidth="0.0" prefWidth="111.20001220703125" text="City" />
+            <TableColumn fx:id="columnInstitution" prefWidth="167.20001220703125" text="Institution" />
+            <TableColumn fx:id="columnParticipants" prefWidth="167.20001220703125" text="Participants" />
          </columns>
       </TableView>
-      <Button layoutX="63.0" layoutY="410.0" mnemonicParsing="false" onAction="#switchToCreateTournament" prefHeight="29.0" prefWidth="97.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create" textFill="WHITE" />
+      <Button layoutX="63.0" layoutY="410.0" mnemonicParsing="false" onAction="#switchToCreateTeam" prefHeight="29.0" prefWidth="97.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create" textFill="WHITE" />
       <Pane prefHeight="58.0" prefWidth="774.0" style="-fx-background-color: #0e76a8;">
          <children>
             <ImageView fitHeight="58.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">

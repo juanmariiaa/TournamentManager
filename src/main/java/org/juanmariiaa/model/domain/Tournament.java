@@ -21,7 +21,7 @@ public class Tournament {
         this.teams = null;
     }
 
-    public Tournament(int id, String name, String location, String city, Date date, List<Team> teams) {
+    public Tournament(String name, String location, String city, Date date, List<Team> teams) {
         this.id = id;
         this.name = name;
         this.location = location;

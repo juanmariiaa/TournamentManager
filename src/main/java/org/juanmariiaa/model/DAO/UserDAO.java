@@ -104,25 +104,6 @@ public class UserDAO {
         return user;
     }
 
-    // Add a method to create a tournament for a user (assuming many-to-one relationship)
-    public Tournament createTournament(User user, Tournament tournament) throws SQLException {
-        // Implement logic to create a tournament associated with the provided user
-        try (PreparedStatement statement = conn.prepareStatement(
-                "INSERT INTO tournament (name, location, description, user_id) VALUES (?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, tournament.getName());
-            statement.setString(2, tournament.getLocation());
-            statement.setString(3, user.getDni()); // Assuming User has a getter for its ID
-            statement.executeUpdate();
-
-            try (ResultSet rs = statement.getGeneratedKeys()) {
-                if (rs.next()) {
-                    tournament.setId(rs.getInt(1)); // Set the generated tournament ID
-                }
-            }
-        }
-        return tournament;
-    }
 
     // Retrieve all tournaments created by a user (assuming many-to-one relationship)
     public List<Tournament> findTournamentsByUser(User user) throws SQLException {

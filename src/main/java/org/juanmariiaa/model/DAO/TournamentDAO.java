@@ -3,6 +3,7 @@ package org.juanmariiaa.model.DAO;
 import org.juanmariiaa.model.connection.ConnectionMariaDB;
 import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.model.domain.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -91,33 +92,19 @@ public class TournamentDAO {
         if (tournament == null) {
             return null;
         }
-        if (tournament.getId() == 0) {
-            // Insert new tournament
-            try (PreparedStatement statement = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-                statement.setString(1, tournament.getName());
-                statement.setString(2, tournament.getLocation());
-                statement.setString(3, tournament.getCity());
-                statement.setString(4, String.valueOf(tournament.getDate()));
-                statement.executeUpdate();
+        try (PreparedStatement statement = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, tournament.getName());
+            statement.setString(2, tournament.getLocation());
+            statement.setString(3, tournament.getCity());
+            statement.setString(4, String.valueOf(tournament.getDate()));
+            statement.executeUpdate();
 
-                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        tournament.setId(generatedKeys.getInt(1)); // Set the generated id back to the entity
-                    }
+            try (ResultSet rs = statement.getGeneratedKeys()) {
+                if (rs.next()) {
+                    tournament.setId(rs.getInt(1)); // Set the generated id back to the user object (if applicable)
                 }
             }
-        } else {
-            // Update existing tournament
-            try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
-                statement.setString(1, tournament.getName());
-                statement.setString(2, tournament.getLocation());
-                statement.setString(3, tournament.getCity());
-                statement.setString(4, String.valueOf(tournament.getDate()));
-                statement.setInt(5, tournament.getId());
-                statement.executeUpdate();
-            }
         }
-
         // Update team associations after saving the tournament (optional)
         if (tournament.getTeams() != null) {
             for (Team team : tournament.getTeams()) {
@@ -126,6 +113,29 @@ public class TournamentDAO {
         }
         return tournament;
     }
+
+    public Tournament createTournament(User user, Tournament tournament) throws SQLException {
+        // Implement logic to create a tournament associated with the provided user
+        try (PreparedStatement statement = conn.prepareStatement(
+                "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, tournament.getName());
+            statement.setString(2, tournament.getLocation());
+            statement.setString(3, tournament.getCity());
+            statement.setString(4, String.valueOf(tournament.getDate())); // Assuming getDate() returns a String
+            statement.setInt(5, user.getId()); // Assuming User has a getter for its ID
+            statement.executeUpdate();
+
+            try (ResultSet rs = statement.getGeneratedKeys()) {
+                if (rs.next()) {
+                    tournament.setId(rs.getInt(1)); // Set the generated tournament ID
+                }
+            }
+        }
+        return tournament;
+    }
+
+
 
     public void delete(int tournamentId) throws SQLException {
         // 1. Delete tournament itself (assuming no foreign key constraints)
