@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateParticipantController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/ParticipantController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/createParticipant.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/participant.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateTeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateParticipantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/CreateParticipantController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/ParticipantDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/ParticipantDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/createTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/createTeam.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +165,9 @@
       <workItem from="1714762583537" duration="178000" />
       <workItem from="1714763768043" duration="658000" />
       <workItem from="1714928757238" duration="3331000" />
-      <workItem from="1714932110742" duration="2006000" />
+      <workItem from="1714932110742" duration="3318000" />
+      <workItem from="1714935536255" duration="293000" />
+      <workItem from="1714947982605" duration="410000" />
     </task>
     <servers />
   </component>

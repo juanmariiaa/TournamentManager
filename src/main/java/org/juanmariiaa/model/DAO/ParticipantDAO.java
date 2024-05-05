@@ -116,22 +116,6 @@ public class ParticipantDAO {
     }
 
 
-    public boolean save(Participant participant) {
-        try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
-            statement.setString(1, participant.getRole().toString());
-            statement.setString(2, participant.getGender().toString());
-            statement.setString(3, participant.getName());
-            statement.setString(4, participant.getSurname());
-            statement.setInt(5, participant.getAge());
-            statement.setInt(6, participant.getTeam().getId());
-            statement.setString(7, participant.getDni());
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     public boolean delete(String dni) {
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {

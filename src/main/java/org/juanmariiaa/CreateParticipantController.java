@@ -50,7 +50,6 @@ public class CreateParticipantController {
     private ParticipantDAO participantDAO = new ParticipantDAO();
 
     private TeamDAO teamDAO = new TeamDAO();
-    private ObservableList<Participant> participants;
 
 
     @FXML
@@ -84,11 +83,6 @@ public class CreateParticipantController {
         // Find the team based on the selected team name
         Team team = teamDAO.findOneByName(teamName);
 
-        if (team == null) {
-            // Handle case where no team is found (e.g., show error message)
-            System.out.println("Error: Team not found with name: " + teamName);
-            return;
-        }
 
         Participant newParticipant = new Participant();
         newParticipant.setDni(DNI);
@@ -101,7 +95,7 @@ public class CreateParticipantController {
         // Set the actual Team object to the Participant
         newParticipant.setTeam(team);
 
-        participantDAO.save(newParticipant);
+        participantDAO.insert(newParticipant);
 
         switchToParticipant();
     }
