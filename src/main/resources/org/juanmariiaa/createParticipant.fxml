@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="761.0" prefWidth="362.0" style="-fx-background-color: #fdfdf3; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.CreateParticipantController">
+   <children>
+      <Pane prefHeight="70.0" prefWidth="362.0" style="-fx-background-color: #0e76a8;">
+         <children>
+            <ImageView fitHeight="70.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/logo-no-bg.png" />
+               </image>
+            </ImageView>
+            <Hyperlink fx:id="linkTournaments" layoutX="73.0" layoutY="26.0" onAction="#switchToTournament" prefHeight="23.0" prefWidth="78.0" text="Tournaments" textFill="#a6fffe" />
+            <Hyperlink fx:id="linkTeams" layoutX="157.0" layoutY="27.0" onAction="#switchToTeam" text="Teams" textFill="#a6fffe" />
+            <Hyperlink fx:id="linkParticipants" layoutX="214.0" layoutY="27.0" onAction="#switchToParticipant" text="Participants" textFill="#a6fffe" />
+            <Hyperlink fx:id="linkHome" layoutX="297.0" layoutY="27.0" onAction="#switchToHome" text="Home" textFill="#a6fffe" />
+         </children>
+      </Pane>
+      <Text layoutX="35.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DNI:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="35.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="32.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="33.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="tfDNI" layoutX="35.0" layoutY="130.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
+      <TextField fx:id="tfName" layoutX="35.0" layoutY="202.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
+      <TextField fx:id="tfSurname" layoutX="30.0" layoutY="284.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
+      <Button layoutX="142.0" layoutY="699.0" mnemonicParsing="false" onAction="#createParticipant" prefHeight="38.0" prefWidth="63.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create" textFill="WHITE" />
+      <TextField fx:id="tfAge" layoutX="28.0" layoutY="370.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
+      <Text layoutX="31.0" layoutY="439.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="30.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="30.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="cbRole" layoutX="31.0" layoutY="446.0" prefHeight="38.0" prefWidth="293.0" />
+      <ComboBox fx:id="cbGender" layoutX="28.0" layoutY="538.0" prefHeight="38.0" prefWidth="293.0" />
+      <ComboBox fx:id="cbTeam" layoutX="27.0" layoutY="624.0" prefHeight="38.0" prefWidth="293.0" />
+   </children>
+</Pane>

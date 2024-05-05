@@ -78,6 +78,29 @@ public class TeamDAO {
         return teams;
     }
 
+    public Team findOneByName(String name) throws SQLException {
+        Team team = null;
+        try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {
+            statement.setString(1, "%" + name + "%"); // Add wildcards for partial name search
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    team = new Team();
+                    team.setId(resultSet.getInt("id"));
+                    team.setName(resultSet.getString("name"));
+                    team.setCity(resultSet.getString("city"));
+                    team.setInstitution(resultSet.getString("institution"));
+
+                    // Check if there are more results (shouldn't be with wildcards)
+                    if (resultSet.next()) {
+                        System.out.println("Warning: Multiple teams found with name: " + name);
+                    }
+                }
+            }
+        }
+        return team;
+    }
+
+
     public Team save(Team entity) throws SQLException {
         if (entity == null) {
             return null;

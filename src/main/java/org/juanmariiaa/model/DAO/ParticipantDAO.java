@@ -143,5 +143,9 @@ public class ParticipantDAO {
             return false;
         }
     }
+
+    public static ParticipantDAO build(){
+        return new ParticipantDAO();
+    }
 }
 

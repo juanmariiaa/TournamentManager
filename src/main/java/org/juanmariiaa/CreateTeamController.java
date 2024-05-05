@@ -61,7 +61,7 @@ public class CreateTeamController {
     }
 
     @FXML
-    private void createTournament() throws SQLException, IOException {
+    private void createTeam() throws SQLException, IOException {
         String name = tfName.getText();
         String city = tfCity.getText();
         String institution = tfInstitution.getText();
