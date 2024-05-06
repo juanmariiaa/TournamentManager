@@ -153,6 +153,8 @@ public class TournamentController extends Controller implements Initializable {
         }
     }
 
+
+
     @FXML
     private void btDelete() throws SQLException {
         deleteSelected();

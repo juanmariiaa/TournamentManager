@@ -13,11 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private final static String FINDALL = "SELECT * FROM user";
     private final static String FINDBYDNI = "SELECT * FROM user WHERE dni=?";
     private final static String FINDBYUSERNAME = "SELECT * FROM user WHERE username=?";
     private final static String INSERT = "INSERT INTO user (dni, name, surname, username, password) VALUES (?, ?, ?, ?, ?)";
-    private final static String FIND_USER_BY_USERNAME = "SELECT * FROM tournament WHERE user_id=?";
     private final static String LOGIN_VALIDATION = "SELECT id FROM user WHERE username = ? AND password = ?";
 
 
@@ -31,24 +29,6 @@ public class UserDAO {
     public UserDAO() {
         this.conn = ConnectionMariaDB.getConnection();
     }
-
-    public List<User> findAll() throws SQLException {
-        List<User> users = new ArrayList<>();
-        try (Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery(FINDALL)) {
-            while (resultSet.next()) {
-                User user = new User();
-                user.setDni(resultSet.getString("dni"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setUser(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                users.add(user);
-            }
-        }
-        return users;
-    }
-
 
     public User findByUsername(String username) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(FINDBYUSERNAME)) {
@@ -104,23 +84,6 @@ public class UserDAO {
         return user;
     }
 
-
-    // Retrieve all tournaments created by a user (assuming many-to-one relationship)
-    public List<Tournament> findTournamentsByUser(User user) throws SQLException {
-        List<Tournament> tournaments = new ArrayList<>();
-        try (PreparedStatement statement = conn.prepareStatement(FIND_USER_BY_USERNAME)) {
-            statement.setString(1, user.getUser());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Tournament tournament = new Tournament();
-                tournament.setId(resultSet.getInt("id"));
-                tournament.setName(resultSet.getString("name"));
-                tournament.setLocation(resultSet.getString("location"));
-                tournaments.add(tournament);
-            }
-        }
-        return tournaments;
-    }
 
     public String validateLogin(String username, String password) throws SQLException {
         try (PreparedStatement pst = conn.prepareStatement(LOGIN_VALIDATION)) {

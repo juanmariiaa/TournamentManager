@@ -86,6 +86,7 @@ public class TeamDAO {
         return teams;
     }
 
+
     public Team findOneByName(String name) throws SQLException {
         Team team = null;
         try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {

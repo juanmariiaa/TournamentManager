@@ -52,8 +52,7 @@ public class TournamentDAO {
 
     public Tournament save(User user, Tournament tournament) throws SQLException {
         // Implement logic to create a tournament associated with the provided user
-        try (PreparedStatement statement = conn.prepareStatement(INSERT,
-                Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = conn.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, tournament.getName());
             statement.setString(2, tournament.getLocation());
             statement.setString(3, tournament.getCity());
