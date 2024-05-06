@@ -12,10 +12,10 @@ import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.others.SingletonUserSession;
+import org.juanmariiaa.utils.Utils;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,33 +51,44 @@ public class CreateTeamController {
     }
 
     @FXML
-    private void createTeam() throws SQLException, IOException {
-        String name = tfName.getText();
-        String city = tfCity.getText();
-        String institution = tfInstitution.getText();
+    private void createTeam() throws IOException {
+        try {
+            String name = tfName.getText();
+            String city = tfCity.getText();
+            String institution = tfInstitution.getText();
 
-        Team newTeam = new Team();
-        newTeam.setName(name);
-        newTeam.setCity(city);
-        newTeam.setInstitution(institution);
+            if (name.isEmpty() || city.isEmpty() || institution.isEmpty()) {
+                Utils.showPopUp("Error", null, "Please fill in all the fields.", Alert.AlertType.ERROR);
+                return;
+            }
 
-        teamDAO.save(newTeam);
-        switchToTeam();
+            Team newTeam = new Team();
+            newTeam.setName(name);
+            newTeam.setCity(city);
+            newTeam.setInstitution(institution);
 
-
+            teamDAO.save(newTeam);
+            switchToTeam();
+        } catch (SQLException e) {
+            Utils.showPopUp("Error", null, "An error occurred while creating the team.", Alert.AlertType.ERROR);
+        }
     }
+
     @FXML
     private void switchToTournament() throws IOException {
         App.setRoot("tournament");
     }
+
     @FXML
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
+
     @FXML
     private void switchToTeam() throws IOException {
         App.setRoot("team");
     }
+
     @FXML
     private void switchToParticipant() throws IOException {
         App.setRoot("participant");

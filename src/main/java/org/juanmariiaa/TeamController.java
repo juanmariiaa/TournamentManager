@@ -7,16 +7,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.utils.Utils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,8 +41,8 @@ public class TeamController extends Controller implements Initializable {
     private TableColumn<Team,String> columnInstitution;
     @FXML
     private TableColumn<Team,String> columnParticipants;
-    @FXML
-    private TableColumn<Team,String> columnTournaments; // New column
+    TeamDAO teamDAO = new TeamDAO();
+
 
     private ObservableList<Team> teams;
 
@@ -63,15 +63,71 @@ public class TeamController extends Controller implements Initializable {
         tableView.setItems(this.teams);
         tableView.setEditable(true);
         columnID.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getId()).asString());
-        columnName.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getName()));
-        columnCity.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getCity()));
-        columnInstitution.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getInstitution()));
-        columnParticipants.setCellValueFactory(team -> {
-            List<String> participantNames = team.getValue().getParticipants().stream()
-                    .map(Participant::getName)
-                    .collect(Collectors.toList());
-            return new SimpleStringProperty(String.join(", ", participantNames));
+        // Name column
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnName.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnName.setOnEditCommit(event -> {
+            Team team = event.getRowValue();
+            team.setName(event.getNewValue());
+            try {
+                teamDAO.save(team);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tableView.refresh();
         });
+
+        // City column
+        columnCity.setCellValueFactory(new PropertyValueFactory<>("city"));
+        columnCity.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnCity.setOnEditCommit(event -> {
+            Team team = event.getRowValue();
+            team.setCity(event.getNewValue());
+            try {
+                teamDAO.save(team);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tableView.refresh();
+        });
+
+        // Institution column
+        columnInstitution.setCellValueFactory(new PropertyValueFactory<>("institution"));
+        columnInstitution.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnInstitution.setOnEditCommit(event -> {
+            Team team = event.getRowValue();
+            team.setInstitution(event.getNewValue());
+            try {
+                teamDAO.save(team);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tableView.refresh();
+        });
+
+
+    }
+
+    @FXML
+    private void deleteSelected() {
+        Team selectedT = (Team) tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedT != null) {
+            tableView.getItems().remove(selectedT);
+
+            try {
+                teamDAO.delete(selectedT);
+                Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    @FXML
+    private void btDelete() throws SQLException {
+        deleteSelected();
     }
 
     @FXML

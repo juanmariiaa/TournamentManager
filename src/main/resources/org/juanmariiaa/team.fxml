@@ -51,5 +51,6 @@
             </Hyperlink>
          </children>
       </Pane>
+      <Button layoutX="276.0" layoutY="416.0" mnemonicParsing="false" onAction="#deleteSelected" prefHeight="29.0" prefWidth="97.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Delete" textFill="WHITE" />
    </children>
 </Pane>
