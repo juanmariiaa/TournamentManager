@@ -41,21 +41,11 @@ public class CreateTeamController {
 
     private TeamDAO teamDAO = new TeamDAO();
 
-    private ParticipantDAO participantDAO = new ParticipantDAO();
     private ObservableList<Team> teams;
 
 
     @FXML
     private void initialize() throws SQLException {
-        ObservableList<Participant> participants = FXCollections.observableArrayList(participantDAO.findAll());
-
-        ObservableList<String> participantNames = FXCollections.observableArrayList();
-
-        for (Participant participant : participants) {
-            participantNames.add(participant.getName());
-        }
-        lvParticipants.setItems(participantNames);
-        lvParticipants.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
     }
@@ -66,21 +56,10 @@ public class CreateTeamController {
         String city = tfCity.getText();
         String institution = tfInstitution.getText();
 
-        ObservableList<String> selectedParticipantNames = lvParticipants.getSelectionModel().getSelectedItems();
-        // Convert List<String> to List<Participant>
-        List<Participant> selectedTeams = new ArrayList<>();
-        for (String participantName : selectedParticipantNames) {
-            List<Participant> participants = participantDAO.findByName(participantName);
-            if (!participants.isEmpty()) {
-                selectedTeams.add(participants.get(0));
-            }
-        }
-
         Team newTeam = new Team();
         newTeam.setName(name);
         newTeam.setCity(city);
         newTeam.setInstitution(institution);
-        newTeam.setParticipants(selectedTeams);
 
         teamDAO.save(newTeam);
         switchToTeam();

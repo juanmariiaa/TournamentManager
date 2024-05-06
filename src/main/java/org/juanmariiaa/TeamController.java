@@ -41,6 +41,9 @@ public class TeamController extends Controller implements Initializable {
     private TableColumn<Team,String> columnInstitution;
     @FXML
     private TableColumn<Team,String> columnParticipants;
+    @FXML
+    private TableColumn<Team,String> columnTournaments; // New column
+
     private ObservableList<Team> teams;
 
 
