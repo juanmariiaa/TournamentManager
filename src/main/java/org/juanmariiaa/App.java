@@ -42,7 +42,6 @@ public class App extends Application {
             newScene = createScene(fxml, 774, 489);
             primaryStage.setResizable(false);
 
-
         }else if(fxml.equals("tournament")){
             newScene = createScene(fxml, 774, 489);
             primaryStage.setResizable(false);

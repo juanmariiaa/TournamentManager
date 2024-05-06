@@ -11,8 +11,6 @@ import java.util.List;
 
 public class TournamentDAO {
     private final static String FIND_ALL = "SELECT * FROM tournament LIMIT 15";
-    private final static String FIND_BY_ID = "SELECT * FROM tournament WHERE id=?";
-    private final static String FIND_BY_NAME = "SELECT * FROM tournament WHERE name=?";
     private final static String INSERT = "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=? WHERE id=?";
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
@@ -51,44 +49,6 @@ public class TournamentDAO {
         return tournaments;
     }
 
-    public Tournament findById(int id) throws SQLException {
-        Tournament tournament = null;
-        try (PreparedStatement statement = conn.prepareStatement(FIND_BY_ID)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    tournament = new Tournament();
-                    tournament.setId(resultSet.getInt("id"));
-                    tournament.setName(resultSet.getString("name"));
-                    tournament.setLocation(resultSet.getString("location"));
-                    tournament.setCity(resultSet.getString("city"));
-                    tournament.setDate(resultSet.getDate("date"));
-                    tournament.setTeams(findTeamsByTournamentId(tournament.getId())); // Load teams using findTeamsByTournamentId
-                }
-            }
-        }
-        return tournament;
-    }
-
-    public List<Tournament> findByName(String name) throws SQLException {
-        List<Tournament> tournaments = new ArrayList<>();
-        try (PreparedStatement statement = conn.prepareStatement(FIND_BY_NAME)) {
-            statement.setString(1, name);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Tournament tournament = new Tournament();
-                    tournament.setId(resultSet.getInt("id"));
-                    tournament.setName(resultSet.getString("name"));
-                    tournament.setLocation(resultSet.getString("location"));
-                    tournament.setCity(resultSet.getString("city"));
-                    tournament.setDate(resultSet.getDate("date"));
-                    tournament.setTeams(findTeamsByTournamentId(tournament.getId())); // Load teams using findTeamsByTournamentId
-                    tournaments.add(tournament);
-                }
-            }
-        }
-        return tournaments;
-    }
 
     public Tournament save(User user, Tournament tournament) throws SQLException {
         // Implement logic to create a tournament associated with the provided user
