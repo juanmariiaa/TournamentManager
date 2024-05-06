@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        scene = new Scene(loadFXML("login"), 600, 600);
+        scene = new Scene(loadFXML("login"), 308, 411);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -30,55 +30,37 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
+        System.out.println("Before setRoot: " + primaryStage.getWidth() + ", " + primaryStage.getHeight());
 
-        Parent p = loadFXML(fxml);
         Scene newScene;
-
         if (fxml.equals("login")) {
             newScene = createScene(fxml, 308, 411);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("team")){
+        } else if(fxml.equals("team")){
             newScene = createScene(fxml, 774, 489);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("tournament")){
+        } else if(fxml.equals("tournament")){
             newScene = createScene(fxml, 774, 489);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("participant")){
+        } else if(fxml.equals("participant")){
             newScene = createScene(fxml, 774, 489);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("home")){
+        } else if(fxml.equals("home")){
             newScene = createScene(fxml, 774, 489);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("createTournament")){
+        } else if(fxml.equals("createTournament")){
             newScene = createScene(fxml, 362, 592);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("createTeam")){
+        } else if(fxml.equals("createTeam")){
             newScene = createScene(fxml, 362, 592);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("createParticipant")){
+        } else if(fxml.equals("createParticipant")){
             newScene = createScene(fxml, 362, 761);
-            primaryStage.setResizable(false);
-
-        }else if(fxml.equals("register")){
+        } else if(fxml.equals("register")){
             newScene = createScene(fxml, 329, 533);
-            primaryStage.setResizable(false);
-
-        }else {
+        } else {
             newScene = createScene(fxml, 308, 411);
-            primaryStage.setResizable(true);
         }
+        primaryStage.setResizable(true);
         primaryStage.setScene(newScene);
-        App.scene.setRoot(p);
-
+        primaryStage.setResizable(false);
+        System.out.println("After setRoot: " + primaryStage.getWidth() + ", " + primaryStage.getHeight());
 
     }
+
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));

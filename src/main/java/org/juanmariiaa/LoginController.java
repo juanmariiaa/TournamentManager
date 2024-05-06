@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import org.juanmariiaa.App;
 import org.juanmariiaa.model.DAO.UserDAO;
 import org.juanmariiaa.others.SingletonUserSession;
+import org.juanmariiaa.utils.Utils;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,8 +31,12 @@ public class LoginController {
             alert.setContentText("Please, complete all fields to continue.");
             alert.showAndWait();
         } else {
+            // Hash the password
+            String hashedPassword = Utils.hashPassword(password);
+
             UserDAO uDAO = new UserDAO();
-            String result = uDAO.validateLogin(username, password);
+            String result = uDAO.validateLogin(username, hashedPassword);
+
             if (result != null && !result.isEmpty()) {
                 int id = Integer.parseInt(result);
                 SingletonUserSession.login(id, username);

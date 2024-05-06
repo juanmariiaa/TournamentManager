@@ -166,7 +166,7 @@ public class TournamentController extends Controller implements Initializable {
 
     @FXML
     private void switchToTournament() throws IOException {
-        App.setRoot("Tournament");
+        App.setRoot("tournament");
     }
     @FXML
     private void switchToHome() throws IOException {
