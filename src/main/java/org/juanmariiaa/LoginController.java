@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.juanmariiaa.App;
 import org.juanmariiaa.model.DAO.UserDAO;
 import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;

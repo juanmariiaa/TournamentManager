@@ -9,7 +9,6 @@ import javafx.scene.control.ListView;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;

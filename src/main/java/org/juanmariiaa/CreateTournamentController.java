@@ -11,7 +11,6 @@ import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;

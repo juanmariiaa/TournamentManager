@@ -1,6 +1,5 @@
 package org.juanmariiaa;
 
-import org.juanmariiaa.App;
 
 import java.io.IOException;
 

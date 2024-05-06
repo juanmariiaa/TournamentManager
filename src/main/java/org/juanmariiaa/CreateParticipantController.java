@@ -6,20 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.DAO.TeamDAO;
-import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
-import org.juanmariiaa.model.domain.Tournament;
-import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
-import org.juanmariiaa.others.SingletonUserSession;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class CreateParticipantController {
     @FXML
