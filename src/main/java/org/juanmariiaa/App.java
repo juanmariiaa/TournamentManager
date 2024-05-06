@@ -38,6 +38,19 @@ public class App extends Application {
             newScene = createScene(fxml, 308, 411);
             primaryStage.setResizable(false);
 
+        }else if(fxml.equals("team")){
+            newScene = createScene(fxml, 774, 489);
+            primaryStage.setResizable(false);
+
+
+        }else if(fxml.equals("tournament")){
+            newScene = createScene(fxml, 774, 489);
+            primaryStage.setResizable(false);
+
+        }else if(fxml.equals("participant")){
+            newScene = createScene(fxml, 774, 489);
+            primaryStage.setResizable(false);
+
         }else if(fxml.equals("home")){
             newScene = createScene(fxml, 774, 489);
             primaryStage.setResizable(false);
@@ -50,11 +63,8 @@ public class App extends Application {
             newScene = createScene(fxml, 362, 592);
             primaryStage.setResizable(false);
 
-        }else if(fxml.equals("team")){
-            newScene = createScene(fxml, 774, 489);
-            primaryStage.setResizable(false);
-        }else if(fxml.equals("tournament")){
-            newScene = createScene(fxml, 774, 489);
+        }else if(fxml.equals("createParticipant")){
+            newScene = createScene(fxml, 362, 761);
             primaryStage.setResizable(false);
 
         }else if(fxml.equals("register")){
@@ -62,7 +72,7 @@ public class App extends Application {
             primaryStage.setResizable(false);
 
         }else {
-            newScene = createScene(fxml, 640, 480);
+            newScene = createScene(fxml, 308, 411);
             primaryStage.setResizable(true);
         }
         primaryStage.setScene(newScene);

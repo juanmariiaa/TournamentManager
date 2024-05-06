@@ -1,6 +1,7 @@
 package org.juanmariiaa.model.DAO;
 
 import org.juanmariiaa.model.connection.ConnectionMariaDB;
+import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
 
 import java.sql.*;
@@ -15,6 +16,8 @@ public class TeamDAO {
     private final static String INSERT = "INSERT INTO team (id, name, city, institution) VALUES (?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
+    private final static String FIND_PARTICIPANTS_BY_TEAM = "SELECT * FROM participant WHERE id_team = ?";
+
 
     private Connection conn;
 
@@ -141,6 +144,25 @@ public class TeamDAO {
                 pst.executeUpdate();
             }
         }
+    }
+
+    public List<Participant> findParticipantsByTeam(int teamId) throws SQLException {
+        List<Participant> participants = new ArrayList<>();
+        try (PreparedStatement pst = this.conn.prepareStatement(FIND_PARTICIPANTS_BY_TEAM)) {
+            pst.setInt(1, teamId);
+            try (ResultSet res = pst.executeQuery()) {
+                while (res.next()) {
+                    Participant participant = new Participant();
+                    participant.setDni(res.getString("dni"));
+                    participant.setName(res.getString("first_name"));
+                    participant.setSurname(res.getString("surname"));
+                    participant.setAge(res.getInt("age"));
+                    participant.setTeam(findById(res.getInt("id_team")));
+                    participants.add(participant);
+                }
+            }
+        }
+        return participants;
     }
 
 

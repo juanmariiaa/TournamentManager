@@ -23,7 +23,7 @@ public class LoginController {
         String username = tfUser.getText().trim();
         String password = tfPass.getText().trim();
 
-        if (username.equals("") || password.equals("")) {
+        if (username.isEmpty() || password.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setTitle("ERROR");
@@ -31,8 +31,9 @@ public class LoginController {
             alert.showAndWait();
         } else {
             UserDAO uDAO = new UserDAO();
-            int id;
-            if ((id = Integer.parseInt(uDAO.validateLogin(username, password))) != 0) {
+            String result = uDAO.validateLogin(username, password);
+            if (result != null && !result.isEmpty()) {
+                int id = Integer.parseInt(result);
                 SingletonUserSession.login(id, username);
                 //logged in
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -51,6 +52,7 @@ public class LoginController {
             }
         }
     }
+
 
     @FXML
     private void switchToRegister() throws IOException {

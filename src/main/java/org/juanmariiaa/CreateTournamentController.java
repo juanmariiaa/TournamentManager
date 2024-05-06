@@ -95,6 +95,11 @@ public class CreateTournamentController {
             // Associate tournament with the current user
             tournament = tournamentDAO.createTournament(currentUser, tournament);
 
+            // Save tournament participation data
+            for (Team team : selectedTeams) {
+                tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
+            }
+
             // Clear Fields
             tfName.clear();
             tfLocation.clear();

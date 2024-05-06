@@ -64,6 +64,14 @@ public class ParticipantController extends Controller implements Initializable {
         columnAge.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getAge()).asString());
         columnRole.setCellValueFactory(participant -> new SimpleObjectProperty<>(participant.getValue().getRole()));
         columnGender.setCellValueFactory(participant -> new SimpleObjectProperty<>(participant.getValue().getGender()));
+        columnTeam.setCellValueFactory(participant -> {
+            Team team = participant.getValue().getTeam();
+            if (team != null) {
+                return new SimpleStringProperty(team.getName());
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
     }
 
     @FXML

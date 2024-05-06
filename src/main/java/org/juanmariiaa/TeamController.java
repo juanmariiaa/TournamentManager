@@ -24,6 +24,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class TeamController extends Controller implements Initializable {
 
@@ -47,6 +48,10 @@ public class TeamController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             List<Team> teamsList = TeamDAO.build().findAll();
+            for (Team team : teamsList) {
+                List<Participant> participants = TeamDAO.build().findParticipantsByTeam(team.getId());
+                team.setParticipants(participants);
+            }
             this.teams = FXCollections.observableArrayList(teamsList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,6 +63,12 @@ public class TeamController extends Controller implements Initializable {
         columnName.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getName()));
         columnCity.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getCity()));
         columnInstitution.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getInstitution()));
+        columnParticipants.setCellValueFactory(team -> {
+            List<String> participantNames = team.getValue().getParticipants().stream()
+                    .map(Participant::getName)
+                    .collect(Collectors.toList());
+            return new SimpleStringProperty(String.join(", ", participantNames));
+        });
     }
 
     @FXML

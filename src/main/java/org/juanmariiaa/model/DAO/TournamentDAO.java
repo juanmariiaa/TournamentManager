@@ -13,9 +13,11 @@ public class TournamentDAO {
     private final static String FIND_ALL = "SELECT * FROM tournament LIMIT 15";
     private final static String FIND_BY_ID = "SELECT * FROM tournament WHERE id=?";
     private final static String FIND_BY_NAME = "SELECT * FROM tournament WHERE name=?";
-    private final static String INSERT = "INSERT INTO tournament (id, name, location, city) VALUES (?, ?, ?, ?)";
+    private final static String INSERT = "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=? WHERE id=?";
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
+    private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament, id_team) VALUES (?, ?)";
+
 
     private Connection conn;
     private TeamTournamentDAO teamTournamentDAO; // Inject TeamTournamentDAO instance
@@ -88,36 +90,9 @@ public class TournamentDAO {
         return tournaments;
     }
 
-    public Tournament save(Tournament tournament) throws SQLException {
-        if (tournament == null) {
-            return null;
-        }
-        try (PreparedStatement statement = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, tournament.getName());
-            statement.setString(2, tournament.getLocation());
-            statement.setString(3, tournament.getCity());
-            statement.setString(4, String.valueOf(tournament.getDate()));
-            statement.executeUpdate();
-
-            try (ResultSet rs = statement.getGeneratedKeys()) {
-                if (rs.next()) {
-                    tournament.setId(rs.getInt(1)); // Set the generated id back to the user object (if applicable)
-                }
-            }
-        }
-        // Update team associations after saving the tournament (optional)
-        if (tournament.getTeams() != null) {
-            for (Team team : tournament.getTeams()) {
-                teamTournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
-            }
-        }
-        return tournament;
-    }
-
     public Tournament createTournament(User user, Tournament tournament) throws SQLException {
         // Implement logic to create a tournament associated with the provided user
-        try (PreparedStatement statement = conn.prepareStatement(
-                "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)",
+        try (PreparedStatement statement = conn.prepareStatement(INSERT,
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, tournament.getName());
             statement.setString(2, tournament.getLocation());
@@ -151,13 +126,15 @@ public class TournamentDAO {
         return teamTournamentDAO.findTeamsByTournamentId(tournamentId);
     }
 
-    public void addTeams(Tournament tournament, List<Team> teams) throws SQLException {
-        if (tournament != null && teams != null) {
-            for (Team team : teams) {
-                teamTournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
-            }
+    public void addTeamToTournament(int tournamentId, int teamId) throws SQLException {
+        try (PreparedStatement statement = conn.prepareStatement(ADD_TEAM_TO_TOURNAMENT)) {
+            statement.setInt(1, tournamentId);
+            statement.setInt(2, teamId);
+            statement.executeUpdate();
         }
     }
+
+
     public static TournamentDAO build(){
         return new TournamentDAO();
     }
