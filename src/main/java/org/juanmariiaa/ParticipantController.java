@@ -7,11 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.DAO.TeamDAO;
@@ -21,6 +20,7 @@ import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
+import org.juanmariiaa.utils.Utils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +49,8 @@ public class ParticipantController extends Controller implements Initializable {
     @FXML
     private TableColumn<Participant,String> columnTeam;
     private ObservableList<Participant> participants;
+    ParticipantDAO participantDAO = new ParticipantDAO();
+
 
 
 
@@ -58,12 +60,59 @@ public class ParticipantController extends Controller implements Initializable {
 
         tableView.setItems(this.participants);
         tableView.setEditable(true);
-        columnDNI.setCellValueFactory(participant -> new SimpleStringProperty(participant.getValue().getDni()));
-        columnName.setCellValueFactory(participant -> new SimpleStringProperty(participant.getValue().getName()));
-        columnSurname.setCellValueFactory(participant -> new SimpleStringProperty(participant.getValue().getSurname()));
-        columnAge.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getAge()).asString());
-        columnRole.setCellValueFactory(participant -> new SimpleObjectProperty<>(participant.getValue().getRole()));
-        columnGender.setCellValueFactory(participant -> new SimpleObjectProperty<>(participant.getValue().getGender()));
+        columnDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        columnDNI.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnDNI.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            participant.setDni(event.getNewValue());
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnName.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnName.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            participant.setName(event.getNewValue());
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+
+        columnSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        columnSurname.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnSurname.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            participant.setSurname(event.getNewValue());
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+
+        columnAge.setCellValueFactory(participant -> new SimpleStringProperty(Integer.toString(participant.getValue().getAge())));
+        columnAge.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnAge.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            participant.setAge(Integer.parseInt(event.getNewValue()));
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+        columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+        columnRole.setCellFactory(ComboBoxTableCell.forTableColumn(Role.values()));
+        columnRole.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            participant.setRole(event.getNewValue());
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+
+        columnGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        columnGender.setCellFactory(ComboBoxTableCell.forTableColumn(Gender.values()));
+        columnGender.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            participant.setGender(event.getNewValue());
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+
         columnTeam.setCellValueFactory(participant -> {
             Team team = participant.getValue().getTeam();
             if (team != null) {
@@ -72,6 +121,50 @@ public class ParticipantController extends Controller implements Initializable {
                 return new SimpleStringProperty("");
             }
         });
+        try {
+            columnTeam.setCellFactory(ComboBoxTableCell.forTableColumn(getTeams()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        columnTeam.setOnEditCommit(event -> {
+            Participant participant = event.getRowValue();
+            Team team = null;
+            try {
+                team = (Team) TeamDAO.build().findByName(event.getNewValue());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            participant.setTeam(team);
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
+    }
+
+    private ObservableList<String> getTeams() throws SQLException {
+        List<Team> teams = TeamDAO.build().findAll();
+        ObservableList<String> teamNames = FXCollections.observableArrayList();
+        for (Team team : teams) {
+            teamNames.add(team.getName());
+        }
+        return teamNames;
+    }
+
+    @FXML
+    private void deleteSelected() {
+        Participant selectedP = (Participant) tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedP != null) {
+            tableView.getItems().remove(selectedP);
+
+            participantDAO.delete(String.valueOf(selectedP));
+            Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
+
+        }
+    }
+
+    @FXML
+    private void btDelete() throws SQLException {
+        deleteSelected();
     }
 
     @FXML

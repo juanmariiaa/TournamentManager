@@ -90,7 +90,7 @@ public class TournamentDAO {
         return tournaments;
     }
 
-    public Tournament createTournament(User user, Tournament tournament) throws SQLException {
+    public Tournament save(User user, Tournament tournament) throws SQLException {
         // Implement logic to create a tournament associated with the provided user
         try (PreparedStatement statement = conn.prepareStatement(INSERT,
                 Statement.RETURN_GENERATED_KEYS)) {
@@ -106,6 +106,18 @@ public class TournamentDAO {
                     tournament.setId(rs.getInt(1)); // Set the generated tournament ID
                 }
             }
+        }
+        return tournament;
+    }
+
+    public Tournament update(Tournament tournament) throws SQLException {
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
+            statement.setString(1, tournament.getName());
+            statement.setString(2, tournament.getLocation());
+            statement.setString(3, tournament.getCity());
+            statement.setString(4, String.valueOf(tournament.getDate())); // Assuming getDate() returns a String
+            statement.setInt(5, tournament.getId());
+            statement.executeUpdate();
         }
         return tournament;
     }

@@ -17,6 +17,11 @@ public class TeamDAO {
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
     private final static String FIND_PARTICIPANTS_BY_TEAM = "SELECT * FROM participant WHERE id_team = ?";
+    private final static String FIND_TEAMS_BY_TOURNAMENT = "SELECT t.id, t.name " +
+            "FROM team t " +
+            "JOIN participation p ON t.id = p.id_team " +
+            "WHERE p.id_tournament = ?";
+
 
 
     private Connection conn;
@@ -163,6 +168,25 @@ public class TeamDAO {
             }
         }
         return participants;
+    }
+
+
+    public List<Team> findTeamsByTournament(int id_tournament) {
+        List<Team> teams = new ArrayList<>();
+        try (PreparedStatement statement = this.conn.prepareStatement(FIND_TEAMS_BY_TOURNAMENT)) {
+            statement.setInt(1, id_tournament);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Team team = new Team();
+                    team.setId(rs.getInt("id"));
+                    team.setName(rs.getString("name"));
+                    teams.add(team);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teams;
     }
 
 

@@ -10,6 +10,7 @@ import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.others.SingletonUserSession;
+import org.juanmariiaa.utils.Utils;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -93,38 +94,50 @@ public class CreateTournamentController {
             Tournament tournament = new Tournament(name, location, city, date, selectedTeams);
 
             // Associate tournament with the current user
-            tournament = tournamentDAO.createTournament(currentUser, tournament);
+            try {
+                tournament = tournamentDAO.save(currentUser, tournament);
 
-            // Save tournament participation data
-            for (Team team : selectedTeams) {
-                tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
+                // Save tournament participation data
+                for (Team team : selectedTeams) {
+                    tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
+                }
+
+                // Clear Fields
+                tfName.clear();
+                tfLocation.clear();
+                tfCity.clear();
+                dtDate.getEditor().clear();
+                lvTeams.getSelectionModel().clearSelection();
+
+                Utils.showPopUp("Tournament Created", null, "Tournament has been created successfully.", Alert.AlertType.INFORMATION);
+            } catch (SQLException e) {
+                Utils.showPopUp("Error", null, "Error while creating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
+                e.printStackTrace();
             }
-
-            // Clear Fields
-            tfName.clear();
-            tfLocation.clear();
-            tfCity.clear();
-            dtDate.getEditor().clear();
-            lvTeams.getSelectionModel().clearSelection();
         } else {
             // Handle the case when currentUser is null
             // For example, show an error message
+            Utils.showPopUp("Error", null, "No user logged in. Cannot create tournament.", Alert.AlertType.ERROR);
             System.err.println("Current user is null. Cannot create tournament.");
         }
         switchToTournament();
     }
+
     @FXML
     private void switchToTournament() throws IOException {
         App.setRoot("tournament");
     }
+
     @FXML
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
+
     @FXML
     private void switchToTeam() throws IOException {
         App.setRoot("team");
     }
+
     @FXML
     private void switchToParticipant() throws IOException {
         App.setRoot("participant");

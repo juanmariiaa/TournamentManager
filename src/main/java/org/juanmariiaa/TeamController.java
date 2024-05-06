@@ -6,10 +6,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.DAO.TournamentDAO;
@@ -39,8 +43,6 @@ public class TeamController extends Controller implements Initializable {
     private TableColumn<Team,String> columnCity;
     @FXML
     private TableColumn<Team,String> columnInstitution;
-    @FXML
-    private TableColumn<Team,String> columnParticipants;
     TeamDAO teamDAO = new TeamDAO();
 
 
@@ -62,8 +64,7 @@ public class TeamController extends Controller implements Initializable {
 
         tableView.setItems(this.teams);
         tableView.setEditable(true);
-        columnID.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getId()).asString());
-        // Name column
+        columnID.setCellValueFactory(team -> new SimpleIntegerProperty(team.getValue().getId()).asString());
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnName.setCellFactory(TextFieldTableCell.forTableColumn());
         columnName.setOnEditCommit(event -> {
@@ -119,6 +120,7 @@ public class TeamController extends Controller implements Initializable {
                 teamDAO.delete(selectedT);
                 Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
             } catch (SQLException e) {
+                Utils.showPopUp("Error", null, "Error while deleting team: " + e.getMessage(), Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
 
@@ -153,6 +155,23 @@ public class TeamController extends Controller implements Initializable {
     @FXML
     private void switchToCreateTeam() throws IOException {
         App.setRoot("createTeam");
+    }
+
+    @FXML
+    private void switchToShowParticipantsInSelectedTeam() throws IOException {
+        Team selectedTeam = tableView.getSelectionModel().getSelectedItem();
+        if (selectedTeam != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("showParticipantsInSelectedTeam.fxml"));
+            Parent root = loader.load();
+            ShowParticipantsInSelectedTeam controller = loader.getController();
+            controller.initData(selectedTeam);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            Utils.showPopUp("Error", null, "Please select a team first!", Alert.AlertType.ERROR);
+        }
     }
 
     @Override

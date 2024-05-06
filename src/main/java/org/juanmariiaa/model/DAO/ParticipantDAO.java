@@ -18,6 +18,8 @@ public class ParticipantDAO {
     private final static String INSERT = "INSERT INTO participant (dni, role, gender, first_name, surname, age, id_team) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE participant SET role=?, gender=?, first_name=?, surname=?, age=?, id_team=? WHERE dni=?";
     private final static String DELETE = "DELETE FROM participant WHERE dni=?";
+    private final static String FIND_PARTICIPANT_BY_TEAM = "SELECT * FROM participant WHERE id_team = ?";
+
 
 
     private Connection conn;
@@ -70,6 +72,23 @@ public class ParticipantDAO {
         }
     }
 
+    public boolean update(Participant participant) {
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
+            statement.setString(1, participant.getRole().toString());
+            statement.setString(2, participant.getGender().toString());
+            statement.setString(3, participant.getName());
+            statement.setString(4, participant.getSurname());
+            statement.setInt(5, participant.getAge());
+            statement.setInt(6, participant.getTeam().getId());
+            statement.setString(7, participant.getDni());
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Participant findById(String dni) {
         try (PreparedStatement statement = conn.prepareStatement(FINDBYID)) {
             statement.setString(1, dni);
@@ -111,6 +130,30 @@ public class ParticipantDAO {
                     participants.add(participant);
                 }
             }
+        }
+        return participants;
+    }
+
+    public List<Participant> findParticipantsByTeam(int teamId) {
+        List<Participant> participants = new ArrayList<>();
+        try (PreparedStatement statement = conn.prepareStatement(FIND_PARTICIPANT_BY_TEAM)) {
+            statement.setInt(1, teamId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Participant participant = new Participant();
+                    participant.setDni(resultSet.getString("dni"));
+                    participant.setRole(Role.valueOf(resultSet.getString("role")));
+                    participant.setGender(Gender.valueOf(resultSet.getString("gender")));
+                    participant.setName(resultSet.getString("first_name"));
+                    participant.setSurname(resultSet.getString("surname"));
+                    participant.setAge(resultSet.getInt("age"));
+                    Team team = new TeamDAO(conn).findById(resultSet.getInt("id_team"));
+                    participant.setTeam(team);
+                    participants.add(participant);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return participants;
     }

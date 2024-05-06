@@ -8,19 +8,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="774.0" style="-fx-background-color: #fdfdf3;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.TeamController">
    <children>
-      <TableView fx:id="tableView" editable="true" layoutX="63.0" layoutY="121.0" prefHeight="248.0" prefWidth="648.0">
+      <TableView fx:id="tableView" editable="true" layoutX="63.0" layoutY="149.0" prefHeight="248.0" prefWidth="648.0">
          <columns>
-            <TableColumn fx:id="columnID" prefWidth="34.0" text="ID" />
-            <TableColumn fx:id="columnName" prefWidth="175.0" text="Name" />
-            <TableColumn fx:id="columnCity" minWidth="0.0" prefWidth="111.20001220703125" text="City" />
-            <TableColumn fx:id="columnInstitution" prefWidth="167.20001220703125" text="Institution" />
-            <TableColumn fx:id="columnParticipants" prefWidth="167.20001220703125" text="Participants" />
+            <TableColumn fx:id="columnID" prefWidth="78.0" text="ID" />
+            <TableColumn fx:id="columnName" prefWidth="191.0" text="Name" />
+            <TableColumn fx:id="columnCity" minWidth="0.0" prefWidth="160.0" text="City" />
+            <TableColumn fx:id="columnInstitution" prefWidth="218.0" text="Institution" />
          </columns>
       </TableView>
-      <Button layoutX="63.0" layoutY="410.0" mnemonicParsing="false" onAction="#switchToCreateTeam" prefHeight="29.0" prefWidth="97.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create" textFill="WHITE" />
       <Pane prefHeight="58.0" prefWidth="774.0" style="-fx-background-color: #0e76a8;">
          <children>
             <ImageView fitHeight="58.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
@@ -51,6 +50,14 @@
             </Hyperlink>
          </children>
       </Pane>
-      <Button layoutX="276.0" layoutY="416.0" mnemonicParsing="false" onAction="#deleteSelected" prefHeight="29.0" prefWidth="97.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Delete" textFill="WHITE" />
+      <Text layoutX="236.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To update, double click the field you wish to modify." />
+      <Button layoutX="63.0" layoutY="438.0" mnemonicParsing="false" onAction="#btDelete" prefHeight="29.0" prefWidth="175.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Delete a selected Team" textFill="WHITE" />
+      <Button layoutX="501.0" layoutY="438.0" mnemonicParsing="false" onAction="#switchToShowParticipantsInSelectedTeam" prefHeight="29.0" prefWidth="220.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Show Participants in selected Team" textFill="WHITE" />
+      <Button layoutX="298.0" layoutY="438.0" mnemonicParsing="false" onAction="#switchToCreateTeam" prefHeight="29.0" prefWidth="153.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create a Team" textFill="WHITE" />
+      <Text layoutX="331.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEAMS">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
