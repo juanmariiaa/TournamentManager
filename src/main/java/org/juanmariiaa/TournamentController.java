@@ -42,6 +42,7 @@ public class TournamentController extends Controller implements Initializable {
     private TableColumn<Tournament, Date> columnDate;
     private ObservableList<Tournament> tournaments;
     TournamentDAO tournamentDAO = new TournamentDAO();
+    private Tournament tournament;
 
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -191,6 +192,23 @@ public class TournamentController extends Controller implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("showTeamsInSelectedTournament.fxml"));
             Parent root = loader.load();
             ShowTeamsInSelectedTournamentController controller = loader.getController();
+            controller.initData(selectedTournament);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            Utils.showPopUp("Error", null, "Please select a tournament first!", Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void switchToAddTeamToTournament() throws IOException {
+        Tournament selectedTournament = tableView.getSelectionModel().getSelectedItem();
+        if (selectedTournament != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addTeamToTournament.fxml"));
+            Parent root = loader.load();
+            AddRemoveTeamsTournamentController controller = loader.getController();
             controller.initData(selectedTournament);
             Scene scene = new Scene(root);
             Stage stage = new Stage();

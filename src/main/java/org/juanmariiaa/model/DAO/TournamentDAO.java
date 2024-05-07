@@ -15,6 +15,8 @@ public class TournamentDAO {
     private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=? WHERE id=?";
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
     private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament, id_team) VALUES (?, ?)";
+    private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
+    private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
 
 
     private Connection conn;
@@ -102,6 +104,24 @@ public class TournamentDAO {
             statement.setInt(1, tournamentId);
             statement.setInt(2, teamId);
             statement.executeUpdate();
+        }
+    }
+
+    public void removeTeamFromTournament(int teamId, int tournamentId) throws SQLException {
+        try (PreparedStatement statement = conn.prepareStatement(DELETE_TEAM_FROM_TOURNAMENT)) {
+            statement.setInt(1, tournamentId);
+            statement.setInt(2, teamId);
+            statement.executeUpdate();
+        }
+    }
+
+    public boolean isTeamInTournament(int teamId, int tournamentId) throws SQLException {
+        try (PreparedStatement stmt = conn.prepareStatement(IS_TEAM_IN_TOURNAMENT)) {
+            stmt.setInt(1, teamId);
+            stmt.setInt(2, tournamentId);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
         }
     }
 

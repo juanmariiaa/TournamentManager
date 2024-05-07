@@ -43,14 +43,15 @@ public class RegisterController {
         if (dni.isEmpty() || name.isEmpty() || surname.isEmpty() || username.isEmpty() || password.isEmpty()) {
             Utils.showPopUp("Error", "Empty fields", "Please, complete all fields to continue.", Alert.AlertType.ERROR);
 
+        } else if (!isValidDni(dni)) {
+            Utils.showPopUp("Error", "Invalid DNI", null, Alert.AlertType.ERROR);
+
         } else if (username.length() < 4) {
             Utils.showPopUp("Error", "Invalid username", "Username must be at least 4 characters long.", Alert.AlertType.ERROR);
 
-        } else if (password.length() < 8 ||
-                password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-+]).{8,}$")) {
+        } else if (!isValidPassword(password)) {
             Utils.showPopUp("Error", "Invalid password",
-                    "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter," +
-                            "one digit, and one special character.", Alert.AlertType.ERROR);
+                    "Password must be more complex.", Alert.AlertType.ERROR);
 
         } else {
             try {
@@ -65,6 +66,7 @@ public class RegisterController {
                     userDAO.save(user);
 
                     Utils.showPopUp("Success", "User created", "User created successfully.", Alert.AlertType.INFORMATION);
+                    switchToLogin();
                 }
             } catch (SQLException e) {
                 Utils.showPopUp("Error", "Database error", "Please, try again later.", Alert.AlertType.ERROR);
@@ -80,5 +82,17 @@ public class RegisterController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isValidDni(String dni) {
+        return dni.matches("^\\d{8}[a-zA-Z]$");
+    }
+
+    public static boolean isValidPassword(String password) {
+        return password.length() >= 8 &&
+                password.matches(".*[A-Z].*") &&
+                password.matches(".*[a-z].*") &&
+                password.matches(".*\\d.*") &&
+                password.matches(".*[^a-zA-Z0-9].*");
     }
 }

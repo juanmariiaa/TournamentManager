@@ -21,7 +21,10 @@
             <TableColumn fx:id="columnDate" prefWidth="167.20001220703125" text="Date" />
          </columns>
       </TableView>
-      <Button layoutX="310.0" layoutY="429.0" mnemonicParsing="false" onAction="#switchToCreateTournament" prefHeight="29.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create a Tournament" textFill="WHITE" />
+      <Button layoutX="214.0" layoutY="429.0" mnemonicParsing="false" onAction="#switchToCreateTournament" prefHeight="29.0" prefWidth="105.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create a Tournament" textFill="WHITE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
       <Pane prefHeight="58.0" prefWidth="774.0" style="-fx-background-color: #0e76a8;">
          <children>
             <ImageView fitHeight="58.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
@@ -52,13 +55,23 @@
             </Hyperlink>
          </children>
       </Pane>
-      <Button layoutX="500.0" layoutY="429.0" mnemonicParsing="false" onAction="#switchToShowTeamsInSelectedTournament" prefHeight="29.0" prefWidth="211.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Show Teams in selected Tournament" textFill="WHITE" />
+      <Button layoutX="541.0" layoutY="429.0" mnemonicParsing="false" onAction="#switchToShowTeamsInSelectedTournament" prefHeight="29.0" prefWidth="174.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Show Teams in selected Tournament" textFill="WHITE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
       <Text layoutX="279.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOURNAMENTS">
          <font>
             <Font size="28.0" />
          </font>
       </Text>
-      <Button layoutX="63.0" layoutY="429.0" mnemonicParsing="false" onAction="#btDelete" prefHeight="29.0" prefWidth="180.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Delete a selected Tournament" textFill="WHITE" />
+      <Button layoutX="63.0" layoutY="429.0" mnemonicParsing="false" onAction="#btDelete" prefHeight="29.0" prefWidth="139.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Delete a selected Tournament" textFill="WHITE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
       <Text layoutX="226.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To update, double click the field you wish to modify." />
+      <Button layoutX="326.0" layoutY="429.0" mnemonicParsing="false" onAction="#switchToAddTeamToTournament" prefHeight="29.0" prefWidth="202.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Add/RemoveTeam in selected Tournament" textFill="WHITE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
    </children>
 </Pane>
