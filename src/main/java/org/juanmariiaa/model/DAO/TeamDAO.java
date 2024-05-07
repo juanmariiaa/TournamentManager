@@ -190,6 +190,13 @@ public class TeamDAO {
         return teams;
     }
 
+    public List<Team> findTeamsNotInTournament(int tournamentId) throws SQLException {
+        List<Team> teamsInTournament = findTeamsByTournament(tournamentId);
+        List<Team> allTeams = findAll();
+        allTeams.removeAll(teamsInTournament);
+        return allTeams;
+    }
+
 
     public static TeamDAO build(){
         return new TeamDAO();

@@ -166,6 +166,23 @@ public class TeamController extends Controller implements Initializable {
         }
     }
 
+    @FXML
+    private void switchToShowTournamentsInSelectedTeam() throws IOException {
+        Team selectedTeam = tableView.getSelectionModel().getSelectedItem();
+        if (selectedTeam != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("showTournamentsInSelectedTeam.fxml"));
+            Parent root = loader.load();
+            ShowTournamentsInSelectedTeamController controller = loader.getController();
+            controller.initData(selectedTeam);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            Utils.showPopUp("Error", null, "Please select a team first!", Alert.AlertType.ERROR);
+        }
+    }
+
     @Override
     public void onOpen(Object input) throws IOException {
 

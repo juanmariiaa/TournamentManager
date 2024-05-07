@@ -16,6 +16,7 @@ import org.juanmariiaa.utils.Utils;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,49 +32,54 @@ public class AddRemoveTeamsTournamentController implements Initializable {
     @FXML
     private Button deleteButton;
 
-    private ObservableList<String> teamNames;
+    private ObservableList<String> teamsToAdd;
+    private ObservableList<String> teamsToRemove;
     private Tournament tournament;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        teamNames = FXCollections.observableArrayList();
-        teamListView.setItems(teamNames);
+        teamsToAdd = FXCollections.observableArrayList();
+        teamsToRemove = FXCollections.observableArrayList();
+
+        teamListView.setItems(teamsToAdd);
         teamListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+
+        teamDeleteListView.setItems(teamsToRemove);
+        teamDeleteListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
     }
 
     public void initData(Tournament tournament) {
         this.tournament = tournament;
-        loadTeamLists();
+        loadTeamsInTournament();
+        loadTeamsNotInTournament();
     }
-
-    private void loadTeamLists() {
+    private void loadTeamsInTournament() {
+        if (tournament != null) {
+            List<Team> teamsInTournament = TeamDAO.build().findTeamsByTournament(tournament.getId());
+            ObservableList<String> teamsInTournamentNames = FXCollections.observableArrayList();
+            for (Team team : teamsInTournament) {
+                teamsInTournamentNames.add(team.getName());
+            }
+            teamDeleteListView.setItems(teamsInTournamentNames);
+        } else {
+            Utils.showPopUp("Error", null, "Tournament is null!", Alert.AlertType.ERROR);
+        }
+    }
+    private void loadTeamsNotInTournament() {
         if (tournament != null) {
             try {
-                List<Team> allTeams = TeamDAO.build().findAll();
-                List<Team> teamsInTournament = TournamentDAO.build().findTeamsByTournamentId(tournament.getId());
+                List<Team> allTeams = new ArrayList<>(TeamDAO.build().findAll());
+                List<Team> teamsInTournament = TeamDAO.build().findTeamsByTournament(tournament.getId());
 
+                allTeams.removeAll(teamsInTournament);
+
+                ObservableList<String> teamsNotInTournamentNames = FXCollections.observableArrayList();
                 for (Team team : allTeams) {
-                    if (!teamsInTournament.contains(team)) {
-                        teamNames.add(team.getName());
-                    }
+                    teamsNotInTournamentNames.add(team.getName());
                 }
+                teamListView.setItems(teamsNotInTournamentNames);
             } catch (SQLException e) {
-                Utils.showPopUp("Error", null, "Error while fetching teams: " + e.getMessage(), Alert.AlertType.ERROR);
-                e.printStackTrace();
-            }
-
-            // Populate teamDeleteListView with teams that are in the selected tournament
-            ObservableList<String> teamsInTournamentNames = FXCollections.observableArrayList();
-            teamDeleteListView.setItems(teamsInTournamentNames);
-            teamDeleteListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
-
-            try {
-                List<Team> teamsInTournament = TournamentDAO.build().findTeamsByTournamentId(tournament.getId());
-                for (Team team : teamsInTournament) {
-                    teamsInTournamentNames.add(team.getName());
-                }
-            } catch (SQLException e) {
-                Utils.showPopUp("Error", null, "Error while fetching teams: " + e.getMessage(), Alert.AlertType.ERROR);
+                Utils.showPopUp("Error", null, "Error while fetching teams not in tournament: " + e.getMessage(), Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
         } else {
@@ -81,61 +87,74 @@ public class AddRemoveTeamsTournamentController implements Initializable {
         }
     }
 
+
     @FXML
     private void addTeamsToTournament() {
         ObservableList<String> selectedItems = teamListView.getSelectionModel().getSelectedItems();
-        if (!selectedItems.isEmpty() && tournament != null) {
-            for (String selectedTeamName : selectedItems) {
-                try {
-                    Team selectedTeam = (Team) TeamDAO.build().findOneByName(selectedTeamName);
-                    if (selectedTeam != null) {
-                        if (TournamentDAO.build().isTeamInTournament(selectedTeam.getId(), tournament.getId())) {
-                            Utils.showPopUp("Warning", null, "Selected team '" + selectedTeam.getName() + "' is already in the tournament!", Alert.AlertType.WARNING);
-                        } else {
-                            TournamentDAO.build().addTeamToTournament(selectedTeam.getId(), tournament.getId());
-                        }
-                    } else {
-                        Utils.showPopUp("Error", null, "Selected team not found!", Alert.AlertType.ERROR);
-                    }
-                } catch (SQLException e) {
-                    Utils.showPopUp("Error", null, "Error while adding team to tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                    e.printStackTrace();
-                }
-            }
-            Utils.showPopUp("Success", null, "Teams added to tournament successfully.", Alert.AlertType.INFORMATION);
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
-        } else {
-            Utils.showPopUp("Error", null, "Please select at least one team!", Alert.AlertType.ERROR);
+        if (selectedItems.isEmpty() || tournament == null) {
+            Utils.showPopUp("Error", null, "Please select at least one team and ensure a tournament is selected!", Alert.AlertType.ERROR);
+            return;
         }
+        for (String selectedTeamName : selectedItems) {
+            try {
+                Team selectedTeam = TeamDAO.build().findOneByName(selectedTeamName);
+                if (selectedTeam == null) {
+                    Utils.showPopUp("Error", null, "Selected team not found!", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (TournamentDAO.build().isTeamInTournament(selectedTeam.getId(), tournament.getId())) {
+                    Utils.showPopUp("Warning", null, "Selected team '" + selectedTeam.getName() + "' is already in the tournament!", Alert.AlertType.WARNING);
+                    continue;
+                }
+                // Insert a record into the participation table
+                TournamentDAO.build().addTeamToTournament(selectedTeam.getId(), tournament.getId());
+                teamsToAdd.remove(selectedTeamName);
+                teamsToRemove.add(selectedTeamName);
+            } catch (SQLException e) {
+                Utils.showPopUp("Error", null, "Error while adding team to tournament: " + e.getMessage(), Alert.AlertType.ERROR);
+                e.printStackTrace();
+                return;
+            }
+        }
+        Utils.showPopUp("Success", null, "Teams added to tournament successfully.", Alert.AlertType.INFORMATION);
+        loadTeamsInTournament();
+        loadTeamsNotInTournament(); // Reload the list of teams not in the tournament
     }
+
+
+
+
 
     @FXML
     private void removeTeamFromTournament() {
         ObservableList<String> selectedItems = teamDeleteListView.getSelectionModel().getSelectedItems();
-        if (!selectedItems.isEmpty() && tournament != null) {
-            for (String selectedTeamName : selectedItems) {
-                try {
-                    Team selectedTeam = (Team) TeamDAO.build().findOneByName(selectedTeamName);
-                    if (selectedTeam != null) {
-                        if (!TournamentDAO.build().isTeamInTournament(selectedTeam.getId(), tournament.getId())) {
-                            Utils.showPopUp("Warning", null, "Selected team '" + selectedTeam.getName() + "' is not in the tournament!", Alert.AlertType.WARNING);
-                        } else {
-                            TournamentDAO.build().removeTeamFromTournament(selectedTeam.getId(), tournament.getId());
-                        }
-                    } else {
-                        Utils.showPopUp("Error", null, "Selected team not found!", Alert.AlertType.ERROR);
-                    }
-                } catch (SQLException e) {
-                    Utils.showPopUp("Error", null, "Error while removing team from tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                    e.printStackTrace();
-                }
-            }
-            Utils.showPopUp("Success", null, "Teams removed from tournament successfully.", Alert.AlertType.INFORMATION);
-            Stage stage = (Stage) addButton.getScene().getWindow();
-            stage.close();
-        } else {
-            Utils.showPopUp("Error", null, "Please select at least one team!", Alert.AlertType.ERROR);
+        if (selectedItems.isEmpty() || tournament == null) {
+            Utils.showPopUp("Error", null, "Please select at least one team and ensure a tournament is selected!", Alert.AlertType.ERROR);
+            return;
         }
+        for (String selectedTeamName : selectedItems) {
+            try {
+                Team selectedTeam = TeamDAO.build().findOneByName(selectedTeamName);
+                if (selectedTeam == null) {
+                    Utils.showPopUp("Error", null, "Selected team not found!", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (!TournamentDAO.build().isTeamInTournament(selectedTeam.getId(), tournament.getId())) {
+                    Utils.showPopUp("Warning", null, "Selected team '" + selectedTeam.getName() + "' is not in the tournament!", Alert.AlertType.WARNING);
+                    continue;
+                }
+                TournamentDAO.build().removeTeamFromTournament(selectedTeam.getId(), tournament.getId());
+                teamsToRemove.remove(selectedTeamName);
+                teamsToAdd.add(selectedTeamName);
+            } catch (SQLException e) {
+                Utils.showPopUp("Error", null, "Error while removing team from tournament: " + e.getMessage(), Alert.AlertType.ERROR);
+                e.printStackTrace();
+                return;
+            }
+        }
+        loadTeamsInTournament();
+        loadTeamsNotInTournament();
     }
+
+
 }

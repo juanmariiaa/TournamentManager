@@ -14,9 +14,11 @@ public class TournamentDAO {
     private final static String INSERT = "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=? WHERE id=?";
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
-    private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament, id_team) VALUES (?, ?)";
+    private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_team, id_tournament) VALUES (?, ?)";
     private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
     private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
+    private final static String FIND_TOURNAMENTS_BY_TEAM = "SELECT t.id, t.name, t.location, t.city, t.date FROM tournament t, participation p WHERE t.id = p.id_tournament AND p.id_team = ?";
+
 
 
     private Connection conn;
@@ -123,6 +125,25 @@ public class TournamentDAO {
             rs.next();
             return rs.getInt(1) > 0;
         }
+    }
+
+    public List<Tournament> findTournamentsByTeam(int teamId) throws SQLException {
+        List<Tournament> tournaments = new ArrayList<>();
+        try (PreparedStatement statement = conn.prepareStatement(FIND_TOURNAMENTS_BY_TEAM)) {
+            statement.setInt(1, teamId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Tournament tournament = new Tournament();
+                    tournament.setId(resultSet.getInt("id"));
+                    tournament.setName(resultSet.getString("name"));
+                    tournament.setLocation(resultSet.getString("location"));
+                    tournament.setCity(resultSet.getString("city"));
+                    tournament.setDate(resultSet.getDate("date"));
+                    tournaments.add(tournament);
+                }
+            }
+        }
+        return tournaments;
     }
 
 

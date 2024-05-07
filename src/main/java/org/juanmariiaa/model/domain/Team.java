@@ -2,6 +2,7 @@ package org.juanmariiaa.model.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Team {
     private int id;
@@ -72,6 +73,19 @@ public class Team {
     public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Team team = (Team) obj;
+        return Objects.equals(id, team.id);
+    }
+
 
     @Override
     public String toString() {
