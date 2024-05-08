@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ShowParticipantsInSelectedTeam implements Initializable {
+public class ShowParticipantsInSelectedTeamController implements Initializable {
 
     @FXML
     private Label teamNameLabel;

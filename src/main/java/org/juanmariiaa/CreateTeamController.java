@@ -19,14 +19,6 @@ public class CreateTeamController {
     @FXML
     private ListView<String> lvParticipants;
     @FXML
-    private Hyperlink linkTournaments;
-    @FXML
-    private Hyperlink linkTeams;
-    @FXML
-    private Hyperlink linkParticipants;
-    @FXML
-    private Hyperlink linkHome;
-    @FXML
     private Button btnCreate;
 
     private TeamDAO teamDAO = new TeamDAO();
@@ -36,8 +28,13 @@ public class CreateTeamController {
 
     @FXML
     private void initialize() throws SQLException {
+        clearFields();
+    }
 
-
+    private void clearFields() {
+        tfName.clear();
+        tfCity.clear();
+        tfInstitution.clear();
     }
 
     @FXML
@@ -58,6 +55,11 @@ public class CreateTeamController {
             newTeam.setInstitution(institution);
 
             teamDAO.save(newTeam);
+
+            Utils.showPopUp("Success", null, "Team created successfully.", Alert.AlertType.INFORMATION);
+
+            clearFields();
+
             switchToTeam();
         } catch (SQLException e) {
             Utils.showPopUp("Error", null, "An error occurred while creating the team.", Alert.AlertType.ERROR);
@@ -65,22 +67,8 @@ public class CreateTeamController {
     }
 
     @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
-    }
-
-    @FXML
-    private void switchToHome() throws IOException {
-        App.setRoot("home");
-    }
-
-    @FXML
     private void switchToTeam() throws IOException {
         App.setRoot("team");
     }
 
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
-    }
 }

@@ -5,11 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.domain.Participant;
@@ -183,7 +187,13 @@ public class ParticipantController extends Controller implements Initializable {
     }
     @FXML
     private void switchToCreateParticipant() throws IOException {
-        App.setRoot("createParticipant");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createParticipant.fxml"));
+        Parent root = loader.load();
+        CreateParticipantController controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override

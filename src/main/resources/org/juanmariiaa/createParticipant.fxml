@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,15 +13,11 @@
    <children>
       <Pane prefHeight="70.0" prefWidth="362.0" style="-fx-background-color: #0e76a8;">
          <children>
-            <ImageView fitHeight="70.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="88.0" layoutX="146.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/logo-no-bg.png" />
                </image>
             </ImageView>
-            <Hyperlink fx:id="linkTournaments" layoutX="73.0" layoutY="26.0" onAction="#switchToTournament" prefHeight="23.0" prefWidth="78.0" text="Tournaments" textFill="#a6fffe" />
-            <Hyperlink fx:id="linkTeams" layoutX="157.0" layoutY="27.0" onAction="#switchToTeam" text="Teams" textFill="#a6fffe" />
-            <Hyperlink fx:id="linkParticipants" layoutX="214.0" layoutY="27.0" onAction="#switchToParticipant" text="Participants" textFill="#a6fffe" />
-            <Hyperlink fx:id="linkHome" layoutX="297.0" layoutY="27.0" onAction="#switchToHome" text="Home" textFill="#a6fffe" />
          </children>
       </Pane>
       <Text layoutX="35.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DNI:">

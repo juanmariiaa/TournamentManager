@@ -183,7 +183,13 @@ public class TournamentController extends Controller implements Initializable {
     }
     @FXML
     private void switchToCreateTournament() throws IOException {
-        App.setRoot("createTournament");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createTournament.fxml"));
+        Parent root = loader.load();
+        CreateTournamentController controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void switchToShowTeamsInSelectedTournament() throws IOException {

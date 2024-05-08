@@ -29,14 +29,6 @@ public class CreateTournamentController {
     @FXML
     private ListView<String> lvTeams;
     @FXML
-    private Hyperlink linkTournaments;
-    @FXML
-    private Hyperlink linkTeams;
-    @FXML
-    private Hyperlink linkParticipants;
-    @FXML
-    private Hyperlink linkHome;
-    @FXML
     private Button btnCreate;
 
     private TournamentDAO tournamentDAO = new TournamentDAO();
@@ -70,75 +62,68 @@ public class CreateTournamentController {
 
     @FXML
     private void createTournament() throws SQLException, IOException {
-        String name = tfName.getText();
-        String location = tfLocation.getText();
-        String city = tfCity.getText();
-        LocalDate localDate = dtDate.getValue();
-        // Convert LocalDate to java.sql.Date or java.util.Date as required
-        java.sql.Date date = java.sql.Date.valueOf(localDate);
+        try {
+            String name = tfName.getText();
+            String location = tfLocation.getText();
+            String city = tfCity.getText();
+            LocalDate localDate = dtDate.getValue();
+            // Convert LocalDate to java.sql.Date or java.util.Date as required
+            java.sql.Date date = java.sql.Date.valueOf(localDate);
 
-        ObservableList<String> selectedTeamNames = lvTeams.getSelectionModel().getSelectedItems();
-        // Convert List<String> to List<Team>
-        List<Team> selectedTeams = new ArrayList<>();
-        for (String teamName : selectedTeamNames) {
-            List<Team> teams = teamDAO.findByName(teamName);
-            if (!teams.isEmpty()) {
-                selectedTeams.add(teams.get(0));
-            }
-        }
-
-        // Check if currentUser is not null before creating the tournament
-        if (currentUser != null) {
-            // Create the tournament
-            Tournament tournament = new Tournament(name, location, city, date, selectedTeams);
-
-            // Associate tournament with the current user
-            try {
-                tournament = tournamentDAO.save(currentUser, tournament);
-
-                // Save tournament participation data
-                for (Team team : selectedTeams) {
-                    tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
+            ObservableList<String> selectedTeamNames = lvTeams.getSelectionModel().getSelectedItems();
+            // Convert List<String> to List<Team>
+            List<Team> selectedTeams = new ArrayList<>();
+            for (String teamName : selectedTeamNames) {
+                List<Team> teams = teamDAO.findByName(teamName);
+                if (!teams.isEmpty()) {
+                    selectedTeams.add(teams.get(0));
                 }
-
-                // Clear Fields
-                tfName.clear();
-                tfLocation.clear();
-                tfCity.clear();
-                dtDate.getEditor().clear();
-                lvTeams.getSelectionModel().clearSelection();
-
-                Utils.showPopUp("Tournament Created", null, "Tournament has been created successfully.", Alert.AlertType.INFORMATION);
-            } catch (SQLException e) {
-                Utils.showPopUp("Error", null, "Error while creating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                e.printStackTrace();
             }
-        } else {
-            // Handle the case when currentUser is null
-            // For example, show an error message
-            Utils.showPopUp("Error", null, "No user logged in. Cannot create tournament.", Alert.AlertType.ERROR);
-            System.err.println("Current user is null. Cannot create tournament.");
+
+            // Check if currentUser is not null before creating the tournament
+            if (currentUser != null) {
+                // Create the tournament
+                Tournament tournament = new Tournament(name, location, city, date, selectedTeams);
+
+                // Associate tournament with the current user
+                try {
+                    tournament = tournamentDAO.save(currentUser, tournament);
+
+                    // Save tournament participation data
+                    for (Team team : selectedTeams) {
+                        tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
+                    }
+
+                    // Clear Fields
+                    clearFields();
+                    switchToTournament();
+
+                    Utils.showPopUp("Tournament Created", null, "Tournament has been created successfully.", Alert.AlertType.INFORMATION);
+                } catch (SQLException e) {
+                    Utils.showPopUp("Error", null, "Error while creating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
+            } else {
+                // Handle the case when currentUser is null
+                // For example, show an error message
+                Utils.showPopUp("Error", null, "No user logged in. Cannot create tournament.", Alert.AlertType.ERROR);
+                System.err.println("Current user is null. Cannot create tournament.");
+            }
+        } catch (SQLException e) {
+            Utils.showPopUp("Error", null, "An error occurred while creating the tournament.", Alert.AlertType.ERROR);
         }
-        switchToTournament();
+    }
+
+    private void clearFields() {
+        tfName.clear();
+        tfLocation.clear();
+        tfCity.clear();
+        dtDate.getEditor().clear();
+        lvTeams.getSelectionModel().clearSelection();
     }
 
     @FXML
     private void switchToTournament() throws IOException {
         App.setRoot("tournament");
-    }
-
-    @FXML
-    private void switchToHome() throws IOException {
-        App.setRoot("home");
-    }
-
-    @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
-    }
-
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
     }
 }

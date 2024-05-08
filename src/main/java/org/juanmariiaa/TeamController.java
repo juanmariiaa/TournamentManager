@@ -146,7 +146,13 @@ public class TeamController extends Controller implements Initializable {
     }
     @FXML
     private void switchToCreateTeam() throws IOException {
-        App.setRoot("createTeam");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createTeam.fxml"));
+        Parent root = loader.load();
+        CreateTeamController controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -155,7 +161,7 @@ public class TeamController extends Controller implements Initializable {
         if (selectedTeam != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("showParticipantsInSelectedTeam.fxml"));
             Parent root = loader.load();
-            ShowParticipantsInSelectedTeam controller = loader.getController();
+            ShowParticipantsInSelectedTeamController controller = loader.getController();
             controller.initData(selectedTeam);
             Scene scene = new Scene(root);
             Stage stage = new Stage();

@@ -10,13 +10,14 @@ import java.util.List;
 
 public class TeamDAO {
 
-    private final static String FINDALL = "SELECT * FROM team LIMIT 15";
+    private final static String FINDALL = "SELECT * FROM team";
     private final static String FINDBYID = "SELECT * FROM team WHERE id=?";
     private final static String FINDBYNAME = "SELECT * FROM team WHERE name LIKE ?";
     private final static String INSERT = "INSERT INTO team (id, name, city, institution) VALUES (?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
     private final static String FIND_PARTICIPANTS_BY_TEAM = "SELECT * FROM participant WHERE id_team = ?";
+
     private final static String FIND_TEAMS_BY_TOURNAMENT = "SELECT t.id, t.name " +
             "FROM team t " +
             "JOIN participation p ON t.id = p.id_team " +
@@ -172,6 +173,8 @@ public class TeamDAO {
     }
 
 
+
+
     public List<Team> findTeamsByTournament(int id_tournament) {
         List<Team> teams = new ArrayList<>();
         try (PreparedStatement statement = this.conn.prepareStatement(FIND_TEAMS_BY_TOURNAMENT)) {
@@ -188,13 +191,6 @@ public class TeamDAO {
             e.printStackTrace();
         }
         return teams;
-    }
-
-    public List<Team> findTeamsNotInTournament(int tournamentId) throws SQLException {
-        List<Team> teamsInTournament = findTeamsByTournament(tournamentId);
-        List<Team> allTeams = findAll();
-        allTeams.removeAll(teamsInTournament);
-        return allTeams;
     }
 
 

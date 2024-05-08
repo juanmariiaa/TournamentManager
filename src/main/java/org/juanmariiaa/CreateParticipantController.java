@@ -10,9 +10,9 @@ import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
+import org.juanmariiaa.utils.Utils;
 import java.io.IOException;
 import java.sql.SQLException;
-
 
 public class CreateParticipantController {
     @FXML
@@ -30,20 +30,11 @@ public class CreateParticipantController {
     @FXML
     private ComboBox<String> cbTeam = new ComboBox<>();
     @FXML
-    private Hyperlink linkTournaments;
-    @FXML
-    private Hyperlink linkTeams;
-    @FXML
-    private Hyperlink linkParticipants;
-    @FXML
-    private Hyperlink linkHome;
-    @FXML
     private Button btnCreate;
 
     private ParticipantDAO participantDAO = new ParticipantDAO();
 
     private TeamDAO teamDAO = new TeamDAO();
-
 
     @FXML
     private void initialize() throws SQLException {
@@ -65,48 +56,56 @@ public class CreateParticipantController {
 
     @FXML
     private void createParticipant() throws SQLException, IOException {
-        String DNI = tfDNI.getText();
-        String name = tfName.getText();
-        String surname = tfSurname.getText();
-        int age = Integer.parseInt(tfAge.getText());
-        Role role = cbRole.getValue();
-        Gender gender = cbGender.getValue();
-        String teamName = cbTeam.getValue();
+        try {
+            String DNI = tfDNI.getText();
+            String name = tfName.getText();
+            String surname = tfSurname.getText();
+            int age = Integer.parseInt(tfAge.getText());
+            Role role = cbRole.getValue();
+            Gender gender = cbGender.getValue();
+            String teamName = cbTeam.getValue();
 
-        // Find the team based on the selected team name
-        Team team = teamDAO.findOneByName(teamName);
+            // Find the team based on the selected team name
+            Team team = teamDAO.findOneByName(teamName);
 
+            Participant newParticipant = new Participant();
+            newParticipant.setDni(DNI);
+            newParticipant.setName(name);
+            newParticipant.setSurname(surname);
+            newParticipant.setAge(age);
+            newParticipant.setRole(role);
+            newParticipant.setGender(gender);
 
-        Participant newParticipant = new Participant();
-        newParticipant.setDni(DNI);
-        newParticipant.setName(name);
-        newParticipant.setSurname(surname);
-        newParticipant.setAge(age);
-        newParticipant.setRole(role);
-        newParticipant.setGender(gender);
+            // Set the actual Team object to the Participant
+            newParticipant.setTeam(team);
 
-        // Set the actual Team object to the Participant
-        newParticipant.setTeam(team);
+            participantDAO.insert(newParticipant);
 
-        participantDAO.insert(newParticipant);
+            // Clear Fields
+            clearFields();
 
-        switchToParticipant();
+            switchToParticipant();
+
+            Utils.showPopUp("Participant Created", null, "Participant has been created successfully.", Alert.AlertType.INFORMATION);
+        } catch (SQLException e) {
+            Utils.showPopUp("Error", null, "An error occurred while creating the participant.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
     }
 
-    @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
+    private void clearFields() {
+        tfDNI.clear();
+        tfName.clear();
+        tfSurname.clear();
+        tfAge.clear();
+        cbRole.getSelectionModel().clearSelection();
+        cbGender.getSelectionModel().clearSelection();
+        cbTeam.getSelectionModel().clearSelection();
     }
-    @FXML
-    private void switchToHome() throws IOException {
-        App.setRoot("home");
-    }
-    @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
-    }
+
     @FXML
     private void switchToParticipant() throws IOException {
         App.setRoot("participant");
     }
+
 }
