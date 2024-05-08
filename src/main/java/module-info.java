@@ -18,4 +18,6 @@ module org.juanmariiaa {
     opens org.juanmariiaa.model.DAO to java.sql;
     opens org.juanmariiaa.model.domain to javafx.base;
     opens org.juanmariiaa.model.connection to java.xml.bind;
+    exports org.juanmariiaa.view;
+    opens org.juanmariiaa.view to javafx.fxml;
 }

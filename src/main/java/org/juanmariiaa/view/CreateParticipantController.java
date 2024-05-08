@@ -1,4 +1,4 @@
-package org.juanmariiaa;
+package org.juanmariiaa.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,10 +60,31 @@ public class CreateParticipantController {
             String DNI = tfDNI.getText();
             String name = tfName.getText();
             String surname = tfSurname.getText();
-            int age = Integer.parseInt(tfAge.getText());
+            String ageStr = tfAge.getText();
             Role role = cbRole.getValue();
             Gender gender = cbGender.getValue();
             String teamName = cbTeam.getValue();
+
+            // Check if any field is empty or not selected
+            if (DNI.isEmpty() || name.isEmpty() || surname.isEmpty() || ageStr.isEmpty() || role == null || gender == null || teamName == null) {
+                Utils.showPopUp("Error", null, "Please fill in all fields.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Check if age is a number
+            int age;
+            try {
+                age = Integer.parseInt(ageStr);
+            } catch (NumberFormatException e) {
+                Utils.showPopUp("Error", null, "Please enter a valid age.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Check if DNI is in the correct format
+            if (!DNI.matches("\\d{8}[a-zA-Z]")) {
+                Utils.showPopUp("Error", null, "Please enter a valid DNI (8 digits followed by one letter).", Alert.AlertType.ERROR);
+                return;
+            }
 
             // Find the team based on the selected team name
             Team team = teamDAO.findOneByName(teamName);

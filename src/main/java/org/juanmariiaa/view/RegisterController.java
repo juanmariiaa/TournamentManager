@@ -1,4 +1,4 @@
-package org.juanmariiaa;
+package org.juanmariiaa.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

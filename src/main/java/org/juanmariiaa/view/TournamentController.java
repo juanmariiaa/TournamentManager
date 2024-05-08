@@ -1,4 +1,4 @@
-package org.juanmariiaa;
+package org.juanmariiaa.view;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;

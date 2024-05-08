@@ -1,4 +1,4 @@
-package org.juanmariiaa;
+package org.juanmariiaa.view;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

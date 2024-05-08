@@ -1,4 +1,4 @@
-package org.juanmariiaa;
+package org.juanmariiaa.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

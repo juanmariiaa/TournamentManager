@@ -14,7 +14,7 @@ public class TournamentDAO {
     private final static String INSERT = "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=? WHERE id=?";
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
-    private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament,id_team ) VALUES (?, ?)";
+    private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament ,id_team) VALUES (?, ?)";
     private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
     private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
     private final static String FIND_TOURNAMENTS_BY_TEAM = "SELECT t.id, t.name, t.location, t.city, t.date FROM tournament t, participation p WHERE t.id = p.id_tournament AND p.id_team = ?";
