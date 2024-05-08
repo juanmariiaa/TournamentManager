@@ -107,7 +107,7 @@ public class AddRemoveTeamsTournamentController implements Initializable {
                     continue;
                 }
                 // Insert a record into the participation table
-                TournamentDAO.build().addTeamToTournament(selectedTeam.getId(), tournament.getId());
+                TournamentDAO.build().addTeamToTournament(tournament.getId(),selectedTeam.getId());
                 teamsToAdd.remove(selectedTeamName);
                 teamsToRemove.add(selectedTeamName);
             } catch (SQLException e) {
@@ -116,7 +116,6 @@ public class AddRemoveTeamsTournamentController implements Initializable {
                 return;
             }
         }
-        Utils.showPopUp("Success", null, "Teams added to tournament successfully.", Alert.AlertType.INFORMATION);
         loadTeamsInTournament();
         loadTeamsNotInTournament(); // Reload the list of teams not in the tournament
     }
