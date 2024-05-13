@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -43,15 +44,15 @@ public class App extends Application {
         } else if(fxml.equals("home")){
             newScene = createScene(fxml, 774, 489);
         } else if(fxml.equals("createTournament")){
-            newScene = createScene(fxml, 362, 665);
+            newScene = createScene(fxml, 774, 665);
         } else if(fxml.equals("createTeam")){
-            newScene = createScene(fxml, 362, 394);
+            newScene = createScene(fxml, 774, 774);
         } else if(fxml.equals("createParticipant")){
-            newScene = createScene(fxml, 362, 761);
+            newScene = createScene(fxml, 774, 774);
         } else if(fxml.equals("register")){
-            newScene = createScene(fxml, 329, 533);
+            newScene = createScene(fxml, 774, 774);
         } else {
-            newScene = createScene(fxml, 308, 411);
+            newScene = createScene(fxml, 774, 774);
         }
         primaryStage.setResizable(true);
         primaryStage.setScene(newScene);

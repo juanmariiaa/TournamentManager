@@ -1,25 +1,23 @@
 package org.juanmariiaa.view;
 
 import javafx.fxml.FXML;
+import org.juanmariiaa.view.App;
 
 import java.io.IOException;
 
 public class HomeController {
     @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
+    private void switchToMyTournaments() throws IOException {
+        App.setRoot("myTournaments");
     }
-    @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
-    }
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
-    }
+
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
+    }
+    @FXML
+    private void switchToDatabase() throws IOException {
+        App.setRoot("finder");
     }
 
 

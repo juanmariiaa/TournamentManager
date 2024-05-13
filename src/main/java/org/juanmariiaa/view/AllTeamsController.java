@@ -8,21 +8,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
+import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TeamController extends Controller implements Initializable {
+public class AllTeamsController implements Initializable {
 
     @FXML
     private TableView<Team> tableView;
@@ -36,15 +41,15 @@ public class TeamController extends Controller implements Initializable {
     @FXML
     private TableColumn<Team,String> columnInstitution;
     TeamDAO teamDAO = new TeamDAO();
-
-
+    private User currentUser;
     private ObservableList<Team> teams;
 
 
 
     public void initialize(URL location, ResourceBundle resources) {
+        currentUser = SingletonUserSession.getCurrentUser();
         try {
-            List<Team> teamsList = TeamDAO.build().findAll();
+            List<Team> teamsList = TeamDAO.build().findAll(currentUser.getId());
             for (Team team : teamsList) {
                 List<Participant> participants = TeamDAO.build().findParticipantsByTeam(team.getId());
                 team.setParticipants(participants);
@@ -62,11 +67,7 @@ public class TeamController extends Controller implements Initializable {
         columnName.setOnEditCommit(event -> {
             Team team = event.getRowValue();
             team.setName(event.getNewValue());
-            try {
-                teamDAO.save(team);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            teamDAO.update(team);
             tableView.refresh();
         });
 
@@ -76,11 +77,7 @@ public class TeamController extends Controller implements Initializable {
         columnCity.setOnEditCommit(event -> {
             Team team = event.getRowValue();
             team.setCity(event.getNewValue());
-            try {
-                teamDAO.save(team);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            teamDAO.update(team);
             tableView.refresh();
         });
 
@@ -90,11 +87,7 @@ public class TeamController extends Controller implements Initializable {
         columnInstitution.setOnEditCommit(event -> {
             Team team = event.getRowValue();
             team.setInstitution(event.getNewValue());
-            try {
-                teamDAO.save(team);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            teamDAO.update(team);
             tableView.refresh();
         });
 
@@ -103,19 +96,19 @@ public class TeamController extends Controller implements Initializable {
 
     @FXML
     private void deleteSelected() {
-        Team selectedT = (Team) tableView.getSelectionModel().getSelectedItem();
+        Team selectedT = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedT != null) {
-            tableView.getItems().remove(selectedT);
-
             try {
+                tableView.getItems().remove(selectedT);
                 teamDAO.delete(selectedT);
-                Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
+                Utils.showPopUp("DELETE", "Team deleted", "This team has been deleted.", Alert.AlertType.INFORMATION);
             } catch (SQLException e) {
                 Utils.showPopUp("Error", null, "Error while deleting team: " + e.getMessage(), Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
-
+        } else {
+            Utils.showPopUp("Error", null, "Please select a team to delete.", Alert.AlertType.ERROR);
         }
     }
 
@@ -123,46 +116,36 @@ public class TeamController extends Controller implements Initializable {
     private void btDelete() throws SQLException {
         deleteSelected();
     }
-
     @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
+    private void switchToParticipant() throws IOException {
+        App.setRoot("allParticipants");
+    }
+    @FXML
+    private void switchToTournaments() throws IOException {
+        App.setRoot("allTournaments");
     }
     @FXML
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
     @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
-    }
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
+    private void switchToFinder() throws IOException {
+        App.setRoot("finder");
     }
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
-    @FXML
-    private void switchToCreateTeam() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("createTeam.fxml"));
-        Parent root = loader.load();
-        CreateTeamController controller = loader.getController();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-    }
+
 
     @FXML
     private void switchToShowParticipantsInSelectedTeam() throws IOException {
         Team selectedTeam = tableView.getSelectionModel().getSelectedItem();
         if (selectedTeam != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("showParticipantsInSelectedTeam.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("allShowParticipantsInSelectedTeam.fxml"));
             Parent root = loader.load();
-            ShowParticipantsInSelectedTeamController controller = loader.getController();
-            controller.initData(selectedTeam);
+            AllShowParticipantsInSelectedTeamController controller = loader.getController();
+            controller.show(selectedTeam);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -170,32 +153,5 @@ public class TeamController extends Controller implements Initializable {
         } else {
             Utils.showPopUp("Error", null, "Please select a team first!", Alert.AlertType.ERROR);
         }
-    }
-
-    @FXML
-    private void switchToShowTournamentsInSelectedTeam() throws IOException {
-        Team selectedTeam = tableView.getSelectionModel().getSelectedItem();
-        if (selectedTeam != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("showTournamentsInSelectedTeam.fxml"));
-            Parent root = loader.load();
-            ShowTournamentsInSelectedTeamController controller = loader.getController();
-            controller.initData(selectedTeam);
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            Utils.showPopUp("Error", null, "Please select a team first!", Alert.AlertType.ERROR);
-        }
-    }
-
-    @Override
-    public void onOpen(Object input) throws IOException {
-
-    }
-
-    @Override
-    public void onClose(Object output) {
-
     }
 }

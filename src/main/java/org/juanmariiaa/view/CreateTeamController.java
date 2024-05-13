@@ -1,51 +1,69 @@
 package org.juanmariiaa.view;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.TeamDAO;
+import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Team;
+import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
+
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class CreateTeamController {
-    @FXML
-    private TextField tfName;
-    @FXML
-    private TextField tfCity;
-    @FXML
-    private TextField tfInstitution;
-    @FXML
-    private ListView<String> lvParticipants;
-    @FXML
-    private Button btnCreate;
-
-    private TeamDAO teamDAO = new TeamDAO();
-
-    private ObservableList<Team> teams;
-
+public class CreateTeamController implements Initializable {
 
     @FXML
-    private void initialize() throws SQLException {
-        clearFields();
+    private TextField nameField;
+    @FXML
+    private TextField cityField;
+    @FXML
+    private TextField institutionField;
+
+    private Tournament selectedTournament;
+    private TournamentDAO tournamentDAO;
+    private TeamDAO teamDAO;
+    private User currentUser;
+
+    public CreateTeamController() {
+        this.tournamentDAO = new TournamentDAO();
     }
 
-    private void clearFields() {
-        tfName.clear();
-        tfCity.clear();
-        tfInstitution.clear();
+    public void setSelectedTournament(Tournament selectedTournament) {
+        this.selectedTournament = selectedTournament;
+    }
+
+    // Add this setter method for teamDAO
+    public void setTeamDAO(TeamDAO teamDAO) {
+        this.teamDAO = teamDAO;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        currentUser = SingletonUserSession.getCurrentUser();
     }
 
     @FXML
-    private void createTeam() throws IOException {
+    private void createTeam() {
         try {
-            String name = tfName.getText();
-            String city = tfCity.getText();
-            String institution = tfInstitution.getText();
+            String name = nameField.getText();
+            String city = cityField.getText();
+            String institution = institutionField.getText();
 
-            if (name.isEmpty() || city.isEmpty() || institution.isEmpty()) {
-                Utils.showPopUp("Error", null, "Please fill in all the fields.", Alert.AlertType.ERROR);
+            if (name.isEmpty() || city.isEmpty() || institution.isEmpty() || selectedTournament == null) {
+                Utils.showPopUp("Error", null, "Please fill in all the fields and select a tournament.", Alert.AlertType.ERROR);
                 return;
             }
 
@@ -54,21 +72,38 @@ public class CreateTeamController {
             newTeam.setCity(city);
             newTeam.setInstitution(institution);
 
-            teamDAO.save(newTeam);
+            if (selectedTournament == null) {
+                Utils.showPopUp("Error", null, "Please select a tournament.", Alert.AlertType.ERROR);
+                return;
+            }
 
-            Utils.showPopUp("Success", null, "Team created successfully.", Alert.AlertType.INFORMATION);
+            if (teamDAO == null) {
+                Utils.showPopUp("Error", null, "TeamDAO is not initialized.", Alert.AlertType.ERROR);
+                return;
+            }
 
-            clearFields();
+            teamDAO.save(currentUser, newTeam, selectedTournament.getId());
 
-            switchToTeam();
+            tournamentDAO.addTeamToTournament(selectedTournament.getId(), newTeam.getId());
+
+
+            nameField.clear();
+            cityField.clear();
+            institutionField.clear();
+            closeWindow();
+
+            Utils.showPopUp("Success", null, "Team created successfully!", Alert.AlertType.INFORMATION);
         } catch (SQLException e) {
             Utils.showPopUp("Error", null, "An error occurred while creating the team.", Alert.AlertType.ERROR);
         }
     }
 
-    @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
+
+
+    private void closeWindow() {
+        Stage stage = (Stage) nameField.getScene().getWindow();
+        stage.close();
     }
+
 
 }

@@ -38,23 +38,7 @@
       </ImageView>
       <Pane layoutX="417.0" prefHeight="489.0" prefWidth="357.0" style="-fx-background-color: #0e76a8;">
          <children>
-            <Button layoutX="10.0" layoutY="151.0" mnemonicParsing="false" onAction="#switchToTournament" prefHeight="39.0" prefWidth="339.0" style="-fx-background-radius: 20; -fx-background-color: #fdfdf3;" text="Tournaments" textAlignment="CENTER">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button layoutX="12.0" layoutY="206.0" mnemonicParsing="false" onAction="#switchToTeam" prefHeight="39.0" prefWidth="339.0" style="-fx-background-radius: 20; -fx-background-color: #fdfdf3;" text="Teams" textAlignment="CENTER">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button layoutX="12.0" layoutY="263.0" mnemonicParsing="false" onAction="#switchToParticipant" prefHeight="39.0" prefWidth="339.0" style="-fx-background-radius: 20; -fx-background-color: #fdfdf3;" text="Participants" textAlignment="CENTER">
+            <Button layoutX="12.0" layoutY="159.0" mnemonicParsing="false" onAction="#switchToMyTournaments" prefHeight="39.0" prefWidth="339.0" style="-fx-background-radius: 20; -fx-background-color: #fdfdf3;" text="My Tournaments" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -75,6 +59,14 @@
                   <Font size="42.0" />
                </font>
             </Text>
+            <Button layoutX="12.0" layoutY="225.0" mnemonicParsing="false" onAction="#switchToDatabase" prefHeight="39.0" prefWidth="339.0" style="-fx-background-radius: 20; -fx-background-color: #fdfdf3;" text="Finder" textAlignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
    </children>

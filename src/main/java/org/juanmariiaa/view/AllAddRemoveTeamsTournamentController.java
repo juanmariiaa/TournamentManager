@@ -7,11 +7,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
 
 import java.net.URL;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AddRemoveTeamsTournamentController implements Initializable {
+public class AllAddRemoveTeamsTournamentController implements Initializable {
 
     @FXML
     private ListView<String> teamListView;
@@ -35,9 +36,11 @@ public class AddRemoveTeamsTournamentController implements Initializable {
     private ObservableList<String> teamsToAdd;
     private ObservableList<String> teamsToRemove;
     private Tournament tournament;
+    private User currentUser;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        currentUser = SingletonUserSession.getCurrentUser();
         teamsToAdd = FXCollections.observableArrayList();
         teamsToRemove = FXCollections.observableArrayList();
 
@@ -48,7 +51,7 @@ public class AddRemoveTeamsTournamentController implements Initializable {
         teamDeleteListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
     }
 
-    public void initData(Tournament tournament) {
+    public void show(Tournament tournament) {
         this.tournament = tournament;
         loadTeamsInTournament();
         loadTeamsNotInTournament();
@@ -68,7 +71,7 @@ public class AddRemoveTeamsTournamentController implements Initializable {
     private void loadTeamsNotInTournament() {
         if (tournament != null) {
             try {
-                List<Team> allTeams = new ArrayList<>(TeamDAO.build().findAll());
+                List<Team> allTeams = new ArrayList<>(TeamDAO.build().findAll(currentUser.getId()));
                 List<Team> teamsInTournament = TeamDAO.build().findTeamsByTournament(tournament.getId());
 
                 allTeams.removeAll(teamsInTournament);
@@ -117,7 +120,7 @@ public class AddRemoveTeamsTournamentController implements Initializable {
             }
         }
         loadTeamsInTournament();
-        loadTeamsNotInTournament(); // Reload the list of teams not in the tournament
+        loadTeamsNotInTournament();
     }
 
 
@@ -154,6 +157,7 @@ public class AddRemoveTeamsTournamentController implements Initializable {
         loadTeamsInTournament();
         loadTeamsNotInTournament();
     }
+
 
 
 }

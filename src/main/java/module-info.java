@@ -1,5 +1,5 @@
 module org.juanmariiaa {
-    exports org.juanmariiaa;
+
     exports org.juanmariiaa.model.DAO;
     exports org.juanmariiaa.model.domain;
     exports org.juanmariiaa.model.enums;

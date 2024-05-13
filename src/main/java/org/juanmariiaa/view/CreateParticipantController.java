@@ -1,132 +1,96 @@
 package org.juanmariiaa.view;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
-import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
+import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
+import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
-import java.io.IOException;
-import java.sql.SQLException;
 
-public class CreateParticipantController {
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+public class CreateParticipantController implements Initializable {
     @FXML
-    private TextField tfDNI;
+    private TextField dniField;
     @FXML
-    private TextField tfName;
+    private TextField nameField;
     @FXML
-    private TextField tfSurname;
+    private TextField surnameField;
     @FXML
-    private TextField tfAge;
+    private TextField ageField;
     @FXML
     ComboBox<Role> cbRole = new ComboBox<>();
     @FXML
     ComboBox<Gender> cbGender = new ComboBox<>();
-    @FXML
-    private ComboBox<String> cbTeam = new ComboBox<>();
-    @FXML
-    private Button btnCreate;
+    private User currentUser;
+    private Team selectedTeam;
+    private ParticipantDAO participantDAO;
 
-    private ParticipantDAO participantDAO = new ParticipantDAO();
+    public void setSelectedTeam(Team selectedTeam) {
+        this.selectedTeam = selectedTeam;
+    }
 
-    private TeamDAO teamDAO = new TeamDAO();
-
-    @FXML
-    private void initialize() throws SQLException {
-        ObservableList<Team> teams = FXCollections.observableArrayList(teamDAO.findAll());
-
-        ObservableList<String> teamNames = FXCollections.observableArrayList();
-
-        // Populate cbRole with enum values
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        currentUser = SingletonUserSession.getCurrentUser();
         cbRole.setItems(FXCollections.observableArrayList(Role.values()));
-
-        // Populate cbGender with enum values
         cbGender.setItems(FXCollections.observableArrayList(Gender.values()));
-
-        for (Team team : teams) {
-            teamNames.add(team.getName());
-        }
-        cbTeam.setItems(teamNames);
     }
 
     @FXML
-    private void createParticipant() throws SQLException, IOException {
+    private void createParticipant() {
+        String DNI = dniField.getText();
+        String name = nameField.getText();
+        String surname = surnameField.getText();
+        int age = 0;
         try {
-            String DNI = tfDNI.getText();
-            String name = tfName.getText();
-            String surname = tfSurname.getText();
-            String ageStr = tfAge.getText();
-            Role role = cbRole.getValue();
-            Gender gender = cbGender.getValue();
-            String teamName = cbTeam.getValue();
-
-            // Check if any field is empty or not selected
-            if (DNI.isEmpty() || name.isEmpty() || surname.isEmpty() || ageStr.isEmpty() || role == null || gender == null || teamName == null) {
-                Utils.showPopUp("Error", null, "Please fill in all fields.", Alert.AlertType.ERROR);
-                return;
-            }
-
-            // Check if age is a number
-            int age;
-            try {
-                age = Integer.parseInt(ageStr);
-            } catch (NumberFormatException e) {
-                Utils.showPopUp("Error", null, "Please enter a valid age.", Alert.AlertType.ERROR);
-                return;
-            }
-
-            // Check if DNI is in the correct format
-            if (!DNI.matches("\\d{8}[a-zA-Z]")) {
-                Utils.showPopUp("Error", null, "Please enter a valid DNI (8 digits followed by one letter).", Alert.AlertType.ERROR);
-                return;
-            }
-
-            // Find the team based on the selected team name
-            Team team = teamDAO.findOneByName(teamName);
-
-            Participant newParticipant = new Participant();
-            newParticipant.setDni(DNI);
-            newParticipant.setName(name);
-            newParticipant.setSurname(surname);
-            newParticipant.setAge(age);
-            newParticipant.setRole(role);
-            newParticipant.setGender(gender);
-
-            // Set the actual Team object to the Participant
-            newParticipant.setTeam(team);
-
-            participantDAO.insert(newParticipant);
-
-            // Clear Fields
-            clearFields();
-
-            switchToParticipant();
-
-            Utils.showPopUp("Participant Created", null, "Participant has been created successfully.", Alert.AlertType.INFORMATION);
-        } catch (SQLException e) {
-            Utils.showPopUp("Error", null, "An error occurred while creating the participant.", Alert.AlertType.ERROR);
-            e.printStackTrace();
+            age = Integer.parseInt(ageField.getText());
+        } catch (NumberFormatException e) {
+            Utils.showPopUp("Error", null, "Please enter a valid age.", Alert.AlertType.ERROR);
+            return;
         }
+        Role role = cbRole.getValue();
+        Gender gender = cbGender.getValue();
+
+        if (DNI.isEmpty() || name.isEmpty() || surname.isEmpty() || !isValidDNI(DNI) || age <= 0 || role == null || gender == null) {
+            Utils.showPopUp("Error", null, "Please fill in all fields correctly.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Participant newParticipant = new Participant();
+        newParticipant.setDni(DNI);
+        newParticipant.setName(name);
+        newParticipant.setSurname(surname);
+        newParticipant.setAge(age);
+        newParticipant.setRole(role);
+        newParticipant.setGender(gender);
+        newParticipant.setTeam(selectedTeam);
+
+        participantDAO = new ParticipantDAO();
+        participantDAO.save(currentUser, newParticipant);
+        Utils.showPopUp("Success", null, "Participant created successfully!", Alert.AlertType.INFORMATION);
+        closeWindow();
     }
 
-    private void clearFields() {
-        tfDNI.clear();
-        tfName.clear();
-        tfSurname.clear();
-        tfAge.clear();
-        cbRole.getSelectionModel().clearSelection();
-        cbGender.getSelectionModel().clearSelection();
-        cbTeam.getSelectionModel().clearSelection();
+    private boolean isValidDNI(String dni) {
+        return dni.matches("^\\d{8}[a-zA-Z]$");
     }
 
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
-    }
 
+    private void closeWindow() {
+        Stage stage = (Stage) dniField.getScene().getWindow();
+        stage.close();
+    }
 }

@@ -11,6 +11,8 @@ import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
+import org.juanmariiaa.view.App;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -39,7 +41,10 @@ public class CreateTournamentController {
 
     @FXML
     private void initialize() throws SQLException {
-        List<Team> teams = teamDAO.findAll();
+        currentUser = SingletonUserSession.getCurrentUser();
+
+
+        List<Team> teams = teamDAO.findAll(currentUser.getId());
 
         ObservableList<String> nameTeamList = FXCollections.observableArrayList();
 
@@ -48,30 +53,24 @@ public class CreateTournamentController {
         }
         lvTeams.setItems(nameTeamList);
         lvTeams.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        // Set the current user
-        currentUser = SingletonUserSession.getCurrentUser();
-        if (currentUser == null) {
-            // If currentUser is null, redirect to login or handle the situation accordingly
-            System.err.println("No user logged in. Redirecting to login page...");
-            // Example: Redirect to the login page
-            // You might want to use JavaFX's Scene class to change the scene
-            return;
-        }
     }
 
     @FXML
-    private void createTournament() throws SQLException, IOException {
+    private void createTournament() throws IOException {
         try {
             String name = tfName.getText();
             String location = tfLocation.getText();
             String city = tfCity.getText();
             LocalDate localDate = dtDate.getValue();
-            // Convert LocalDate to java.sql.Date or java.util.Date as required
+
+            if (localDate == null) {
+                Utils.showPopUp("Error", null, "Please select a valid date.", Alert.AlertType.ERROR);
+                return;
+            }
+
             java.sql.Date date = java.sql.Date.valueOf(localDate);
 
             ObservableList<String> selectedTeamNames = lvTeams.getSelectionModel().getSelectedItems();
-            // Convert List<String> to List<Team>
             List<Team> selectedTeams = new ArrayList<>();
             for (String teamName : selectedTeamNames) {
                 List<Team> teams = teamDAO.findByName(teamName);
@@ -80,50 +79,47 @@ public class CreateTournamentController {
                 }
             }
 
-            // Check if currentUser is not null before creating the tournament
-            if (currentUser != null) {
-                // Create the tournament
-                Tournament tournament = new Tournament(name, location, city, date, selectedTeams);
+            Tournament tournament = new Tournament(name, location, city, date, selectedTeams);
 
-                // Associate tournament with the current user
-                try {
-                    tournament = tournamentDAO.save(currentUser, tournament);
+            try {
+                tournament = tournamentDAO.save(currentUser, tournament);
 
-                    // Save tournament participation data
-                    for (Team team : selectedTeams) {
-                        tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
-                    }
-
-                    // Clear Fields
-                    clearFields();
-                    switchToTournament();
-
-                    Utils.showPopUp("Tournament Created", null, "Tournament has been created successfully.", Alert.AlertType.INFORMATION);
-                } catch (SQLException e) {
-                    Utils.showPopUp("Error", null, "Error while creating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                    e.printStackTrace();
+                for (Team team : selectedTeams) {
+                    tournamentDAO.addTeamToTournament(tournament.getId(), team.getId());
                 }
-            } else {
-                // Handle the case when currentUser is null
-                // For example, show an error message
-                Utils.showPopUp("Error", null, "No user logged in. Cannot create tournament.", Alert.AlertType.ERROR);
-                System.err.println("Current user is null. Cannot create tournament.");
+
+                tfName.clear();
+                tfLocation.clear();
+                tfCity.clear();
+                dtDate.getEditor().clear();
+                lvTeams.getSelectionModel().clearSelection();
+                switchToMyTournament();
+
+                Utils.showPopUp("Tournament Created", null, "Tournament has been created successfully.", Alert.AlertType.INFORMATION);
+            } catch (SQLException e) {
+                Utils.showPopUp("Error", null, "Error while creating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             Utils.showPopUp("Error", null, "An error occurred while creating the tournament.", Alert.AlertType.ERROR);
         }
     }
 
-    private void clearFields() {
-        tfName.clear();
-        tfLocation.clear();
-        tfCity.clear();
-        dtDate.getEditor().clear();
-        lvTeams.getSelectionModel().clearSelection();
+
+
+
+    @FXML
+    private void switchToHome() throws IOException {
+        App.setRoot("home");
+    }
+    @FXML
+    private void switchToMyTournament() throws IOException {
+        App.setRoot("myTournaments");
     }
 
     @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
+    private void switchToLogin() throws IOException {
+        App.setRoot("login");
     }
+
 }

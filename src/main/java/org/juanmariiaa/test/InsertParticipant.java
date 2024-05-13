@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class InsertParticipant {
-    public static void main(String[] args) throws SQLException {
+    /*public static void main(String[] args) throws SQLException {
     // Crear una instancia de TeamDAO
     TeamDAO teamDAO = new TeamDAO(ConnectionMariaDB.getConnection());
 
@@ -42,5 +42,5 @@ public class InsertParticipant {
         }
 
         System.out.println(participant);
-    }
+    }*/
 }

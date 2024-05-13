@@ -1,33 +1,33 @@
 package org.juanmariiaa.view;
 
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
+import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
+import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ParticipantController extends Controller implements Initializable {
+public class AllParticipantsController implements Initializable {
 
     @FXML
     private TableView<Participant> tableView;
@@ -41,31 +41,27 @@ public class ParticipantController extends Controller implements Initializable {
     @FXML
     private TableColumn<Participant,String> columnAge;
     @FXML
-    private TableColumn<Participant,Role> columnRole;
+    private TableColumn<Participant, Role> columnRole;
     @FXML
     private TableColumn<Participant, Gender> columnGender;
     @FXML
     private TableColumn<Participant,String> columnTeam;
     private ObservableList<Participant> participants;
     ParticipantDAO participantDAO = new ParticipantDAO();
+    private User currentUser;
+
 
 
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        List<Participant> teamsList = ParticipantDAO.build().findAll();
+        currentUser = SingletonUserSession.getCurrentUser();
+        List<Participant> teamsList = ParticipantDAO.build().findAll(currentUser.getId());
         this.participants = FXCollections.observableArrayList(teamsList);
 
         tableView.setItems(this.participants);
         tableView.setEditable(true);
         columnDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
-        columnDNI.setCellFactory(TextFieldTableCell.forTableColumn());
-        columnDNI.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
-            participant.setDni(event.getNewValue());
-            participantDAO.update(participant);
-            tableView.refresh();
-        });
 
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnName.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -139,7 +135,7 @@ public class ParticipantController extends Controller implements Initializable {
     }
 
     private ObservableList<String> getTeams() throws SQLException {
-        List<Team> teams = TeamDAO.build().findAll();
+        List<Team> teams = TeamDAO.build().findAll(currentUser.getId());
         ObservableList<String> teamNames = FXCollections.observableArrayList();
         for (Team team : teams) {
             teamNames.add(team.getName());
@@ -149,14 +145,14 @@ public class ParticipantController extends Controller implements Initializable {
 
     @FXML
     private void deleteSelected() {
-        Participant selectedP = (Participant) tableView.getSelectionModel().getSelectedItem();
+        Participant selectedP = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedP != null) {
             tableView.getItems().remove(selectedP);
-
-            participantDAO.delete(String.valueOf(selectedP));
-            Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
-
+            participantDAO.delete(selectedP.getDni());
+            Utils.showPopUp("DELETE", "Participant deleted", "Participant has been deleted.", Alert.AlertType.INFORMATION);
+        } else {
+            Utils.showPopUp("ERROR", "No Participant Selected", "Please select a participant to delete.", Alert.AlertType.ERROR);
         }
     }
 
@@ -166,43 +162,26 @@ public class ParticipantController extends Controller implements Initializable {
     }
 
     @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
+    private void switchToTeam() throws IOException {
+        App.setRoot("allTeams");
+    }
+    @FXML
+    private void switchToTournaments() throws IOException {
+        App.setRoot("allTournaments");
     }
     @FXML
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
     @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
-    }
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
+    private void switchToFinder() throws IOException {
+        App.setRoot("finder");
     }
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
-    @FXML
-    private void switchToCreateParticipant() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("createParticipant.fxml"));
-        Parent root = loader.load();
-        CreateParticipantController controller = loader.getController();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-    }
 
-    @Override
-    public void onOpen(Object input) throws IOException {
 
-    }
 
-    @Override
-    public void onClose(Object output) {
-
-    }
 }

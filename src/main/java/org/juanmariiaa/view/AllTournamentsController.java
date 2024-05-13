@@ -8,14 +8,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.juanmariiaa.model.DAO.TournamentDAO;
 import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -25,7 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TournamentController extends Controller implements Initializable {
+public class AllTournamentsController extends Controller implements Initializable {
 
     @FXML
     private TableView<Tournament> tableView;
@@ -42,12 +47,14 @@ public class TournamentController extends Controller implements Initializable {
     private TableColumn<Tournament, Date> columnDate;
     private ObservableList<Tournament> tournaments;
     TournamentDAO tournamentDAO = new TournamentDAO();
-    private Tournament tournament;
+    private User currentUser;
+
 
 
     public void initialize(URL location, ResourceBundle resources) {
+        currentUser = SingletonUserSession.getCurrentUser();
         try {
-            List<Tournament> tournaments = TournamentDAO.build().findAll();
+            List<Tournament> tournaments = TournamentDAO.build().findAll(currentUser.getId());
             this.tournaments = FXCollections.observableArrayList(tournaments);
         } catch (SQLException e) {
             Utils.showPopUp("Error", null, "Error while fetching tournaments: " + e.getMessage(), Alert.AlertType.ERROR);
@@ -139,18 +146,19 @@ public class TournamentController extends Controller implements Initializable {
 
     @FXML
     private void deleteSelected() {
-        Tournament selectedT = (Tournament) tableView.getSelectionModel().getSelectedItem();
+        Tournament selectedT = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedT != null) {
-            tableView.getItems().remove(selectedT);
-
             try {
+                tableView.getItems().remove(selectedT);
                 tournamentDAO.delete(selectedT.getId());
-                Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
+                Utils.showPopUp("DELETE", "Tournament deleted", "This tournament has been deleted.", Alert.AlertType.INFORMATION);
             } catch (SQLException e) {
+                Utils.showPopUp("Error", null, "Error while deleting tournament: " + e.getMessage(), Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
-
+        } else {
+            Utils.showPopUp("Error", null, "Please select a tournament to delete.", Alert.AlertType.ERROR);
         }
     }
 
@@ -162,43 +170,33 @@ public class TournamentController extends Controller implements Initializable {
     }
 
     @FXML
-    private void switchToTournament() throws IOException {
-        App.setRoot("tournament");
+    private void switchToParticipant() throws IOException {
+        App.setRoot("allParticipants");
+    }
+    @FXML
+    private void switchToTeam() throws IOException {
+        App.setRoot("allTeams");
     }
     @FXML
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
     @FXML
-    private void switchToTeam() throws IOException {
-        App.setRoot("team");
-    }
-    @FXML
-    private void switchToParticipant() throws IOException {
-        App.setRoot("participant");
+    private void switchToFinder() throws IOException {
+        App.setRoot("finder");
     }
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
     @FXML
-    private void switchToCreateTournament() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("createTournament.fxml"));
-        Parent root = loader.load();
-        CreateTournamentController controller = loader.getController();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
     private void switchToShowTeamsInSelectedTournament() throws IOException {
         Tournament selectedTournament = tableView.getSelectionModel().getSelectedItem();
         if (selectedTournament != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("showTeamsInSelectedTournament.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("allShowTeamsInSelectedTournament.fxml"));
             Parent root = loader.load();
-            ShowTeamsInSelectedTournamentController controller = loader.getController();
-            controller.initData(selectedTournament);
+            AllShowTeamsInSelectedTournamentController controller = loader.getController();
+            controller.show(selectedTournament);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -207,15 +205,14 @@ public class TournamentController extends Controller implements Initializable {
             Utils.showPopUp("Error", null, "Please select a tournament first!", Alert.AlertType.ERROR);
         }
     }
-
     @FXML
-    private void switchToAddTeamToTournament() throws IOException {
+    private void switchToAddRemoveTeamToTournament() throws IOException {
         Tournament selectedTournament = tableView.getSelectionModel().getSelectedItem();
         if (selectedTournament != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("addTeamToTournament.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("allAddRemoveTeamFromTournament.fxml"));
             Parent root = loader.load();
-            AddRemoveTeamsTournamentController controller = loader.getController();
-            controller.initData(selectedTournament);
+            AllAddRemoveTeamsTournamentController controller = loader.getController();
+            controller.show(selectedTournament);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);

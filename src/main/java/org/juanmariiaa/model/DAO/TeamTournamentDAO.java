@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamTournamentDAO {
-    private final static String DELETE_BY_TEAM_ID = "DELETE FROM participation WHERE id_team=?";
     private final static String FIND_BY_TOURNAMENT_ID = "SELECT team.id, team.name, team.city, team.institution\n" +
             "FROM team\n" +
             "INNER JOIN participation ON team.id = participation.id_team\n" +
@@ -24,12 +23,7 @@ public class TeamTournamentDAO {
     }
 
 
-    public void removeTeamFromAllTournaments(int teamId) throws SQLException {
-        try (PreparedStatement statement = conn.prepareStatement(DELETE_BY_TEAM_ID)) {
-            statement.setInt(1, teamId);
-            statement.executeUpdate();
-        }
-    }
+
     public List<Team> findTeamsByTournamentId(int tournamentId) throws SQLException {
         List<Team> result = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(FIND_BY_TOURNAMENT_ID)) {

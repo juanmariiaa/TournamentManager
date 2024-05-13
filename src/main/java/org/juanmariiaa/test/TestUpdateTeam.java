@@ -7,7 +7,7 @@ import org.juanmariiaa.model.domain.Team;
 import java.sql.SQLException;
 
 public class TestUpdateTeam {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // Creamos una instancia del DAO del equipo
         TeamDAO teamDAO = new TeamDAO(ConnectionMariaDB.getConnection());
 
@@ -41,5 +41,5 @@ public class TestUpdateTeam {
             e.printStackTrace();
         }
     }
-
+*/
 }

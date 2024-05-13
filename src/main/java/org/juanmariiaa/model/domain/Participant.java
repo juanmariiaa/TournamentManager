@@ -66,11 +66,6 @@ public class Participant extends Person {
 
     @Override
     public String toString() {
-        return "Participant{" +
-                "age=" + age +
-                ", role=" + role +
-                ", gender=" + gender +
-                ", team=" + team +
-                '}';
+        return super.getName();
     }
 }

@@ -9,11 +9,12 @@ import javafx.scene.control.ListView;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ShowParticipantsInSelectedTeamController implements Initializable {
+public class AllShowParticipantsInSelectedTeamController implements Initializable {
 
     @FXML
     private Label teamNameLabel;
@@ -25,16 +26,11 @@ public class ShowParticipantsInSelectedTeamController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Initialize
     }
 
-    public void initData(Team team) {
+    public void show(Team team) {
         this.selectedTeam = team;
         teamNameLabel.setText(team.getName());
-        loadParticipants();
-    }
-
-    private void loadParticipants() {
         List<Participant> participants = ParticipantDAO.build().findParticipantsByTeam(selectedTeam.getId());
         ObservableList<String> participantNames = FXCollections.observableArrayList();
         for (Participant participant : participants) {
@@ -42,4 +38,6 @@ public class ShowParticipantsInSelectedTeamController implements Initializable {
         }
         participantsListView.setItems(participantNames);
     }
+
+
 }

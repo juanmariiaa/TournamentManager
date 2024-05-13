@@ -15,7 +15,6 @@ public class Utils {
         alertDialog.setHeaderText(header);
         alertDialog.setContentText(text);
 
-        // Mostrar el cuadro de diálogo de manera no bloqueante
         alertDialog.show();
 
         Stage s = (Stage) alertDialog.getDialogPane().getScene().getWindow();
@@ -23,6 +22,7 @@ public class Utils {
 
         return alertDialog;
     }
+
 
     public static String hashPassword(String password) {
         try {

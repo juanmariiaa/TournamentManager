@@ -3,6 +3,8 @@ package org.juanmariiaa.model.DAO;
 import org.juanmariiaa.model.connection.ConnectionMariaDB;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
+import org.juanmariiaa.model.domain.Tournament;
+import org.juanmariiaa.model.domain.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,20 +12,23 @@ import java.util.List;
 
 public class TeamDAO {
 
-    private final static String FINDALL = "SELECT * FROM team";
+    private final static String FINDALL = "SELECT * FROM team WHERE id_user=?";
     private final static String FINDBYID = "SELECT * FROM team WHERE id=?";
     private final static String FINDBYNAME = "SELECT * FROM team WHERE name LIKE ?";
-    private final static String INSERT = "INSERT INTO team (id, name, city, institution) VALUES (?, ?, ?, ?)";
+    private final static String INSERT = "INSERT INTO team (id, name, city, institution, id_user) VALUES (?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
     private final static String FIND_PARTICIPANTS_BY_TEAM = "SELECT * FROM participant WHERE id_team = ?";
 
-    private final static String FIND_TEAMS_BY_TOURNAMENT = "SELECT t.id, t.name " +
+    private final static String FIND_TEAMS_BY_TOURNAMENT = "SELECT t.id, t.name, t.city, t.institution " +
             "FROM team t " +
             "JOIN participation p ON t.id = p.id_team " +
             "WHERE p.id_tournament = ?";
 
 
+
+
+    TournamentDAO tournamentDAO = new TournamentDAO();
 
     private Connection conn;
 
@@ -35,9 +40,10 @@ public class TeamDAO {
         this.conn = ConnectionMariaDB.getConnection();
     }
 
-    public List<Team> findAll() throws SQLException {
+    public List<Team> findAll(int userId) throws SQLException {
         List<Team> result = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
+            pst.setInt(1, userId);
             try (ResultSet res = pst.executeQuery()) {
                 while (res.next()) {
                     Team team = new Team();
@@ -51,6 +57,7 @@ public class TeamDAO {
         }
         return result;
     }
+
 
     public Team findById(int id) throws SQLException {
         Team team = null;
@@ -72,7 +79,7 @@ public class TeamDAO {
     public List<Team> findByName(String name) throws SQLException {
         List<Team> teams = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {
-            statement.setString(1, "%" + name + "%"); // Add wildcards for partial name search
+            statement.setString(1, "%" + name + "%");
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Team team = new Team();
@@ -86,6 +93,7 @@ public class TeamDAO {
         }
         return teams;
     }
+
 
 
     public Team findOneByName(String name) throws SQLException {
@@ -111,37 +119,46 @@ public class TeamDAO {
     }
 
 
-    public Team save(Team entity) throws SQLException {
-        if (entity == null) {
-            return null;
-        }
-        if (entity.getId() == 0) {
+
+
+
+    public Team save(User user, Team team, int tournamentId) throws SQLException {
+        if (team.getId() == 0) {
             // Insert new team
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-                pst.setNull(1, Types.INTEGER); // id is auto-generated, set as null
-                pst.setString(2, entity.getName());
-                pst.setString(3, entity.getCity());
-                pst.setString(4, entity.getInstitution());
+                pst.setNull(1, Types.INTEGER);
+                pst.setString(2, team.getName());
+                pst.setString(3, team.getCity());
+                pst.setString(4, team.getInstitution());
+                pst.setInt(5, user.getId());
                 pst.executeUpdate();
 
                 try (ResultSet rs = pst.getGeneratedKeys()) {
                     if (rs.next()) {
-                        entity.setId(rs.getInt(1)); // Set the generated id back to the entity
+                        team.setId(rs.getInt(1));
                     }
                 }
             }
-        } else {
-            // Update existing team
-            try (PreparedStatement pst = this.conn.prepareStatement(UPDATE)) {
-                pst.setString(1, entity.getName());
-                pst.setString(2, entity.getCity());
-                pst.setString(3, entity.getInstitution());
-                pst.setInt(4, entity.getId());
-                pst.executeUpdate();
-            }
         }
-        return entity;
+        return team;
     }
+
+
+    public boolean update(Team team) {
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
+            statement.setString(1, team.getName());
+            statement.setString(2, team.getCity());
+            statement.setString(3, team.getInstitution());
+            statement.setInt(4, team.getId());
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
 
     public void delete(Team entity) throws SQLException {
@@ -175,15 +192,17 @@ public class TeamDAO {
 
 
 
-    public List<Team> findTeamsByTournament(int id_tournament) {
+    public List<Team> findTeamsByTournament(int tournamentId) {
         List<Team> teams = new ArrayList<>();
         try (PreparedStatement statement = this.conn.prepareStatement(FIND_TEAMS_BY_TOURNAMENT)) {
-            statement.setInt(1, id_tournament);
+            statement.setInt(1, tournamentId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     Team team = new Team();
                     team.setId(rs.getInt("id"));
                     team.setName(rs.getString("name"));
+                    team.setCity(rs.getString("city"));
+                    team.setInstitution(rs.getString("institution"));
                     teams.add(team);
                 }
             }
@@ -192,6 +211,7 @@ public class TeamDAO {
         }
         return teams;
     }
+
 
 
     public static TeamDAO build(){

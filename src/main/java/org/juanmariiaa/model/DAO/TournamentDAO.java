@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TournamentDAO {
-    private final static String FIND_ALL = "SELECT * FROM tournament";
+    private final static String FIND_ALL = "SELECT * FROM tournament WHERE id_user=?";
     private final static String INSERT = "INSERT INTO tournament (name, location, city, date, id_user) VALUES (?, ?, ?, ?, ?)";
-    private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=? WHERE id=?";
+    private final static String UPDATE = "UPDATE tournament SET name=?, location=?, city=?, date=? WHERE id=?";
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
     private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament ,id_team) VALUES (?, ?)";
     private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
@@ -22,22 +22,23 @@ public class TournamentDAO {
 
 
     private Connection conn;
-    private TeamTournamentDAO teamTournamentDAO; // Inject TeamTournamentDAO instance
+    private TeamTournamentDAO teamTournamentDAO;
 
     public TournamentDAO(Connection conn, TeamTournamentDAO teamTournamentDAO) {
         this.conn = conn;
-        this.teamTournamentDAO = teamTournamentDAO; // Inject in constructor
+        this.teamTournamentDAO = teamTournamentDAO;
     }
 
     public TournamentDAO() {
         this.conn = ConnectionMariaDB.getConnection();
-        this.teamTournamentDAO = new TeamTournamentDAO(conn); // Create instance if not injected
+        this.teamTournamentDAO = new TeamTournamentDAO(conn);
     }
 
-    public  List<Tournament> findAll() throws SQLException {
+    public List<Tournament> findAll(int userId) throws SQLException {
         List<Tournament> tournaments = new ArrayList<>();
-        try (Statement statement = conn.createStatement();
-             ResultSet resultSet = statement.executeQuery(FIND_ALL)) {
+        try (PreparedStatement preparedStatement = conn.prepareStatement(FIND_ALL)) {
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Tournament tournament = new Tournament();
                 tournament.setId(resultSet.getInt("id"));
@@ -45,8 +46,7 @@ public class TournamentDAO {
                 tournament.setLocation(resultSet.getString("location"));
                 tournament.setCity(resultSet.getString("city"));
                 tournament.setDate(resultSet.getDate("date"));
-                // Assuming teams are loaded separately using the new method
-                tournament.setTeams(findTeamsByTournamentId(tournament.getId())); // Load teams using findTeamsByTournamentId
+                tournament.setTeams(findTeamsByTournamentId(tournament.getId()));
                 tournaments.add(tournament);
             }
         }
@@ -60,13 +60,13 @@ public class TournamentDAO {
             statement.setString(1, tournament.getName());
             statement.setString(2, tournament.getLocation());
             statement.setString(3, tournament.getCity());
-            statement.setString(4, String.valueOf(tournament.getDate())); // Assuming getDate() returns a String
-            statement.setInt(5, user.getId()); // Assuming User has a getter for its ID
+            statement.setString(4, String.valueOf(tournament.getDate()));
+            statement.setInt(5, user.getId());
             statement.executeUpdate();
 
             try (ResultSet rs = statement.getGeneratedKeys()) {
                 if (rs.next()) {
-                    tournament.setId(rs.getInt(1)); // Set the generated tournament ID
+                    tournament.setId(rs.getInt(1));
                 }
             }
         }
@@ -78,7 +78,7 @@ public class TournamentDAO {
             statement.setString(1, tournament.getName());
             statement.setString(2, tournament.getLocation());
             statement.setString(3, tournament.getCity());
-            statement.setString(4, String.valueOf(tournament.getDate())); // Assuming getDate() returns a String
+            statement.setDate(4, (Date) tournament.getDate());
             statement.setInt(5, tournament.getId());
             statement.executeUpdate();
         }
@@ -93,8 +93,6 @@ public class TournamentDAO {
             statement.setInt(1, tournamentId);
             statement.executeUpdate();
         }
-        // 2. (Optional) Remove team associations (if needed)
-        teamTournamentDAO.removeTeamFromAllTournaments(tournamentId); // Assuming this method exists in TeamTournamentDAO
     }
 
     public List<Team> findTeamsByTournamentId(int tournamentId) throws SQLException {
