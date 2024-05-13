@@ -116,7 +116,10 @@ public class CreateTournamentController {
     private void switchToMyTournament() throws IOException {
         App.setRoot("myTournaments");
     }
-
+    @FXML
+    private void switchToFinder() throws IOException {
+        App.setRoot("finder");
+    }
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");

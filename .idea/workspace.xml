@@ -5,68 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllAddRemoveTeamsTournamentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllParticipantsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllTeamsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllTournamentsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/FinderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/MyTournamentsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTeamController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ShowTeamsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Images/back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Images/refresh.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allShowParticipantsInSelectedTeam.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allTeams.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allTournaments.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/finder.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTeam.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTournament.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/showTeams.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentacion/debate_tournament_manager.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Documentacion/backup.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/Execute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/Execute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/ParticipantDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/ParticipantDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamTournamentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamTournamentDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Participant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Participant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/test/InsertParticipant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/test/InsertParticipant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/test/TestUpdateTeam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/test/TestUpdateTeam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AddRemoveTeamsTournamentController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateParticipantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateParticipantController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTeamController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTournamentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ParticipantController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ShowParticipantsInSelectedTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllShowParticipantsInSelectedTeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ShowTeamsInSelectedTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllShowTeamsInSelectedTournamentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ShowTournamentsInSelectedTeamController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/TeamController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/TournamentController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/otherViews/createTournament.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/otherViews/home.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/otherViews/selectedTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allAddRemoveTeamFromTournament.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/otherViews/selectedTournament.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allParticipants.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/otherViews/team.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/otherViews/tournament.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/myTournaments.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/addTeamToTournament.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createParticipant.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createParticipant.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createTeam.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createTournament.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createTournament.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/participant.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/participant.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/showParticipantsInSelectedTeam.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/showTeamsInSelectedTournament.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allShowTeamsInSelectedTournament.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/showTournamentsInSelectedTeam.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/team.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/tournament.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/participant.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +225,7 @@
       <workItem from="1715323013600" duration="12389000" />
       <workItem from="1715351098928" duration="6254000" />
       <workItem from="1715586303703" duration="12806000" />
-      <workItem from="1715621164196" duration="3301000" />
+      <workItem from="1715621164196" duration="5399000" />
     </task>
     <servers />
   </component>

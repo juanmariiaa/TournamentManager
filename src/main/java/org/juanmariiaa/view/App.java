@@ -35,24 +35,40 @@ public class App extends Application {
         Scene newScene;
         if (fxml.equals("login")) {
             newScene = createScene(fxml, 308, 411);
-        } else if(fxml.equals("team")){
+        } else if(fxml.equals("allParticipants")){
             newScene = createScene(fxml, 774, 489);
-        } else if(fxml.equals("tournament")){
+        } else if(fxml.equals("allShowParticipantsInSelectedTeam")){
             newScene = createScene(fxml, 774, 489);
-        } else if(fxml.equals("participant")){
+        } else if(fxml.equals("allAddRemoveTeamFromTournament")){
+            newScene = createScene(fxml, 774, 489);
+        } else if(fxml.equals("allShowTeamsInSelectedTournament")){
+            newScene = createScene(fxml, 774, 489);
+        } else if(fxml.equals("allTeams")){
+            newScene = createScene(fxml, 774, 489);
+        } else if(fxml.equals("allTournaments")){
+            newScene = createScene(fxml, 774, 489);
+        } else if(fxml.equals("createParticipant")){
+            newScene = createScene(fxml, 362, 675);
+        } else if(fxml.equals("createTeam")){
+            newScene = createScene(fxml, 362, 394);
+        } else if(fxml.equals("createTournament")){
+            newScene = createScene(fxml, 774, 489);
+        } else if(fxml.equals("finder")){
             newScene = createScene(fxml, 774, 489);
         } else if(fxml.equals("home")){
             newScene = createScene(fxml, 774, 489);
-        } else if(fxml.equals("createTournament")){
-            newScene = createScene(fxml, 774, 665);
-        } else if(fxml.equals("createTeam")){
-            newScene = createScene(fxml, 774, 774);
-        } else if(fxml.equals("createParticipant")){
-            newScene = createScene(fxml, 774, 774);
+        } else if(fxml.equals("myTournaments")){
+            newScene = createScene(fxml, 774, 489);
         } else if(fxml.equals("register")){
+            newScene = createScene(fxml, 329, 533);
+        } else if(fxml.equals("selectedTeam")){
+            newScene = createScene(fxml, 774, 489);
+        } else if(fxml.equals("selectedTournament")){
             newScene = createScene(fxml, 774, 774);
+        } else if(fxml.equals("showTeams")){
+            newScene = createScene(fxml, 774, 489);
         } else {
-            newScene = createScene(fxml, 774, 774);
+            newScene = createScene(fxml, 774, 489);
         }
         primaryStage.setResizable(true);
         primaryStage.setScene(newScene);
