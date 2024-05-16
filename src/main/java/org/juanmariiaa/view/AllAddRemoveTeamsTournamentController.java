@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the view that allows adding or removing teams from a selected tournament.
+ * This class manages the display and modification of teams associated with a tournament.
+ */
 public class AllAddRemoveTeamsTournamentController implements Initializable {
 
     @FXML
@@ -38,6 +42,10 @@ public class AllAddRemoveTeamsTournamentController implements Initializable {
     private Tournament tournament;
     private User currentUser;
 
+    /**
+     * It sets up the ListViews for adding and removing teams and initializes the current user session.
+     *
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         currentUser = SingletonUserSession.getCurrentUser();
@@ -51,11 +59,21 @@ public class AllAddRemoveTeamsTournamentController implements Initializable {
         teamDeleteListView.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
     }
 
+    /**
+     * Displays the teams associated with the given tournament.
+     * This method is called when the view is switched to manage teams for the selected tournament.
+     *
+     * @param tournament The tournament whose teams are to be displayed and managed.
+     */
     public void show(Tournament tournament) {
         this.tournament = tournament;
         loadTeamsInTournament();
         loadTeamsNotInTournament();
     }
+
+    /**
+     * Loads and displays the teams that are currently associated with the tournament.
+     */
     private void loadTeamsInTournament() {
         if (tournament != null) {
             List<Team> teamsInTournament = TeamDAO.build().findTeamsByTournament(tournament.getId());
@@ -68,6 +86,9 @@ public class AllAddRemoveTeamsTournamentController implements Initializable {
             Utils.showPopUp("Error", null, "Tournament is null!", Alert.AlertType.ERROR);
         }
     }
+    /**
+     * Loads and displays the teams that are not currently associated with the tournament.
+     */
     private void loadTeamsNotInTournament() {
         if (tournament != null) {
             try {
@@ -91,6 +112,10 @@ public class AllAddRemoveTeamsTournamentController implements Initializable {
     }
 
 
+    /**
+     * Adds the selected teams to the tournament.
+     * This method is called when the add button is clicked.
+     */
     @FXML
     private void addTeamsToTournament() {
         ObservableList<String> selectedItems = teamListView.getSelectionModel().getSelectedItems();
@@ -127,6 +152,10 @@ public class AllAddRemoveTeamsTournamentController implements Initializable {
 
 
 
+    /**
+     * Removes the selected teams from the tournament.
+     * This method is called when the delete button is clicked.
+     */
     @FXML
     private void removeTeamFromTournament() {
         ObservableList<String> selectedItems = teamDeleteListView.getSelectionModel().getSelectedItems();

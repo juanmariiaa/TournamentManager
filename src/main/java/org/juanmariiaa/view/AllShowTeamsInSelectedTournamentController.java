@@ -14,6 +14,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the view that shows all teams in the selected tournament.
+ * This class manages the display of teams associated with a specific tournament.
+ */
 public class AllShowTeamsInSelectedTournamentController implements Initializable {
 
     @FXML

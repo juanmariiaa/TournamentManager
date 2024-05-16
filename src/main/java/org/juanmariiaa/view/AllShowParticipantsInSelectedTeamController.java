@@ -14,6 +14,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the view that shows participants in the selected team.
+ * This class manages the display of team name.
+ */
 public class AllShowParticipantsInSelectedTeamController implements Initializable {
 
     @FXML

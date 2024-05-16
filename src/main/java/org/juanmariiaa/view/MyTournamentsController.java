@@ -11,28 +11,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import org.juanmariiaa.model.DAO.TournamentDAO;
-import org.juanmariiaa.model.domain.Team;
 import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
-import org.juanmariiaa.view.App;
-import org.juanmariiaa.view.Controller;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MyTournamentsController extends Controller implements Initializable {
+/**
+ * Controller class that display all the Tournament associated with the currentUser.
+ */
+public class MyTournamentsController implements Initializable {
     @FXML
     private TableView<Tournament> tableView;
     @FXML
@@ -147,16 +141,5 @@ public class MyTournamentsController extends Controller implements Initializable
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
-    }
-
-
-    @Override
-    public void onOpen(Object input) throws IOException {
-
-    }
-
-    @Override
-    public void onClose(Object output) {
-
     }
 }

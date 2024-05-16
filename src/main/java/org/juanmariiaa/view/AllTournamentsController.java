@@ -30,7 +30,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AllTournamentsController extends Controller implements Initializable {
+/**
+ * Controller class for the All Tournaments view.
+ * This class manages the display and editing of tournament information in a TableView,
+ * as well as navigation to different views and delete of selected tournaments.
+ */
+public class AllTournamentsController implements Initializable {
 
     @FXML
     private TableView<Tournament> tableView;
@@ -51,6 +56,14 @@ public class AllTournamentsController extends Controller implements Initializabl
 
 
 
+    /**
+     * Initializes the controller class. This method is automatically called after the fxml file has been loaded.
+     * Also display all the tournaments related to the currentUser. This method also allows the user to update the fields
+     * associated with the tournament he wants to update.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
     public void initialize(URL location, ResourceBundle resources) {
         currentUser = SingletonUserSession.getCurrentUser();
         try {
@@ -74,7 +87,6 @@ public class AllTournamentsController extends Controller implements Initializabl
                 tournamentDAO.update(tournament);
             } catch (SQLException e) {
                 Utils.showPopUp("Error", null, "Error while updating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                e.printStackTrace();
             }
             tableView.refresh();
         });
@@ -88,7 +100,6 @@ public class AllTournamentsController extends Controller implements Initializabl
                 tournamentDAO.update(tournament);
             } catch (SQLException e) {
                 Utils.showPopUp("Error", null, "Error while updating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                e.printStackTrace();
             }
             tableView.refresh();
         });
@@ -103,7 +114,6 @@ public class AllTournamentsController extends Controller implements Initializabl
                 tournamentDAO.update(tournament);
             } catch (SQLException e) {
                 Utils.showPopUp("Error", null, "Error while updating tournament: " + e.getMessage(), Alert.AlertType.ERROR);
-                e.printStackTrace();
             }
             tableView.refresh();
         });
@@ -189,6 +199,11 @@ public class AllTournamentsController extends Controller implements Initializabl
     private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
+    /**
+     * Switches the scene to the view that shows teams in the selected tournament.
+     *
+     * @throws IOException if there is an error loading the view.
+     */
     @FXML
     private void switchToShowTeamsInSelectedTournament() throws IOException {
         Tournament selectedTournament = tableView.getSelectionModel().getSelectedItem();
@@ -205,6 +220,11 @@ public class AllTournamentsController extends Controller implements Initializabl
             Utils.showPopUp("Error", null, "Please select a tournament first!", Alert.AlertType.ERROR);
         }
     }
+    /**
+     * Switches the scene to the view that allows adding or removing teams from the selected tournament.
+     *
+     * @throws IOException if there is an error loading the view.
+     */
     @FXML
     private void switchToAddRemoveTeamToTournament() throws IOException {
         Tournament selectedTournament = tableView.getSelectionModel().getSelectedItem();
@@ -220,15 +240,5 @@ public class AllTournamentsController extends Controller implements Initializabl
         } else {
             Utils.showPopUp("Error", null, "Please select a tournament first!", Alert.AlertType.ERROR);
         }
-    }
-
-    @Override
-    public void onOpen(Object input) throws IOException {
-
-    }
-
-    @Override
-    public void onClose(Object output) {
-
     }
 }
