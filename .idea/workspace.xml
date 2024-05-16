@@ -5,9 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Documentacion/debate.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/Execute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/Execute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documentacion/backup.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/ParticipantDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/ParticipantDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamTournamentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamTournamentDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/connection/ConnectionMariaDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/connection/ConnectionMariaDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllParticipantsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllParticipantsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/MyTournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/MyTournamentsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allParticipants.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/allParticipants.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTournament.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTournament.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,11 +103,11 @@
       <recent name="C:\IdeaProjects\TournamentManager\src\main\resources\org\juanmariiaa\Images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Documentacion" />
       <recent name="C:\Users\ariza\Desktop\MANEJADORDETORNEOS\Documentacion" />
       <recent name="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view" />
       <recent name="C:\IdeaProjects\TournamentManager\src\main\resources\org\juanmariiaa" />
       <recent name="C:\IdeaProjects\TournamentManager\src\main\java\org\juanmariiaa" />
-      <recent name="C:\IdeaProjects\TournamentManager\Documentacion" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.juanmariiaa" />
@@ -103,8 +117,8 @@
       <recent name="org.juanmariiaa" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.TournamentNew2-1.0-SNAPSHOT-jar-with-dependencies.jar">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.juanmariiaa.view.App" />
       <module name="TournamentNew2" />
       <extension name="coverage">
@@ -157,10 +171,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Execute" />
         <item itemvalue="JAR Application.TournamentNew2-1.0-SNAPSHOT-jar-with-dependencies.jar" />
         <item itemvalue="JAR Application.TournamentNew2-1.0-SNAPSHOT.jar" />
-        <item itemvalue="Application.Execute" />
-        <item itemvalue="Application.App" />
         <item itemvalue="JAR Application.TournamentManagement-1.0-SNAPSHOT.jar" />
       </list>
     </recent_temporary>
@@ -168,8 +181,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-19.0.2-corretto-19.0.2-4caba194b151-48ba4555" />
-        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
+        <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-d89c1816" />
       </set>
     </attachedChunks>
   </component>
@@ -240,6 +252,13 @@
       <workItem from="1715621164196" duration="7061000" />
       <workItem from="1715628546978" duration="226000" />
       <workItem from="1715628822778" duration="15000" />
+      <workItem from="1715675716486" duration="1030000" />
+      <workItem from="1715679217224" duration="16000" />
+      <workItem from="1715755657716" duration="2484000" />
+      <workItem from="1715842031529" duration="1878000" />
+      <workItem from="1715846839857" duration="855000" />
+      <workItem from="1715848170096" duration="5095000" />
+      <workItem from="1715856352876" duration="2085000" />
     </task>
     <servers />
   </component>

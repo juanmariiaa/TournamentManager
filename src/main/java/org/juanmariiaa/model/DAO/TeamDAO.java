@@ -39,7 +39,13 @@ public class TeamDAO {
     public TeamDAO() {
         this.conn = ConnectionMariaDB.getConnection();
     }
-
+    /**
+     * Finds all teams associated with a given user.
+     *
+     * @param userId The ID of the user
+     * @return A list of Team objects associated with the user
+     * @throws SQLException if a database access error occurs
+     */
     public List<Team> findAll(int userId) throws SQLException {
         List<Team> result = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement(FINDALL)) {
@@ -57,8 +63,13 @@ public class TeamDAO {
         }
         return result;
     }
-
-
+    /**
+     * Finds a team by its ID.
+     *
+     * @param id The ID of the team to find
+     * @return The Team object with the given ID, or null if not found
+     * @throws SQLException if a database access error occurs
+     */
     public Team findById(int id) throws SQLException {
         Team team = null;
         try (PreparedStatement pst = this.conn.prepareStatement(FINDBYID)) {
@@ -75,7 +86,13 @@ public class TeamDAO {
         }
         return team;
     }
-
+    /**
+     * Finds teams by name using partial match.
+     *
+     * @param name The name (or partial name) of the team to find
+     * @return A list of Team objects matching the given name
+     * @throws SQLException if a database access error occurs
+     */
     public List<Team> findByName(String name) throws SQLException {
         List<Team> teams = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {
@@ -95,7 +112,14 @@ public class TeamDAO {
     }
 
 
-
+    /**
+     * Finds a single team by name using partial match.
+     * If multiple teams match the given name, a warning is printed.
+     *
+     * @param name The name (or partial name) of the team to find
+     * @return The first Team object matching the given name, or null if not found
+     * @throws SQLException if a database access error occurs
+     */
     public Team findOneByName(String name) throws SQLException {
         Team team = null;
         try (PreparedStatement statement = conn.prepareStatement(FINDBYNAME)) {
@@ -121,10 +145,17 @@ public class TeamDAO {
 
 
 
-
+    /**
+     * Saves a team to the database.
+     *
+     * @param user The user associated with the team
+     * @param team The team to be saved
+     * @param tournamentId The ID of the tournament the team is associated with
+     * @return The saved Team object with its ID set
+     * @throws SQLException if a database access error occurs
+     */
     public Team save(User user, Team team, int tournamentId) throws SQLException {
         if (team.getId() == 0) {
-            // Insert new team
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
                 pst.setNull(1, Types.INTEGER);
                 pst.setString(2, team.getName());
@@ -143,24 +174,33 @@ public class TeamDAO {
         return team;
     }
 
-
-    public boolean update(Team team) {
+    /**
+     * Updates a team in the database.
+     *
+     * @param team The team to be updated
+     * @return The updated Team object
+     */
+    public Team update(Team team) {
         try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
             statement.setString(1, team.getName());
             statement.setString(2, team.getCity());
             statement.setString(3, team.getInstitution());
             statement.setInt(4, team.getId());
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return team;
     }
 
 
 
 
+    /**
+     * Deletes a team from the database.
+     *
+     * @param entity The team to be deleted
+     * @throws SQLException if a database access error occurs
+     */
     public void delete(Team entity) throws SQLException {
         if (entity != null && entity.getId() != 0) {
             try (PreparedStatement pst = this.conn.prepareStatement(DELETE)) {
@@ -170,6 +210,13 @@ public class TeamDAO {
         }
     }
 
+    /**
+     * Finds participants belonging to a specific team.
+     *
+     * @param teamId The ID of the team
+     * @return A list of Participant objects belonging to the team
+     * @throws SQLException if a database access error occurs
+     */
     public List<Participant> findParticipantsByTeam(int teamId) throws SQLException {
         List<Participant> participants = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement(FIND_PARTICIPANTS_BY_TEAM)) {
@@ -191,7 +238,12 @@ public class TeamDAO {
 
 
 
-
+    /**
+     * Finds teams associated with a specific tournament.
+     *
+     * @param tournamentId The ID of the tournament
+     * @return A list of Team objects associated with the tournament
+     */
     public List<Team> findTeamsByTournament(int tournamentId) {
         List<Team> teams = new ArrayList<>();
         try (PreparedStatement statement = this.conn.prepareStatement(FIND_TEAMS_BY_TOURNAMENT)) {
@@ -213,7 +265,11 @@ public class TeamDAO {
     }
 
 
-
+    /**
+     * Builds and returns a new instance of TeamDAO.
+     *
+     * @return A new instance of TeamDAO
+     */
     public static TeamDAO build(){
         return new TeamDAO();
     }

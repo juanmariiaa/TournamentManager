@@ -3,7 +3,6 @@ package org.juanmariiaa.model.DAO;
 import org.juanmariiaa.model.connection.ConnectionMariaDB;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
-import org.juanmariiaa.model.domain.Tournament;
 import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
@@ -28,33 +27,39 @@ public class ParticipantDAO {
     public ParticipantDAO() {
         this.conn = ConnectionMariaDB.getConnection();
     }
-
-
+    /**
+     * Retrieves a list of all participants associated with a specific user.
+     *
+     * @param userId The ID of the user whose participants are to be retrieved.
+     * @return A list of Participant objects associated with the given user.
+     */
     public List<Participant> findAll(int userId) {
         List<Participant> result = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(FINDALL)) {
             statement.setInt(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Participant participant = new Participant();
-                    participant.setDni(resultSet.getString("dni"));
-                    participant.setRole(Role.valueOf(resultSet.getString("role")));
-                    participant.setGender(Gender.valueOf(resultSet.getString("gender")));
-                    participant.setName(resultSet.getString("first_name"));
-                    participant.setSurname(resultSet.getString("surname"));
-                    participant.setAge(resultSet.getInt("age"));
+                    Participant participant = participantEager(resultSet);
                     result.add(participant);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return result;
     }
 
-
-    public boolean save(User user, Participant participant) {
-        try (PreparedStatement statement = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
+    /**
+     * Saves a new participant to the database.
+     *
+     * @param user        The user associated with the participant, the one who has created it.
+     * @param participant The Participant object to be saved.
+     * @return The saved Participant object.
+     * @throws RuntimeException If a database access error occurs.
+     */
+    public Participant save(User user, Participant participant) {
+        try (PreparedStatement statement = conn.prepareStatement(INSERT)) {
             statement.setString(1, participant.getDni());
             statement.setString(2, participant.getRole().toString());
             statement.setString(3, participant.getGender().toString());
@@ -63,17 +68,22 @@ public class ParticipantDAO {
             statement.setInt(6, participant.getAge());
             statement.setInt(7, participant.getTeam().getId());
             statement.setInt(8, user.getId());
-            int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
+            statement.executeUpdate();
+
+            return participant;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
 
-
-    public boolean update(Participant participant) {
+    /**
+     * Updates an existing participant in the database.
+     *
+     * @param participant The Participant object to be updated.
+     * @return The updated Participant object.
+     */
+    public Participant update(Participant participant) {
         try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
             statement.setString(1, participant.getRole().toString());
             statement.setString(2, participant.getGender().toString());
@@ -82,30 +92,26 @@ public class ParticipantDAO {
             statement.setInt(5, participant.getAge());
             statement.setInt(6, participant.getTeam().getId());
             statement.setString(7, participant.getDni());
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return participant;
     }
 
-
+    /**
+     * Retrieves a list of participants belonging to a specific team.
+     *
+     * @param teamId The ID of the team whose participants are to be retrieved.
+     * @return A list of Participant objects belonging to the given team.
+     */
     public List<Participant> findParticipantsByTeam(int teamId) {
         List<Participant> participants = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(FIND_PARTICIPANT_BY_TEAM)) {
             statement.setInt(1, teamId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Participant participant = new Participant();
-                    participant.setDni(resultSet.getString("dni"));
-                    participant.setRole(Role.valueOf(resultSet.getString("role")));
-                    participant.setGender(Gender.valueOf(resultSet.getString("gender")));
-                    participant.setName(resultSet.getString("first_name"));
-                    participant.setSurname(resultSet.getString("surname"));
-                    participant.setAge(resultSet.getInt("age"));
-                    Team team = new TeamDAO(conn).findById(resultSet.getInt("id_team"));
-                    participant.setTeam(team);
+                    Participant participant = participantEager(resultSet);
                     participants.add(participant);
                 }
             }
@@ -115,20 +121,45 @@ public class ParticipantDAO {
         return participants;
     }
 
-
-    public boolean delete(String dni) {
+    /**
+     * Deletes a participant from the database.
+     *
+     * @param dni The DNI of the participant to be deleted.
+     */
+    public void delete(String dni) {
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {
             statement.setString(1, dni);
-            int rowsDeleted = statement.executeUpdate();
-            return rowsDeleted > 0;
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
-    public static ParticipantDAO build(){
+    /**
+     * Constructs a Participant object with eagerly fetched attributes from the ResultSet.
+     *
+     * @param resultSet The ResultSet containing participant data.
+     * @return A Participant object with eagerly fetched attributes.
+     * @throws SQLException If a database access error occurs.
+     */
+    private Participant participantEager(ResultSet resultSet) throws SQLException {
+        Participant participant = new Participant();
+        participant.setDni(resultSet.getString("dni"));
+        participant.setRole(Role.valueOf(resultSet.getString("role")));
+        participant.setGender(Gender.valueOf(resultSet.getString("gender")));
+        participant.setName(resultSet.getString("first_name"));
+        participant.setSurname(resultSet.getString("surname"));
+        participant.setAge(resultSet.getInt("age"));
+        participant.setTeam(TeamDAO.build().findById(resultSet.getInt("id_team")));
+        return participant;
+    }
+
+    /**
+     * Helper method to construct a ParticipantDAO object.
+     *
+     * @return A new instance of ParticipantDAO.
+     */
+    public static ParticipantDAO build() {
         return new ParticipantDAO();
     }
 }
-

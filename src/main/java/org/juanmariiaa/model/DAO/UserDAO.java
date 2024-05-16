@@ -30,6 +30,14 @@ public class UserDAO {
         this.conn = ConnectionMariaDB.getConnection();
     }
 
+
+    /**
+     * Finds a user by their username.
+     *
+     * @param username The username of the user to find
+     * @return The User object with the given username, or null if not found
+     * @throws SQLException if a database access error occurs
+     */
     public User findByUsername(String username) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(FINDBYUSERNAME)) {
             statement.setString(1, username);
@@ -46,6 +54,13 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Finds a user by their DNI.
+     *
+     * @param dni The DNI of the user to find
+     * @return The User object with the given DNI, or null if not found
+     * @throws SQLException if a database access error occurs
+     */
     public User findByDni(String dni) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(FINDBYDNI)) {
             statement.setString(1, dni);
@@ -63,6 +78,13 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Saves a user to the database.
+     *
+     * @param user The user to be saved
+     * @return The saved User object with its DNI set
+     * @throws SQLException if a database access error occurs
+     */
     public User save(User user) throws SQLException {
         if (user == null) {
             return null;
@@ -72,19 +94,26 @@ public class UserDAO {
             statement.setString(2, user.getName());
             statement.setString(3, user.getSurname());
             statement.setString(4, user.getUser());
-            statement.setString(5, user.getPassword()); // Assuming password hashing
+            statement.setString(5, user.getPassword());
             statement.executeUpdate();
 
             try (ResultSet rs = statement.getGeneratedKeys()) {
                 if (rs.next()) {
-                    user.setDni(rs.getString(1)); // Set the generated id back to the user object (if applicable)
+                    user.setDni(rs.getString(1));
                 }
             }
         }
         return user;
     }
 
-
+    /**
+     * Validates user login.
+     *
+     * @param username The username of the user
+     * @param password The password of the user
+     * @return The ID of the user if the login is valid, null otherwise
+     * @throws SQLException if a database access error occurs
+     */
     public String validateLogin(String username, String password) throws SQLException {
         try (PreparedStatement pst = conn.prepareStatement(LOGIN_VALIDATION)) {
             pst.setString(1, username);

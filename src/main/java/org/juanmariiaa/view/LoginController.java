@@ -10,7 +10,9 @@ import org.juanmariiaa.utils.Utils;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+/**
+ * Controller for the login functionality in the application.
+ */
 public class LoginController {
 
     @FXML
@@ -18,6 +20,13 @@ public class LoginController {
     @FXML
     private PasswordField tfPass;
 
+    /**
+     * Handles the login process when the user clicks the login button.
+     * Validates the entered credentials and sets the user session if successful.
+     *
+     * @throws SQLException If there's an issue with the database query.
+     * @throws IOException  If there's an issue switching to the home view.
+     */
     @FXML
     private void login() throws SQLException, IOException {
         String username = tfUser.getText().trim();

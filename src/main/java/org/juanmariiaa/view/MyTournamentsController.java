@@ -33,23 +33,28 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MyTournamentsController extends Controller implements Initializable {
+    @FXML
+    private TableView<Tournament> tableView; // Table view for displaying tournaments
+    @FXML
+    private TableColumn<Tournament, String> columnID; // Column for tournament IDs
+    @FXML
+    private TableColumn<Tournament, String> columnName; // Column for tournament names
+    @FXML
+    private TableColumn<Tournament, String> columnLocation; // Column for tournament locations
+    @FXML
+    private TableColumn<Tournament, String> columnCity; // Column for tournament cities
+    @FXML
+    private TableColumn<Tournament, Date> columnDate; // Column for tournament dates
 
-    @FXML
-    private TableView<Tournament> tableView;
-    @FXML
-    private TableColumn<Tournament,String> columnID;
-    @FXML
-    private TableColumn<Tournament,String> columnName;
-    @FXML
-    private TableColumn<Tournament,String> columnLocation;
-    @FXML
-    private TableColumn<Tournament,String> columnCity;
-    @FXML
-    private TableColumn<Tournament, Date> columnDate;
-    private ObservableList<Tournament> tournaments;
-    TournamentDAO tournamentDAO = new TournamentDAO();
+    private ObservableList<Tournament> tournaments; // List of tournaments
+    private TournamentDAO tournamentDAO = new TournamentDAO(); // Data access object for tournaments
 
-
+    /**
+     * Initializes the controller.
+     *
+     * @param location  The location used to resolve relative paths for the root object.
+     * @param resources The resources used to localize the root object.
+     */
     public void initialize(URL location, ResourceBundle resources) {
         int userId = SingletonUserSession.getCurrentUser().getId();
 
@@ -63,19 +68,22 @@ public class MyTournamentsController extends Controller implements Initializable
 
         tableView.setItems(this.tournaments);
         tableView.setEditable(true);
-        columnID.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getId()).asString());
+
+        // Set cell value factories for table columns
         columnID.setCellValueFactory(tournament -> new SimpleIntegerProperty(tournament.getValue().getId()).asString());
         columnName.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getName()));
         columnLocation.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getLocation()));
         columnCity.setCellValueFactory(tournament -> new SimpleStringProperty(tournament.getValue().getCity()));
         columnDate.setCellValueFactory(cellData -> {
             Date fecha = (Date) cellData.getValue().getDate();
-            return new SimpleObjectProperty<Date>(fecha);
+            return new SimpleObjectProperty<>(fecha);
         });
-
-
     }
 
+    /**
+     * Handles the selection of a tournament.
+     * Opens the details view for the selected tournament.
+     */
     @FXML
     private void selectTournament() {
         Tournament selectedTournament = tableView.getSelectionModel().getSelectedItem();
@@ -100,16 +108,19 @@ public class MyTournamentsController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Deletes the selected tournament.
+     */
     @FXML
     private void deleteSelected() {
-        Tournament selectedT = (Tournament) tableView.getSelectionModel().getSelectedItem();
+        Tournament selectedT = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedT != null) {
             tableView.getItems().remove(selectedT);
 
             try {
                 tournamentDAO.delete(selectedT.getId());
-                Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
+                Utils.showPopUp("DELETE", "Team deleted", "This team has been deleted.", Alert.AlertType.INFORMATION);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

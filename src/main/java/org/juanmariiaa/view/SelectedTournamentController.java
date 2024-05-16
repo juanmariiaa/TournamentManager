@@ -112,8 +112,8 @@ public class SelectedTournamentController {
     }
 
     @FXML
-    private void switchToCreateTournament() throws IOException {
-        App.setRoot("createTournament");
+    private void switchToFinder() throws IOException {
+        App.setRoot("finder");
     }
     @FXML
     public void switchToShowTeams() {

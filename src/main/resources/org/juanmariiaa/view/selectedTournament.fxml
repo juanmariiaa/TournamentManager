@@ -13,31 +13,6 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="774.0" style="-fx-background-color: #fdfdf3;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.view.SelectedTournamentController">
    <children>
-      <Pane prefHeight="58.0" prefWidth="774.0" style="-fx-background-color: #0e76a8;">
-         <children>
-            <ImageView fitHeight="58.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/logo-no-bg.png" />
-               </image>
-            </ImageView>
-            <Hyperlink layoutX="312.0" layoutY="15.0" onAction="#switchToCreateTournament" text="Create a Tournament" textFill="#a6fffe">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Hyperlink>
-            <Button layoutX="693.0" layoutY="17.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #fdfdf3; -fx-background-radius: 20;" text="Sign Out" />
-            <Hyperlink layoutX="515.0" layoutY="15.0" onAction="#switchToHome" text="Home" textFill="#a6fffe">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Hyperlink>
-            <Hyperlink layoutX="115.0" layoutY="15.0" onAction="#switchToMyTournament" text="My Tournaments" textFill="#a6fffe">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Hyperlink>
-         </children>
-      </Pane>
       <Text layoutX="64.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
          <font>
             <Font size="18.0" />
@@ -88,5 +63,25 @@
             <Image url="@../Images/back.png" />
          </image>
       </ImageView>
+      <Pane prefHeight="58.0" prefWidth="774.0" style="-fx-background-color: #0e76a8;">
+         <children>
+            <ImageView fitHeight="58.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/logo-no-bg.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="693.0" layoutY="17.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #fdfdf3; -fx-background-radius: 20;" text="Sign Out" />
+            <Hyperlink layoutX="205.0" layoutY="15.0" onAction="#switchToHome" text="Home" textFill="#a6fffe">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink layoutX="467.0" layoutY="15.0" onAction="#switchToFinder" text="Finder" textFill="#a6fffe">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Hyperlink>
+         </children>
+      </Pane>
    </children>
 </Pane>

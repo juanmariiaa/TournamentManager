@@ -17,7 +17,6 @@ public class TournamentDAO {
     private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament ,id_team) VALUES (?, ?)";
     private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
     private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
-    private final static String FIND_TOURNAMENTS_BY_TEAM = "SELECT t.id, t.name, t.location, t.city, t.date FROM tournament t, participation p WHERE t.id = p.id_tournament AND p.id_team = ?";
 
 
 
@@ -34,6 +33,13 @@ public class TournamentDAO {
         this.teamTournamentDAO = new TeamTournamentDAO(conn);
     }
 
+    /**
+     * Finds all tournaments associated with a given user.
+     *
+     * @param userId The ID of the user
+     * @return A list of Tournament objects associated with the user
+     * @throws SQLException if a database access error occurs
+     */
     public List<Tournament> findAll(int userId) throws SQLException {
         List<Tournament> tournaments = new ArrayList<>();
         try (PreparedStatement preparedStatement = conn.prepareStatement(FIND_ALL)) {
@@ -53,10 +59,16 @@ public class TournamentDAO {
         return tournaments;
     }
 
-
+    /**
+     * Saves a tournament to the database.
+     *
+     * @param user      The user associated with the tournament
+     * @param tournament The tournament to be saved
+     * @return The saved Tournament object with its ID set
+     * @throws SQLException if a database access error occurs
+     */
     public Tournament save(User user, Tournament tournament) throws SQLException {
-        // Implement logic to create a tournament associated with the provided user
-        try (PreparedStatement statement = conn.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, tournament.getName());
             statement.setString(2, tournament.getLocation());
             statement.setString(3, tournament.getCity());
@@ -73,6 +85,13 @@ public class TournamentDAO {
         return tournament;
     }
 
+    /**
+     * Updates a tournament in the database.
+     *
+     * @param tournament The tournament to be updated
+     * @return The updated Tournament object
+     * @throws SQLException if a database access error occurs
+     */
     public Tournament update(Tournament tournament) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
             statement.setString(1, tournament.getName());
@@ -85,20 +104,37 @@ public class TournamentDAO {
         return tournament;
     }
 
-
-
+    /**
+     * Deletes a tournament from the database.
+     *
+     * @param tournamentId The ID of the tournament to be deleted
+     * @throws SQLException if a database access error occurs
+     */
     public void delete(int tournamentId) throws SQLException {
-        // 1. Delete tournament itself (assuming no foreign key constraints)
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {
             statement.setInt(1, tournamentId);
             statement.executeUpdate();
         }
     }
 
+    /**
+     * Finds teams associated with a specific tournament.
+     *
+     * @param tournamentId The ID of the tournament
+     * @return A list of Team objects associated with the tournament
+     * @throws SQLException if a database access error occurs
+     */
     public List<Team> findTeamsByTournamentId(int tournamentId) throws SQLException {
         return teamTournamentDAO.findTeamsByTournamentId(tournamentId);
     }
 
+    /**
+     * Adds a team to a tournament.
+     *
+     * @param tournamentId The ID of the tournament
+     * @param teamId       The ID of the team
+     * @throws SQLException if a database access error occurs
+     */
     public void addTeamToTournament(int tournamentId, int teamId) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(ADD_TEAM_TO_TOURNAMENT)) {
             statement.setInt(1, tournamentId);
@@ -107,6 +143,13 @@ public class TournamentDAO {
         }
     }
 
+    /**
+     * Removes a team from a tournament.
+     *
+     * @param teamId       The ID of the team
+     * @param tournamentId The ID of the tournament
+     * @throws SQLException if a database access error occurs
+     */
     public void removeTeamFromTournament(int teamId, int tournamentId) throws SQLException {
         try (PreparedStatement statement = conn.prepareStatement(DELETE_TEAM_FROM_TOURNAMENT)) {
             statement.setInt(1, tournamentId);
@@ -115,8 +158,14 @@ public class TournamentDAO {
         }
     }
 
-
-
+    /**
+     * Checks if a team is in a specific tournament.
+     *
+     * @param teamId       The ID of the team
+     * @param tournamentId The ID of the tournament
+     * @return true if the team is in the tournament, false otherwise
+     * @throws SQLException if a database access error occurs
+     */
     public boolean isTeamInTournament(int teamId, int tournamentId) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(IS_TEAM_IN_TOURNAMENT)) {
             stmt.setInt(1, teamId);
@@ -127,26 +176,13 @@ public class TournamentDAO {
         }
     }
 
-    public List<Tournament> findTournamentsByTeam(int teamId) throws SQLException {
-        List<Tournament> tournaments = new ArrayList<>();
-        try (PreparedStatement statement = conn.prepareStatement(FIND_TOURNAMENTS_BY_TEAM)) {
-            statement.setInt(1, teamId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Tournament tournament = new Tournament();
-                    tournament.setId(resultSet.getInt("id"));
-                    tournament.setName(resultSet.getString("name"));
-                    tournament.setLocation(resultSet.getString("location"));
-                    tournament.setCity(resultSet.getString("city"));
-                    tournament.setDate(resultSet.getDate("date"));
-                    tournaments.add(tournament);
-                }
-            }
-        }
-        return tournaments;
-    }
 
 
+    /**
+     * Builds and returns a new instance of TournamentDAO.
+     *
+     * @return A new instance of TournamentDAO
+     */
     public static TournamentDAO build(){
         return new TournamentDAO();
     }

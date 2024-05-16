@@ -1,5 +1,6 @@
 package org.juanmariiaa.model.DAO;
 
+import org.juanmariiaa.model.connection.ConnectionMariaDB;
 import org.juanmariiaa.model.domain.Team;
 
 import java.sql.Connection;
@@ -23,7 +24,13 @@ public class TeamTournamentDAO {
     }
 
 
-
+    /**
+     * Finds teams associated with a specific tournament.
+     *
+     * @param tournamentId The ID of the tournament
+     * @return A list of Team objects associated with the tournament
+     * @throws SQLException if a database access error occurs
+     */
     public List<Team> findTeamsByTournamentId(int tournamentId) throws SQLException {
         List<Team> result = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(FIND_BY_TOURNAMENT_ID)) {

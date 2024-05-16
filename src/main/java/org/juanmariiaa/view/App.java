@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App extends Application {
-
     private static Scene scene;
     private static Stage primaryStage;
 
@@ -30,8 +29,6 @@ public class App extends Application {
     }
 
     public static void setRoot(String fxml) throws IOException {
-        System.out.println("Before setRoot: " + primaryStage.getWidth() + ", " + primaryStage.getHeight());
-
         Scene newScene;
         if (fxml.equals("login")) {
             newScene = createScene(fxml, 308, 411);
@@ -73,8 +70,6 @@ public class App extends Application {
         primaryStage.setResizable(true);
         primaryStage.setScene(newScene);
         primaryStage.setResizable(false);
-        System.out.println("After setRoot: " + primaryStage.getWidth() + ", " + primaryStage.getHeight());
-
     }
 
 

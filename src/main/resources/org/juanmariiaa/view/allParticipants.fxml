@@ -19,8 +19,8 @@
                 <TableColumn fx:id="columnSurname" minWidth="0.0" prefWidth="103.0" text="Surname" />
                 <TableColumn fx:id="columnAge" prefWidth="34.0" text="Age" />
                 <TableColumn fx:id="columnRole" prefWidth="84.0" text="Role" />
-                <TableColumn fx:id="columnGender" prefWidth="72.0" text="Gender" />
-                <TableColumn fx:id="columnTeam" prefWidth="125.0" text="Team" />
+                <TableColumn fx:id="columnGender" minWidth="0.0" prefWidth="95.86279296875" text="Gender" />
+            <TableColumn fx:id="columnTeam" prefWidth="101.63720703125" text="Team" />
             </columns>
         </TableView>
         <Text fill="WHITE" layoutX="236.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To update, double click the field you wish to modify." />

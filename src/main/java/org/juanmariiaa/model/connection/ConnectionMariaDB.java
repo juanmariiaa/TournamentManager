@@ -10,33 +10,32 @@ public class ConnectionMariaDB {
     private static ConnectionMariaDB _instance;
     private static Connection conn;
 
-    public ConnectionMariaDB(){
-        ConnectionProperties properties = (ConnectionProperties) XMLManager.readXML(new ConnectionProperties(),FILE);
+    /**
+     * Constructor to initialize a new MariaDB connection using properties from an XML file.
+     */
+    public ConnectionMariaDB() {
+        ConnectionProperties properties = (ConnectionProperties) XMLManager.readXML(new ConnectionProperties(), FILE);
 
         try {
-            conn = DriverManager.getConnection(properties.getURL(),properties.getUser(),properties.getPassword());
+            conn = DriverManager.getConnection(properties.getURL(), properties.getUser(), properties.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
-            conn=null;
+            conn = null;
         }
     }
 
-    public static Connection getConnection(){
-        if(_instance==null){
+    /**
+     * Get a connection instance. If no instance exists, a new one is created.
+     *
+     * @return Connection instance
+     */
+    public static Connection getConnection() {
+        if (_instance == null) {
             _instance = new ConnectionMariaDB();
         }
-        return conn;
+        return _instance.conn;
     }
-
-    public static void closeConnection(){
-        if(conn!=null){
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
 }
+
+
+

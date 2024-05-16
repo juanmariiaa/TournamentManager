@@ -56,53 +56,60 @@ public class AllParticipantsController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         currentUser = SingletonUserSession.getCurrentUser();
-        List<Participant> teamsList = ParticipantDAO.build().findAll(currentUser.getId());
-        this.participants = FXCollections.observableArrayList(teamsList);
+        List<Participant> participants = ParticipantDAO.build().findAll(currentUser.getId());
+        this.participants = FXCollections.observableArrayList(participants);
 
         tableView.setItems(this.participants);
         tableView.setEditable(true);
         columnDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        columnDNI.setCellFactory(TextFieldTableCell.forTableColumn());
+        columnDNI.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
+            participant.setDni(p.getNewValue());
+            participantDAO.update(participant);
+            tableView.refresh();
+        });
 
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnName.setCellFactory(TextFieldTableCell.forTableColumn());
-        columnName.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
-            participant.setName(event.getNewValue());
+        columnName.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
+            participant.setName(p.getNewValue());
             participantDAO.update(participant);
             tableView.refresh();
         });
 
         columnSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         columnSurname.setCellFactory(TextFieldTableCell.forTableColumn());
-        columnSurname.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
-            participant.setSurname(event.getNewValue());
+        columnSurname.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
+            participant.setSurname(p.getNewValue());
             participantDAO.update(participant);
             tableView.refresh();
         });
 
         columnAge.setCellValueFactory(participant -> new SimpleStringProperty(Integer.toString(participant.getValue().getAge())));
         columnAge.setCellFactory(TextFieldTableCell.forTableColumn());
-        columnAge.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
-            participant.setAge(Integer.parseInt(event.getNewValue()));
+        columnAge.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
+            participant.setAge(Integer.parseInt(p.getNewValue()));
             participantDAO.update(participant);
             tableView.refresh();
         });
         columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         columnRole.setCellFactory(ComboBoxTableCell.forTableColumn(Role.values()));
-        columnRole.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
-            participant.setRole(event.getNewValue());
+        columnRole.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
+            participant.setRole(p.getNewValue());
             participantDAO.update(participant);
             tableView.refresh();
         });
 
         columnGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         columnGender.setCellFactory(ComboBoxTableCell.forTableColumn(Gender.values()));
-        columnGender.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
-            participant.setGender(event.getNewValue());
+        columnGender.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
+            participant.setGender(p.getNewValue());
             participantDAO.update(participant);
             tableView.refresh();
         });
@@ -120,19 +127,18 @@ public class AllParticipantsController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        columnTeam.setOnEditCommit(event -> {
-            Participant participant = event.getRowValue();
+        columnTeam.setOnEditCommit(p -> {
+            Participant participant = p.getRowValue();
             Team team = null;
             try {
-                team = (Team) TeamDAO.build().findByName(event.getNewValue());
+                team = (Team) TeamDAO.build().findOneByName(p.getNewValue());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
             participant.setTeam(team);
             participantDAO.update(participant);
             tableView.refresh();
-        });
-    }
+        });    }
 
     private ObservableList<String> getTeams() throws SQLException {
         List<Team> teams = TeamDAO.build().findAll(currentUser.getId());
