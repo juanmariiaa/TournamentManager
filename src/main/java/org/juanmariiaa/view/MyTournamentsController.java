@@ -34,23 +34,23 @@ import java.util.ResourceBundle;
 
 public class MyTournamentsController extends Controller implements Initializable {
     @FXML
-    private TableView<Tournament> tableView; // Table view for displaying tournaments
+    private TableView<Tournament> tableView;
     @FXML
-    private TableColumn<Tournament, String> columnID; // Column for tournament IDs
+    private TableColumn<Tournament, String> columnID;
     @FXML
-    private TableColumn<Tournament, String> columnName; // Column for tournament names
+    private TableColumn<Tournament, String> columnName;
     @FXML
-    private TableColumn<Tournament, String> columnLocation; // Column for tournament locations
+    private TableColumn<Tournament, String> columnLocation;
     @FXML
-    private TableColumn<Tournament, String> columnCity; // Column for tournament cities
+    private TableColumn<Tournament, String> columnCity;
     @FXML
-    private TableColumn<Tournament, Date> columnDate; // Column for tournament dates
+    private TableColumn<Tournament, Date> columnDate;
 
-    private ObservableList<Tournament> tournaments; // List of tournaments
-    private TournamentDAO tournamentDAO = new TournamentDAO(); // Data access object for tournaments
+    private ObservableList<Tournament> tournaments;
+    private TournamentDAO tournamentDAO = new TournamentDAO();
 
     /**
-     * Initializes the controller.
+     * Initializes the controller, and display all the tournament details.
      *
      * @param location  The location used to resolve relative paths for the root object.
      * @param resources The resources used to localize the root object.

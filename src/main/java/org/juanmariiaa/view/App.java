@@ -15,7 +15,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
+
+        // Load the icon image
+        Image icon = new Image(getClass().getResourceAsStream("/org/juanmariiaa/Images/logo-no-bg.png"));
+        primaryStage.getIcons().add(icon);
+
         scene = new Scene(loadFXML("login"), 308, 411);
+
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

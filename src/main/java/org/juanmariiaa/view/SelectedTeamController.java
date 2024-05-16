@@ -27,6 +27,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Controller class for displaying and managing details of a selected team.
+ * This controller handles updating team details, displaying associated participants
+ * and creating new participants for this selected tournament.
+ */
 public class SelectedTeamController {
 
 
@@ -70,6 +75,10 @@ public class SelectedTeamController {
 
 
 
+    /**
+     * Displays the details of a selected team's participants.
+     * This controller also handles updating participant details.
+     */
     private void displayParticipants() {
         List<Participant> participants = participantDAO.findParticipantsByTeam(selectedTeam.getId());
         participantsData = FXCollections.observableArrayList(participants);
@@ -139,6 +148,9 @@ public class SelectedTeamController {
         });
     }
 
+    /**
+     * Updates the details of the selected team.
+     */
     @FXML
     private void updateTeam() {
         if (nameField.getText().isEmpty() || cityField.getText().isEmpty() || institutionField.getText().isEmpty()) {
@@ -154,6 +166,9 @@ public class SelectedTeamController {
     }
 
 
+    /**
+     * Deletes the selected participant from the team.
+     */
     @FXML
     private void deleteSelected() {
         Participant selectedP = (Participant) tableView.getSelectionModel().getSelectedItem();

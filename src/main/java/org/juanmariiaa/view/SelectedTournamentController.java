@@ -29,6 +29,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for displaying and managing details of a selected tournament.
+ * This controller handles updating tournament details, displaying associated teams
+ * and creating new teams for this selected tournament.
+ */
 public class SelectedTournamentController {
 
     @FXML
@@ -50,6 +55,11 @@ public class SelectedTournamentController {
     private TeamDAO teamDAO;
     private ObservableList<Team> teamsData;
 
+    /**
+     * Initializes the controller with the given tournament.
+     *
+     * @param tournament The tournament to be displayed in the controller.
+     */
     public void initialize(Tournament tournament) {
         currentUser = SingletonUserSession.getCurrentUser();
         this.selectedTournament = tournament;
@@ -58,7 +68,9 @@ public class SelectedTournamentController {
         displayTournamentDetails();
         displayTeams();
     }
-
+    /**
+     * Displays the details of the selected tournament.
+     */
     private void displayTournamentDetails() {
         nameField.setText(selectedTournament.getName());
         locationField.setText(selectedTournament.getLocation());
@@ -68,6 +80,11 @@ public class SelectedTournamentController {
         datePicker.setValue(LocalDate.parse(formattedDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
     }
 
+    /**
+     * Display the list of teams associated with the selected tournament.
+     *
+     * @throws IOException if an error occurs while loading the ShowTeams.fxml file
+     */
     private void displayTeams() {
         List<Team> teams = teamDAO.findTeamsByTournament(selectedTournament.getId());
         if (teamsData == null) {
@@ -78,6 +95,13 @@ public class SelectedTournamentController {
         teamsListView.setItems(teamsData);
     }
 
+    /**
+     * Updates the selected tournament's details, this method is then associated with a button if
+     * the user changes any fields in the TextField.
+     *
+     * @throws SQLException if an error occurs while updating the tournament in the database.
+     * @throws NullPointerException if any of the fields are empty.
+     */
     @FXML
     private void update() {
         try {
@@ -99,6 +123,12 @@ public class SelectedTournamentController {
     private void switchToHome() throws IOException {
         App.setRoot("home");
     }
+
+    /**
+     * Refreshes the list of teams associated with the selected tournament.
+     * This associated with a button in the fxml file.
+     * @throws IOException if an error occurs while loading the ShowTeams.fxml file.
+     */
     @FXML
     private void refresh() throws IOException {
         List<Team> teams = teamDAO.findTeamsByTournament(selectedTournament.getId());
@@ -115,6 +145,12 @@ public class SelectedTournamentController {
     private void switchToFinder() throws IOException {
         App.setRoot("finder");
     }
+
+    /**
+     * Switches to the ShowTeams.fxml window to display the list of teams for the selected tournament.
+     *
+     * @throws IOException if an error occurs while loading the ShowTeams.fxml file.
+     */
     @FXML
     public void switchToShowTeams() {
         try {
@@ -137,6 +173,11 @@ public class SelectedTournamentController {
     private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
+    /**
+     * Switches to the CreateTeam.fxml window to allow the user to create a new team for the selected tournament.
+     *
+     * @throws IOException if an error occurs while loading the CreateTeam.fxml file.
+     */
     @FXML
     private void switchToCreateTeam() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("createTeam.fxml"));

@@ -19,6 +19,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for creating a new tournament.
+ * It retrieves the input fields' values, validates them, and then creates a new Tournament object.
+ *
+ * @throws SQLException if an error occurs while creating the team
+ */
 public class CreateTournamentController {
     @FXML
     private TextField tfName;
@@ -38,6 +44,7 @@ public class CreateTournamentController {
     private ObservableList<Tournament> tournaments;
 
     private User currentUser;
+
 
     @FXML
     private void initialize() throws SQLException {

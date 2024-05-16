@@ -27,6 +27,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class that display all the Teams associated with the selectedTournament.
+ */
 public class ShowTeamsController implements Initializable {
 
     @FXML
@@ -43,6 +46,10 @@ public class ShowTeamsController implements Initializable {
     private final TeamDAO teamDAO = new TeamDAO();
     private Tournament selectedTournament;
 
+    /**
+     * Initializes the table view with the current user's data.
+     *
+     */
     public void initialize(URL location, ResourceBundle resources) {
         currentUser = SingletonUserSession.getCurrentUser();
         tableView.setEditable(true);
@@ -51,6 +58,9 @@ public class ShowTeamsController implements Initializable {
         institutionColumn.setCellValueFactory(team -> new SimpleStringProperty(team.getValue().getInstitution()));
     }
 
+    /**
+     * Deletes the selected team from the table and the database.
+     */
     @FXML
     private void deleteSelected() {
         Team selectedT = (Team) tableView.getSelectionModel().getSelectedItem();
@@ -70,6 +80,11 @@ public class ShowTeamsController implements Initializable {
     }
 
 
+    /**
+     * Loads the teams associated with the given tournament.
+     *
+     * @param tournament The tournament for which the teams are to be loaded.
+     */
     public void loadTeams(Tournament tournament) {
         this.selectedTournament = tournament;
         List<Team> teams = teamDAO.findTeamsByTournament(tournament.getId());
@@ -109,10 +124,3 @@ public class ShowTeamsController implements Initializable {
         stage.close();
     }
 }
-
-
-
-
-
-
-

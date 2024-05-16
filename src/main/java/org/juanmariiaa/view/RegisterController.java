@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * Controller for user registration functionality in the application.
+ * Controller for user registration in the app.
  */
 public class RegisterController {
 

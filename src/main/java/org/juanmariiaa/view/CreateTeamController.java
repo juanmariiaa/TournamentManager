@@ -23,6 +23,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This class is responsible for creating a new team.
+ * It retrieves the input fields' values, validates them, and then creates a new Team object
+ * associated with the selectedTournament.
+ *
+ * @throws SQLException if an error occurs while creating the team
+ */
 public class CreateTeamController implements Initializable {
 
     @FXML
@@ -54,6 +61,7 @@ public class CreateTeamController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = SingletonUserSession.getCurrentUser();
     }
+
 
     @FXML
     private void createTeam() {
