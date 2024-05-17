@@ -6,18 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllAddRemoveTeamsTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllAddRemoveTeamsTournamentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllParticipantsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllParticipantsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllShowParticipantsInSelectedTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllShowParticipantsInSelectedTeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllTeamsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllTeamsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllTournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/AllTournamentsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/FinderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/FinderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/MyTournamentsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/MyTournamentsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ShowTeamsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/ShowTeamsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +63,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ariza/Desktop/TournamentManager",
+    "last_opened_file_path": "/Users/juanmaria/Peliculas/definitive",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -113,7 +102,7 @@
       <recent name="org.juanmariiaa" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.juanmariiaa.view.App" />
       <module name="TournamentNew2" />
@@ -177,8 +166,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-19.0.2-corretto-19.0.2-4caba194b151-48ba4555" />
-        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
+        <option value="jdk-20.0.2-corretto-20.0.2.1-4caba194b151-d89c1816" />
       </set>
     </attachedChunks>
   </component>
@@ -257,6 +245,7 @@
       <workItem from="1715848170096" duration="5095000" />
       <workItem from="1715856352876" duration="2386000" />
       <workItem from="1715875676797" duration="1036000" />
+      <workItem from="1715929047255" duration="360000" />
     </task>
     <servers />
   </component>

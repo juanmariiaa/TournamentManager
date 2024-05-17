@@ -169,14 +169,14 @@ public class SelectedTeamController {
      */
     @FXML
     private void deleteSelected() {
-        Participant selectedP = (Participant) tableView.getSelectionModel().getSelectedItem();
+        Participant selectedP = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedP != null) {
             tableView.getItems().remove(selectedP);
-
-            participantDAO.delete(String.valueOf(selectedP));
-            Utils.showPopUp("DELETE", "Team deleted", "This team has deleted.", Alert.AlertType.INFORMATION);
-
+            participantDAO.delete(selectedP.getDni());
+            Utils.showPopUp("DELETE", "Participant deleted", "Participant has been deleted.", Alert.AlertType.INFORMATION);
+        } else {
+            Utils.showPopUp("ERROR", "No Participant Selected", "Please select a participant to delete.", Alert.AlertType.ERROR);
         }
     }
 

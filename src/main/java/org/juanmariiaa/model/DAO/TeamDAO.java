@@ -186,11 +186,13 @@ public class TeamDAO {
             statement.setString(2, team.getCity());
             statement.setString(3, team.getInstitution());
             statement.setInt(4, team.getId());
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return team;
     }
+
 
 
 
