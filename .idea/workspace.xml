@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Documentacion/Model e-r.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Documentacion/class_diagram.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documentacion/debate.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Documentacion/backup.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +65,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/juanmaria/Peliculas/definitive",
+    "last_opened_file_path": "/Users/juanmaria/Peliculas/definitive/Documentacion",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -81,11 +83,11 @@
       <recent name="org.juanmariiaa.others" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Documentacion" />
       <recent name="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/Images" />
       <recent name="C:\IdeaProjects\otros\TournamentManager\src\main\resources\org\juanmariiaa\view" />
       <recent name="C:\IdeaProjects\otros\TournamentManager\src\main\resources\org\juanmariiaa\Images" />
       <recent name="C:\IdeaProjects\TournamentManager\src\main\resources\org\juanmariiaa" />
-      <recent name="C:\IdeaProjects\TournamentManager\src\main\resources\org\juanmariiaa\Images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Documentacion" />
@@ -245,7 +247,7 @@
       <workItem from="1715848170096" duration="5095000" />
       <workItem from="1715856352876" duration="2386000" />
       <workItem from="1715875676797" duration="1036000" />
-      <workItem from="1715929047255" duration="360000" />
+      <workItem from="1715929047255" duration="1498000" />
     </task>
     <servers />
   </component>
