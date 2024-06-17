@@ -83,5 +83,6 @@
             <Image url="@../Images/back.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="logoImageView" fitHeight="99.0" fitWidth="84.0" layoutX="217.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

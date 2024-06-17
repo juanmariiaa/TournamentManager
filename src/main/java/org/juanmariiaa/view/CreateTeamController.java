@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.DAO.TournamentDAO;
@@ -16,6 +19,9 @@ import org.juanmariiaa.model.domain.User;
 import org.juanmariiaa.others.SingletonUserSession;
 import org.juanmariiaa.utils.Utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -38,11 +44,14 @@ public class CreateTeamController implements Initializable {
     private TextField cityField;
     @FXML
     private TextField institutionField;
+    @FXML
+    private ImageView logoImageView;
 
     private Tournament selectedTournament;
     private TournamentDAO tournamentDAO;
     private TeamDAO teamDAO;
     private User currentUser;
+    private byte[] logoImageData;
 
     public CreateTeamController() {
         this.tournamentDAO = new TournamentDAO();
@@ -62,6 +71,33 @@ public class CreateTeamController implements Initializable {
         currentUser = SingletonUserSession.getCurrentUser();
     }
 
+    @FXML
+    private void handleExamineButton() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Team Logo");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        Stage stage = (Stage) nameField.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            try (FileInputStream fis = new FileInputStream(selectedFile);
+                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[1024];
+                int readNum;
+                while ((readNum = fis.read(buffer)) != -1) {
+                    bos.write(buffer, 0, readNum);
+                }
+                logoImageData = bos.toByteArray();
+                Image image = new Image(new FileInputStream(selectedFile));
+                logoImageView.setImage(image);
+            } catch (IOException e) {
+                Utils.showPopUp("Error", null, "Failed to load image.", Alert.AlertType.ERROR);
+            }
+        }
+    }
 
     @FXML
     private void createTeam() {
@@ -79,6 +115,7 @@ public class CreateTeamController implements Initializable {
             newTeam.setName(name);
             newTeam.setCity(city);
             newTeam.setInstitution(institution);
+            newTeam.setImageData(logoImageData); // Set the image data
 
             if (selectedTournament == null) {
                 Utils.showPopUp("Error", null, "Please select a tournament.", Alert.AlertType.ERROR);
@@ -94,10 +131,11 @@ public class CreateTeamController implements Initializable {
 
             tournamentDAO.addTeamToTournament(selectedTournament.getId(), newTeam.getId());
 
-
             nameField.clear();
             cityField.clear();
             institutionField.clear();
+            logoImageView.setImage(null); // Clear the ImageView
+            logoImageData = null; // Reset the image data
             closeWindow();
 
             Utils.showPopUp("Success", null, "Team created successfully!", Alert.AlertType.INFORMATION);
@@ -106,12 +144,8 @@ public class CreateTeamController implements Initializable {
         }
     }
 
-
-
     private void closeWindow() {
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
     }
-
-
 }

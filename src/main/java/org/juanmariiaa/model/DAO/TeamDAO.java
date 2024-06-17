@@ -15,7 +15,7 @@ public class TeamDAO {
     private final static String FINDALL = "SELECT * FROM team WHERE id_user=?";
     private final static String FINDBYID = "SELECT * FROM team WHERE id=?";
     private final static String FINDBYNAME = "SELECT * FROM team WHERE name LIKE ?";
-    private final static String INSERT = "INSERT INTO team (id, name, city, institution, id_user) VALUES (?, ?, ?, ?, ?)";
+    private final static String INSERT = "INSERT INTO team (id, name, city, institution, id_user, logo) VALUES (?, ?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
     private final static String FIND_TEAMS_BY_TOURNAMENT = "SELECT t.id, t.name, t.city, t.institution " +
@@ -152,13 +152,14 @@ public class TeamDAO {
     public Team save(User user, Team team, int tournamentId) throws SQLException {
         if (team.getId() == 0) {
             try (PreparedStatement pst = this.conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
-                pst.setNull(1, Types.INTEGER);
+                pst.setNull(1, Types.INTEGER); // Auto-increment ID
                 pst.setString(2, team.getName());
                 pst.setString(3, team.getCity());
                 pst.setString(4, team.getInstitution());
                 pst.setInt(5, user.getId());
-                pst.executeUpdate();
+                pst.setBytes(6, team.getImageData());
 
+                pst.executeUpdate();
                 try (ResultSet rs = pst.getGeneratedKeys()) {
                     if (rs.next()) {
                         team.setId(rs.getInt(1));

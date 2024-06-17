@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.juanmariiaa.model.DAO.ParticipantDAO;
@@ -21,8 +23,10 @@ import org.juanmariiaa.model.enums.Gender;
 import org.juanmariiaa.model.enums.Role;
 import org.juanmariiaa.utils.Utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,7 +36,6 @@ import java.util.List;
  */
 public class SelectedTeamController {
 
-
     @FXML
     private TextField nameField;
     @FXML
@@ -41,24 +44,25 @@ public class SelectedTeamController {
     private TextField institutionField;
     @FXML
     private TableView<Participant> tableView;
-
     @FXML
-    private TableColumn<Participant,String> columnDNI;
+    private TableColumn<Participant, String> columnDNI;
     @FXML
-    private TableColumn<Participant,String> columnName;
+    private TableColumn<Participant, String> columnName;
     @FXML
-    private TableColumn<Participant,String> columnSurname;
+    private TableColumn<Participant, String> columnSurname;
     @FXML
-    private TableColumn<Participant,String> columnAge;
+    private TableColumn<Participant, String> columnAge;
     @FXML
-    private TableColumn<Participant,Role> columnRole;
+    private TableColumn<Participant, Role> columnRole;
     @FXML
     private TableColumn<Participant, Gender> columnGender;
+    @FXML
+    private ImageView logoImageView; // Add ImageView field
+
     private Team selectedTeam;
     private ParticipantDAO participantDAO;
     private TeamDAO teamDAO;
     private ObservableList<Participant> participantsData;
-
 
     public void initialize(Team selectedTeam) {
         this.selectedTeam = selectedTeam;
@@ -68,15 +72,20 @@ public class SelectedTeamController {
         cityField.setText(selectedTeam.getCity());
         institutionField.setText(selectedTeam.getInstitution());
 
+        // Display the logo
+        displayLogo();
+
         displayParticipants();
     }
 
+    private void displayLogo() {
+        if (selectedTeam.getImageData() != null && selectedTeam.getImageData().length > 0) {
+            ByteArrayInputStream bis = new ByteArrayInputStream(selectedTeam.getImageData());
+            Image logoImage = new Image(bis);
+            logoImageView.setImage(logoImage);
+        }
+    }
 
-
-    /**
-     * Displays the details of a selected team's participants.
-     * This controller also handles updating participant details.
-     */
     private void displayParticipants() {
         List<Participant> participants = participantDAO.findParticipantsByTeam(selectedTeam.getId());
         participantsData = FXCollections.observableArrayList(participants);
@@ -89,7 +98,6 @@ public class SelectedTeamController {
             Participant participant = p.getRowValue();
             participant.setDni(p.getNewValue());
             participantDAO.update(participant);
-            // Update the participantsData list
             participantsData.set(tableView.getSelectionModel().getSelectedIndex(), participant);
             tableView.refresh();
         });
@@ -119,17 +127,16 @@ public class SelectedTeamController {
             Participant participant = p.getRowValue();
             participant.setAge(Integer.parseInt(p.getNewValue()));
             participantDAO.update(participant);
-            // Update the participantsData list
             participantsData.set(tableView.getSelectionModel().getSelectedIndex(), participant);
             tableView.refresh();
         });
+
         columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         columnRole.setCellFactory(ComboBoxTableCell.forTableColumn(Role.values()));
         columnRole.setOnEditCommit(p -> {
             Participant participant = p.getRowValue();
             participant.setRole(p.getNewValue());
             participantDAO.update(participant);
-            // Update the participantsData list
             participantsData.set(tableView.getSelectionModel().getSelectedIndex(), participant);
             tableView.refresh();
         });
@@ -140,15 +147,11 @@ public class SelectedTeamController {
             Participant participant = p.getRowValue();
             participant.setGender(p.getNewValue());
             participantDAO.update(participant);
-            // Update the participantsData list
             participantsData.set(tableView.getSelectionModel().getSelectedIndex(), participant);
             tableView.refresh();
         });
     }
 
-    /**
-     * Updates the details of the selected team.
-     */
     @FXML
     private void updateTeam() {
         if (nameField.getText().isEmpty() || cityField.getText().isEmpty() || institutionField.getText().isEmpty()) {
@@ -163,10 +166,6 @@ public class SelectedTeamController {
         Utils.showPopUp("UPDATE", "Team Updated", "Team details updated successfully.", Alert.AlertType.INFORMATION);
     }
 
-
-    /**
-     * Deletes the selected participant from the team.
-     */
     @FXML
     private void deleteSelected() {
         Participant selectedP = tableView.getSelectionModel().getSelectedItem();
@@ -185,25 +184,21 @@ public class SelectedTeamController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateParticipant.fxml"));
             Parent root = loader.load();
-
             CreateParticipantController controller = loader.getController();
             controller.setSelectedTeam(selectedTeam);
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Create Participant");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
             displayParticipants();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void closeWindow() {
         Stage stage = (Stage) tableView.getScene().getWindow();
         stage.close();
     }
-
-
 }

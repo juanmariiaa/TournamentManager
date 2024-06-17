@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8098ffd-394b-4544-8152-3be7477c26e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/PictureDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/PicturesTournamentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/pictures.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TournamentDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Picture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Picture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/DAO/TeamDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Tournament.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/model/domain/Tournament.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTournamentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/CreateTeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/juanmariiaa/view/SelectedTeamController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/createTeam.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTournament.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTournament.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTeam.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/juanmariiaa/view/selectedTeam.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +261,7 @@
       <workItem from="1717572242893" duration="197000" />
       <workItem from="1717583126415" duration="213000" />
       <workItem from="1717671478002" duration="109000" />
-      <workItem from="1718642349693" duration="7171000" />
+      <workItem from="1718642349693" duration="9623000" />
     </task>
     <servers />
   </component>

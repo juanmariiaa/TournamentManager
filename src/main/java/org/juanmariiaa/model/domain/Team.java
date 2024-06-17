@@ -10,6 +10,7 @@ public class Team {
     private String city;
     private String institution;
     private List<Participant> participants;
+    private byte[] imageData;
 
     public Team() {
         this.id = 0;
@@ -17,14 +18,16 @@ public class Team {
         this.city = "";
         this.institution = "";
         this.participants = new ArrayList<>(); // Initialize participants list
+        this.imageData = new byte[0]; // Initialize imageData
     }
 
-    public Team(int id, String name, String city, String institution, List<Participant> participants) {
+    public Team(int id, String name, String city, String institution, List<Participant> participants, byte[] imageData) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.institution = institution;
         this.participants = participants; // Initialize participants list
+        this.imageData = imageData; // Initialize imageData
     }
 
     public int getId() {
@@ -62,6 +65,11 @@ public class Team {
     public List<Participant> getParticipants() {
         return participants;
     }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
+    }
+
     public List<String> getParticipantNames() {
         List<String> participantNames = new ArrayList<>();
         for (Participant participant : participants) {
@@ -70,8 +78,12 @@ public class Team {
         return participantNames;
     }
 
-    public void setParticipants(List<Participant> participants) {
-        this.participants = participants;
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     @Override
@@ -83,9 +95,13 @@ public class Team {
             return false;
         }
         Team team = (Team) obj;
-        return Objects.equals(id, team.id);
+        return id == team.id;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {
