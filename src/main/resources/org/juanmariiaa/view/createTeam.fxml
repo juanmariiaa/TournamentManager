@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="394.0" prefWidth="362.0" style="-fx-background-color: #fdfdf3; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.view.CreateTeamController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="362.0" style="-fx-background-color: #fdfdf3; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.juanmariiaa.view.CreateTeamController">
    <children>
       <Pane prefHeight="70.0" prefWidth="362.0" style="-fx-background-color: #0e76a8;">
          <children>
@@ -37,6 +37,6 @@
       <TextField fx:id="nameField" layoutX="35.0" layoutY="130.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
       <TextField fx:id="cityField" layoutX="35.0" layoutY="205.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
       <TextField fx:id="institutionField" layoutX="34.0" layoutY="284.0" prefHeight="38.0" prefWidth="293.0" style="-fx-background-radius: 20;" />
-      <Button fx:id="btnCreate" layoutX="150.0" layoutY="338.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="38.0" prefWidth="63.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create" textFill="WHITE" />
+      <Button fx:id="btnCreate" layoutX="149.0" layoutY="345.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="38.0" prefWidth="63.0" style="-fx-background-radius: 20; -fx-background-color: #0e76a8;" text="Create" textFill="WHITE" />
    </children>
 </Pane>

@@ -83,5 +83,6 @@
             </Hyperlink>
          </children>
       </Pane>
+      <Button layoutX="496.0" layoutY="371.0" mnemonicParsing="false" onAction="#switchToPictures" prefHeight="29.0" prefWidth="172.0" style="-fx-background-radius: 20; -fx-background-color: DDDDDD;" text="Pictures of the tournament" />
    </children>
 </Pane>

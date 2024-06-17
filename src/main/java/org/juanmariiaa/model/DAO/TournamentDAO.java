@@ -16,10 +16,7 @@ public class TournamentDAO {
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
     private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament ,id_team) VALUES (?, ?)";
     private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
-
     private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
-    private final static String GET_PICTURES_BY_TOURNAMENT = "SELECT id, image_data FROM pictures WHERE tournament_id = ?";
-
 
     private Connection conn;
     private TeamTournamentDAO teamTournamentDAO;
@@ -174,20 +171,6 @@ public class TournamentDAO {
         }
     }
 
-    public List<Picture> getPicturesByTournamentId(int tournamentId) throws SQLException {
-        List<Picture> pictures = new ArrayList<>();
-        try (PreparedStatement stmt = conn.prepareStatement(GET_PICTURES_BY_TOURNAMENT)) {
-            stmt.setInt(1, tournamentId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                byte[] imageData = rs.getBytes("image_data");
-                Picture picture = new Picture(id, imageData);
-                pictures.add(picture);
-            }
-        }
-        return pictures;
-    }
 
     private Tournament tournamentEager(ResultSet resultSet) throws SQLException {
         Tournament tournament = new Tournament();

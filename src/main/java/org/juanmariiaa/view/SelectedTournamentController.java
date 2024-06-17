@@ -164,6 +164,28 @@ public class SelectedTournamentController {
         }
     }
 
+    @FXML
+    private void switchToPictures() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("pictures.fxml"));
+            Parent root = loader.load();
+
+            PicturesTournamentController controller = loader.getController();
+            controller.loadPictures(selectedTournament);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tournament Pictures");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Utils.showPopUp("ERROR", "Picture Display Failed", "Failed to load pictures.", Alert.AlertType.ERROR);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @FXML
     private void switchToLogin() throws IOException {

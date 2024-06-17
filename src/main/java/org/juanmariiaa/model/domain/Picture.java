@@ -3,6 +3,7 @@ package org.juanmariiaa.model.domain;
 import javafx.scene.image.Image;
 
 import java.io.ByteArrayInputStream;
+import java.util.Base64;
 import java.util.Objects;
 
 public class Picture {
@@ -37,7 +38,6 @@ public class Picture {
     public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }
-
 
     @Override
     public boolean equals(Object o) {
