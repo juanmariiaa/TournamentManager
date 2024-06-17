@@ -18,8 +18,6 @@ public class TeamDAO {
     private final static String INSERT = "INSERT INTO team (id, name, city, institution, id_user) VALUES (?, ?, ?, ?, ?)";
     private final static String UPDATE = "UPDATE team SET name=?, city=?, institution=? WHERE id=?";
     private final static String DELETE = "DELETE FROM team WHERE id=?";
-    private final static String FIND_PARTICIPANTS_BY_TEAM = "SELECT * FROM participant WHERE id_team = ?";
-
     private final static String FIND_TEAMS_BY_TOURNAMENT = "SELECT t.id, t.name, t.city, t.institution " +
             "FROM team t " +
             "JOIN participation p ON t.id = p.id_team " +
@@ -52,17 +50,14 @@ public class TeamDAO {
             pst.setInt(1, userId);
             try (ResultSet res = pst.executeQuery()) {
                 while (res.next()) {
-                    Team team = new Team();
-                    team.setId(res.getInt("id"));
-                    team.setName(res.getString("name"));
-                    team.setCity(res.getString("city"));
-                    team.setInstitution(res.getString("institution"));
+                    Team team = teamEager(res);
                     result.add(team);
                 }
             }
         }
         return result;
     }
+
     /**
      * Finds a team by its ID.
      *
@@ -212,32 +207,6 @@ public class TeamDAO {
         }
     }
 
-    /**
-     * Finds participants belonging to a specific team.
-     *
-     * @param teamId The ID of the team
-     * @return A list of Participant objects belonging to the team
-     * @throws SQLException if a database access error occurs
-     */
-    public List<Participant> findParticipantsByTeam(int teamId) throws SQLException {
-        List<Participant> participants = new ArrayList<>();
-        try (PreparedStatement pst = this.conn.prepareStatement(FIND_PARTICIPANTS_BY_TEAM)) {
-            pst.setInt(1, teamId);
-            try (ResultSet res = pst.executeQuery()) {
-                while (res.next()) {
-                    Participant participant = new Participant();
-                    participant.setDni(res.getString("dni"));
-                    participant.setName(res.getString("first_name"));
-                    participant.setSurname(res.getString("surname"));
-                    participant.setAge(res.getInt("age"));
-                    participant.setTeam(findById(res.getInt("id_team")));
-                    participants.add(participant);
-                }
-            }
-        }
-        return participants;
-    }
-
 
 
     /**
@@ -252,11 +221,7 @@ public class TeamDAO {
             statement.setInt(1, tournamentId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    Team team = new Team();
-                    team.setId(rs.getInt("id"));
-                    team.setName(rs.getString("name"));
-                    team.setCity(rs.getString("city"));
-                    team.setInstitution(rs.getString("institution"));
+                    Team team = teamEager(rs);
                     teams.add(team);
                 }
             }
@@ -264,6 +229,15 @@ public class TeamDAO {
             e.printStackTrace();
         }
         return teams;
+    }
+
+    private Team teamEager(ResultSet res) throws SQLException {
+        Team team = new Team();
+        team.setId(res.getInt("id"));
+        team.setName(res.getString("name"));
+        team.setCity(res.getString("city"));
+        team.setInstitution(res.getString("institution"));
+        return team;
     }
 
 

@@ -9,7 +9,7 @@ public class Team {
     private String name;
     private String city;
     private String institution;
-    private List<Participant> participants; // Remove "= null"
+    private List<Participant> participants;
 
     public Team() {
         this.id = 0;

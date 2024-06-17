@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import org.juanmariiaa.model.DAO.ParticipantDAO;
 import org.juanmariiaa.model.DAO.TeamDAO;
 import org.juanmariiaa.model.domain.Participant;
 import org.juanmariiaa.model.domain.Team;
@@ -56,7 +57,7 @@ public class AllTeamsController implements Initializable {
         try {
             List<Team> teamsList = TeamDAO.build().findAll(currentUser.getId());
             for (Team team : teamsList) {
-                List<Participant> participants = TeamDAO.build().findParticipantsByTeam(team.getId());
+                List<Participant> participants = ParticipantDAO.build().findParticipantsByTeam(team.getId());
                 team.setParticipants(participants);
             }
             this.teams = FXCollections.observableArrayList(teamsList);

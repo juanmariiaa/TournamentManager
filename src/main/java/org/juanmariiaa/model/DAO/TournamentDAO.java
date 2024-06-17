@@ -1,9 +1,9 @@
 package org.juanmariiaa.model.DAO;
 
 import org.juanmariiaa.model.connection.ConnectionMariaDB;
-import org.juanmariiaa.model.domain.Team;
-import org.juanmariiaa.model.domain.Tournament;
-import org.juanmariiaa.model.domain.User;
+import org.juanmariiaa.model.domain.*;
+import org.juanmariiaa.model.enums.Gender;
+import org.juanmariiaa.model.enums.Role;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,8 +16,9 @@ public class TournamentDAO {
     private final static String DELETE = "DELETE FROM tournament WHERE id=?";
     private final static String ADD_TEAM_TO_TOURNAMENT = "INSERT INTO participation (id_tournament ,id_team) VALUES (?, ?)";
     private final static String DELETE_TEAM_FROM_TOURNAMENT = "DELETE FROM participation WHERE id_tournament = ? AND id_team = ?";
-    private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
 
+    private final static String IS_TEAM_IN_TOURNAMENT = "SELECT COUNT(*) FROM participation WHERE id_team = ? AND id_tournament = ?";
+    private final static String GET_PICTURES_BY_TOURNAMENT = "SELECT id, image_data FROM pictures WHERE tournament_id = ?";
 
 
     private Connection conn;
@@ -44,17 +45,14 @@ public class TournamentDAO {
         List<Tournament> tournaments = new ArrayList<>();
         try (PreparedStatement preparedStatement = conn.prepareStatement(FIND_ALL)) {
             preparedStatement.setInt(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Tournament tournament = new Tournament();
-                tournament.setId(resultSet.getInt("id"));
-                tournament.setName(resultSet.getString("name"));
-                tournament.setLocation(resultSet.getString("location"));
-                tournament.setCity(resultSet.getString("city"));
-                tournament.setDate(resultSet.getDate("date"));
-                tournament.setTeams(findTeamsByTournamentId(tournament.getId()));
-                tournaments.add(tournament);
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()) {
+                    Tournament tournament = tournamentEager(resultSet);
+                    tournaments.add(tournament);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return tournaments;
     }
@@ -174,6 +172,32 @@ public class TournamentDAO {
             rs.next();
             return rs.getInt(1) > 0;
         }
+    }
+
+    public List<Picture> getPicturesByTournamentId(int tournamentId) throws SQLException {
+        List<Picture> pictures = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(GET_PICTURES_BY_TOURNAMENT)) {
+            stmt.setInt(1, tournamentId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                byte[] imageData = rs.getBytes("image_data");
+                Picture picture = new Picture(id, imageData);
+                pictures.add(picture);
+            }
+        }
+        return pictures;
+    }
+
+    private Tournament tournamentEager(ResultSet resultSet) throws SQLException {
+        Tournament tournament = new Tournament();
+        tournament.setId(resultSet.getInt("id"));
+        tournament.setName(resultSet.getString("name"));
+        tournament.setLocation(resultSet.getString("location"));
+        tournament.setCity(resultSet.getString("city"));
+        tournament.setDate(resultSet.getDate("date"));
+        tournament.setTeams(findTeamsByTournamentId(tournament.getId()));
+        return tournament;
     }
 
 

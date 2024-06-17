@@ -10,7 +10,8 @@ public class Tournament {
     private String location;
     private String city;
     private Date date;
-    private List<Team> teams = null;
+    private List<Team> teams;
+    private List<Picture> pictures;
 
     public Tournament() {
         this.id = 0;
@@ -19,15 +20,17 @@ public class Tournament {
         this.city = "";
         this.date = null;
         this.teams = null;
+        this.pictures = null;
     }
 
-    public Tournament(String name, String location, String city, Date date, List<Team> teams) {
-        this.id = id;
+    public Tournament(String name, String location, String city, Date date, List<Team> teams, List<Picture> pictures) {
+        this.id = 0;
         this.name = name;
         this.location = location;
         this.city = city;
         this.date = date;
         this.teams = teams;
+        this.pictures = pictures;
     }
 
     public int getId() {
@@ -78,6 +81,14 @@ public class Tournament {
         this.teams = teams;
     }
 
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,11 +106,12 @@ public class Tournament {
     public String toString() {
         return "Tournament{" +
                 "id=" + id +
-                ", name='" + name +
-                ", location='" + location +
-                ", city='" + city +
-                ", date='" + date +
-                ", teams=" + teams + '}';
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", city='" + city + '\'' +
+                ", date=" + date +
+                ", teams=" + teams +
+                ", pictures=" + pictures +
+                '}';
     }
-
 }
